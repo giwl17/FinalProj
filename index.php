@@ -6,8 +6,8 @@
     <title>RMUTT</title>
 
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
     <?php 
