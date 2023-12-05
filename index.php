@@ -9,6 +9,10 @@ switch($uri) {
     case '/FinalProj/login': 
         require __DIR__ . './login.php';
         break;
+
+        case '/FinalProj/thesis_add': 
+            require __DIR__ . './thesis_add.php';
+            break;
     default:
         http_response_code(404);
         require __DIR__ . '/404.php';
