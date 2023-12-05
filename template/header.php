@@ -1,12 +1,35 @@
-    <header>
-        <div class="wrap">
-            <a href="index.php"><img src="img/rmuttlogo.png" alt="rmutt"></a>
-            <div style="font-size: 20px;"><b>จัดการเล่มปริญญานิพนธ์</b>
-                <p style="font-size: 16px; color:#6C6C6C;">ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
+<div class="container-fluid d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center px-5 py-3">
+            <div class="d-flex align-items-center">
+                <a href="/FinalProj/" class="navbar-brand"><img class="" src="img/rmuttlogo.png" alt="rmutt" height="65"></a>
+                <div class="mx-3">
+                    <p class="h4 fw-bold text-dark d-none d-sm-block">จัดการเล่มปริญญานิพนธ์</p>
+                    <p class="h6 text-secondary d-none d-sm-block">ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
+                </div>
             </div>
+            <div>
+                <a href="login.php" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
+            </div>
+        </div>
 
-        </div>
-        <div>
-            <a href="login.php" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
-        </div>
-    </header>
+
+        <nav class="navbar navbar-expand-sm justify-content-center bg-light px-5 py-3">
+            <div class="container-fluid p-0 justify-content-sm-end justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/">รายการปริญญานิพนธ์</a></li>
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesislistwaiting">รายการที่รอตรวจสอบข้อมูล</a></li>
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisadd">เพิ่มข้อมูลปริญญานิพนธ์</a></li>
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li>
+                    <li class="nav-item text-center dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">สถิติข้อมูล</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">สถิติ</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
