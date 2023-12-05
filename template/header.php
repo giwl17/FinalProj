@@ -1,4 +1,4 @@
-<div class="container-fluid d-flex flex-column">
+<div class="container-fluid d-flex flex-column px-0">
         <div class="d-flex justify-content-between align-items-center px-5 py-3">
             <div class="d-flex align-items-center">
                 <a href="/FinalProj/" class="navbar-brand"><img class="" src="img/rmuttlogo.png" alt="rmutt" height="65"></a>
@@ -22,7 +22,7 @@
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li>
                     <li class="nav-item text-center dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">สถิติข้อมูล</a>
+                        <a class="nav-link dropdown-toggle pe-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">สถิติข้อมูล</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">สถิติ</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
