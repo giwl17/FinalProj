@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div>
-                <a href="login.php" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
+                <a href="login" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
             </div>
         </div>
 
