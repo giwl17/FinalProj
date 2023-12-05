@@ -26,7 +26,7 @@
             </div>
             </div>
             
-            <input type="submit" class="btn btn-primary container-fluid" value="เข้าสู่ระบบ" />
+            <input type="submit" class="btn btn-primary container-fluid mb-3" value="เข้าสู่ระบบ" />
         </form>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
