@@ -22,10 +22,10 @@
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li>
                     <li class="nav-item text-center dropdown">
-                        <a class="nav-link dropdown-toggle pe-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">สถิติข้อมูล</a>
+                        <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">สถิติ</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">สถิติการจัดเก็บเล่ม</a></li>
+                            <li><a class="dropdown-item" href="#">สถิติการกำกับเล่ม</a></li>
                         </ul>
                     </li>
 
