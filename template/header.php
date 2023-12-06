@@ -23,7 +23,7 @@
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li>
                     <li class="nav-item text-center dropdown">
                         <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#">สถิติการจัดเก็บเล่ม</a></li>
                             <li><a class="dropdown-item" href="#">สถิติการกำกับเล่ม</a></li>
                         </ul>
