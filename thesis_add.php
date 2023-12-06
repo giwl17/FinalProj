@@ -195,11 +195,11 @@
             <input class="form-control" type="file" id="">
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="" class="form-label">ไฟล์โปสเตอร์ (ชนิดไฟล์ PDF)</label>
             <input class="form-control" type="file" id="">
         </div>
-        <input class="btn btn-primary container-fluid" type="submit" value="เพิ่มข้อมูล">
+        <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล">
     </form>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
