@@ -10,7 +10,7 @@ switch($uri) {
         require __DIR__ . './login.php';
         break;
 
-        case '/FinalProj/thesis_add': 
+        case '/FinalProj/thesisadd': 
             require __DIR__ . './thesis_add.php';
             break;
     default:
