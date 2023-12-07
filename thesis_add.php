@@ -155,10 +155,10 @@
 
         <div class="row align-items-center mb-3">
             <div class="col-auto">
-                <div class="col-form-label">ปีการศึกษาที่ทำเสร็จ</div>
+                <div class="col-form-label">ปีที่อนุมัติเล่มปริญญานิพนธ์</div>
             </div>
             <div class="col-auto">
-                <select name="" id="" class="form-select">
+                <select name="semester" id="" class="form-select">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -169,16 +169,25 @@
                 <div class="col-form-label">/</div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="number" name="" id="" maxlength="4">
+                <input class="form-control" type="number" name="approval_year" id="" maxlength="4">
             </div>
 
         </div>
 
+        <div class="form-group row align-items-center mb-3">
+            <div class="col-auto">
+                <div class="col-form-label">ปีที่ตีพิมพ์เล่ม</div>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="number" name="printed_year" id="">
+            </div>
+        </div>
+
         <div class="form-group" id="formWord">
             <label for="">คำสำคัญ (อย่างน้อย 3 คำ)</label>
-            <input class="form-control mb-3" type="text" name="" id="word_1" placeholder="คำสำคัญ 1">
-            <input class="form-control mb-3" type="text" name="" id="word_2" placeholder="คำสำคัญ 2">
-            <input class="form-control mb-3" type="text" name="" id="word_3" placeholder="คำสำคัญ 3">
+            <input class="form-control mb-3" type="text" name="keyword_1" id="keyword_1" placeholder="คำสำคัญ 1">
+            <input class="form-control mb-3" type="text" name="keyword_2" id="keyword_2" placeholder="คำสำคัญ 2">
+            <input class="form-control mb-3" type="text" name="keyword_3" id="keyword_3" placeholder="คำสำคัญ 3">
         </div>
         <div class="mb-3">
             <input class="btn btn-success" type="button" value="+" id="buttonAddWord">
@@ -187,19 +196,19 @@
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์หน้าอนุมัติ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="">
+            <input class="form-control" type="file" id="" name="approval_file">
         </div>
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์เล่มปริญญานิพนธ์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="">
+            <input class="form-control" type="file" id="" name="thesis_file">
         </div>
 
         <div class="mb-4">
             <label for="" class="form-label">ไฟล์โปสเตอร์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="">
+            <input class="form-control" type="file" id="" name="poster_file">
         </div>
-        <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล">
+        <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล" name="submitAddThesis">
     </form>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -210,7 +219,7 @@
         let formWord = document.getElementById('formWord');
         let i = 4;
         buttonAddWord.addEventListener('click', () => {
-            $html = ' <input class="form-control mb-3" type="text" name="" id="word_' + i + '" placeholder="คำสำคัญ ' + i + '">';
+            $html = '<input class="form-control mb-3" type="text" name="keyword_'+ i +'" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '">';
             formWord.insertAdjacentHTML('beforeend', $html);
             i++;
             console.log('i=', i);
@@ -218,7 +227,7 @@
         buttonDeleteWord.addEventListener('click', () => {
             console.log('click');
             if (i > 4) {
-                let id = 'word_' + (i - 1);
+                let id = 'keyword_' + (i - 1);
                 console.log(id);
                 console.log(document.querySelector(id));
                 let currentDelete = document.getElementById(id);
