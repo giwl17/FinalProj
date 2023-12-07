@@ -11,36 +11,36 @@
 
 <body>
     <?php require "template/header.php"; ?>
-    <form class="container mt-4" method="post" action="">
+    <form class="container mt-4" method="post" action="thesis_add_db.php">
         <h1 class="h3 text-primary text-center mb-4">เพิ่มข้อมูลปริญญานิพนธ์</h1>
         <div class="form-group mb-3">
-            <label for="">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
-            <textarea class="form-control" name="" id="" cols="30" rows="4" style="resize: none;"></textarea>
+            <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
+            <textarea class="form-control" name="thesis_name_th" id="" cols="30" rows="4" style="resize: none;"></textarea>
         </div>
         <div class="form-group mb-3">
-            <label for="">ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</label>
-            <textarea class="form-control" name="" id="" cols="30" rows="4" style="resize: none;"></textarea>
+            <label for="thesis_name_en">ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</label>
+            <textarea class="form-control" name="thesis_name_en" id="" cols="30" rows="4" style="resize: none;"></textarea>
         </div>
         <div class="form-group mb-3">
-            <label for="">บทคัดย่อ</label>
-            <textarea class="form-control" name="" id="" cols="30" rows="10" style="resize: none;"></textarea>
+            <label for="abstract">บทคัดย่อ</label>
+            <textarea class="form-control" name="abstract" id="" cols="30" rows="10" style="resize: none;"></textarea>
         </div>
 
         <div>
             <p>คณะผู้จัดทำ</p>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="" id="">
-                <label class="form-check-label" for="">สมาชิกคนที่ 1</label>
+                <input class="form-check-input" type="checkbox" name="member1" id="">
+                <label class="form-check-label" for="member1">สมาชิกคนที่ 1</label>
                 <div>
                     <div class="form-group mb-3">
-                        <label for="">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="" id="">
+                        <label for="member1_id">รหัสนักศึกษา</label>
+                        <input class="form-control" type="text" name="member1_id" id="">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
-                            <label for="">คำนำหน้า</label>
-                            <select class="form-select" name="" id="">
+                            <label for="member1_prefix">คำนำหน้า</label>
+                            <select class="form-select" name="member1_prefix" id="">
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -49,28 +49,28 @@
                         </div>
                         <div class="col form-group">
                             <label for="">ชื่อ</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <input class="form-control" type="text" name="member1_firstname" id="">
                         </div>
                         <div class="col form-group">
                             <label for="">นามสกุล</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <input class="form-control" type="text" name="member1_lastname" id="">
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="" id="">
-                <label class="form-check-label" for="">สมาชิกคนที่ 2</label>
+                <input class="form-check-input" type="checkbox" name="member2" id="">
+                <label class="form-check-label" for="member2">สมาชิกคนที่ 2</label>
                 <div>
                     <div class="form-group mb-3">
-                        <label for="">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="" id="">
+                        <label for="member2_id">รหัสนักศึกษา</label>
+                        <input class="form-control" type="text" name="member2_id" id="">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
-                            <label for="">คำนำหน้า</label>
-                            <select class="form-select" name="" id="">
+                            <label for="member2_prefix">คำนำหน้า</label>
+                            <select class="form-select" name="member2_prefix" id="">
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -78,29 +78,29 @@
                             </select>
                         </div>
                         <div class="col form-group">
-                            <label for="">ชื่อ</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <label for="member2_firstname">ชื่อ</label>
+                            <input class="form-control" type="text" name="member2_firstname" id="">
                         </div>
                         <div class="col form-group">
-                            <label for="">นามสกุล</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <label for="member2_lastname">นามสกุล</label>
+                            <input class="form-control" type="text" name="member2_lastname" id="">
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="" id="">
-                <label class="form-check-label" for="">สมาชิกคนที่ 3</label>
+                <input class="form-check-input" type="checkbox" name="member3" id="">
+                <label class="form-check-label" for="member3">สมาชิกคนที่ 3</label>
                 <div>
                     <div class="form-group mb-3">
-                        <label for="">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="" id="">
+                        <label for="member3_id">รหัสนักศึกษา</label>
+                        <input class="form-control" type="text" name="member3_id" id="">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
-                            <label for="">คำนำหน้า</label>
-                            <select class="form-select" name="" id="">
+                            <label for="member3_prefix">คำนำหน้า</label>
+                            <select class="form-select" name="member3_prefix" id="">
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -108,12 +108,12 @@
                             </select>
                         </div>
                         <div class="col form-group">
-                            <label for="">ชื่อ</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <label for="member3_firstname">ชื่อ</label>
+                            <input class="form-control" type="text" name="member3_firstname" id="">
                         </div>
                         <div class="col form-group">
-                            <label for="">นามสกุล</label>
-                            <input class="form-control" type="text" name="" id="">
+                            <label for="member3_lastname">นามสกุล</label>
+                            <input class="form-control" type="text" name="member3_lastname" id="">
                         </div>
                     </div>
                 </div>
@@ -121,34 +121,34 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="">อาจารย์ที่ปรึกษาหลัก</label>
-            <select class="form-select" name="" id="">
+            <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
+            <select class="form-select" name="advisor" id="">
                 <option value=""></option>
             </select>
         </div>
 
         <div class="form-group mb-3">
-            <label class="" for="">อาจารย์ที่ปรึกษาร่วม</label>
-            <select class="form-select" name="" id="">
+            <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
+            <select class="form-select" name="coAdvisor" id="">
                 <option value=""></option>
             </select>
         </div>
 
         <div class="form-group mb-3">
-            <label class="" for="">ประธานกรรมการ</label>
-            <select class="form-select" name="" id="">
+            <label class="" for="chairman">ประธานกรรมการ</label>
+            <select class="form-select" name="chairman" id="">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group mb-3">
-            <label class="" for="">กรรมการคนที่ 1</label>
-            <select class="form-select" name="" id="">
+            <label class="" for="director1">กรรมการคนที่ 1</label>
+            <select class="form-select" name="director1" id="">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group mb-3">
-            <label class="" for="">กรรมการคนที่ 2</label>
-            <select class="form-select" name="" id="">
+            <label class="" for="director2">กรรมการคนที่ 2</label>
+            <select class="form-select" name="director2" id="">
                 <option value=""></option>
             </select>
         </div>
