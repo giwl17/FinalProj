@@ -12,17 +12,40 @@
 
 <body>
     <?php require 'template/header_login.php'; ?>
-        <form class="container mt-4" action="" method="POST">
-            <h1 class="h1 text-center">ลืมรหัสผ่าน</h1>
-            <div class="form-group mb-3">
-                <label for="email">Email</label>
-                <input class="form-control" type="email" name="email" placeholder="Enter email" required>
-            </div>
-            
-            
-            <input type="submit" class="btn btn-primary container-fluid" value="เข้าสู่ระบบ" />
-        </form>
+    <!-- <form class="container mt-4" action="setMail.php" method="POST"> -->
+    <form action="setMail.php" method="POST" class="container mt-4" id="contact-form">
+        <h1 class="h1 text-center">ลืมรหัสผ่าน</h1>
+        <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input class="form-control" type="email" name="email" placeholder="Enter email" required>
+        </div>
+        <input type="submit" class="btn btn-primary container-fluid"  value="เข้าสู่ระบบ" />
+    </form>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#contact-form').on('submit', function(e) { //Don't foget to change the id form
+                $.ajax({
+                    url: 'setMail.php', //===PHP file name====
+                    data: $(this).serialize(),
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        //Success Message == 'Title', 'Message body', Last one leave as it is
+                        swal("Success!", "Message sent Mail", "success");
+                    },
+                    error: function(data) {
+                        //Error Message == 'Title', 'Message body', Last one leave as it is
+                        swal("Oops...", "Something went wrong :(", "error");
+                    }
+                });
+                this.reset();
+                e.preventDefault(); //This is to Avoid Page Refresh and Fire the Event "Click"
+            });
+        });
+    </script>
 </body>
 
 </html>
