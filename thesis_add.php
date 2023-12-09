@@ -120,37 +120,199 @@
             </div>
         </div>
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3" id="formAdvisor">
             <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
-            <select class="form-select" name="advisor" id="">
+            <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()">
                 <option value=""></option>
+                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
+                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
+                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
+                <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
+                <option value="other">อื่น ๆ</option>
             </select>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="advisor_other" hidden>
+            <div class="col form-group">
+                <label for="advisor_other_prefix">คำนำหน้า</label>
+                <select class="form-select" name="advisor_other_prefix" id="">
+                    <option value=""></option>
+                    <option value="ดร.">ดร.</option>
+                    <option value="ศ.">ศ.</option>
+                    <option value="ศ.ดร.">ศ.ดร.</option>
+                    <option value="รศ.">รศ.</option>
+                    <option value="รศ.ดร.">รศ.ดร.</option>
+                    <option value="ผศ.">ผศ.</option>
+                    <option value="ผศ.ดร.">ผศ.ดร.</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                </select>
+            </div>
+            <div class="col form-group">
+                <label for="advisor_other_firstname">ชื่อ</label>
+                <input class="form-control" type="text" name="advisor_other_firstname" id="">
+            </div>
+            <div class="col form-group">
+                <label for="advisor_other_lastname">นามสกุล</label>
+                <input class="form-control" type="text" name="advisor_other_lastname" id="">
+            </div>
         </div>
 
         <div class="form-group mb-3">
             <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
-            <select class="form-select" name="coAdvisor" id="">
+            <select class="form-select" name="coAdvisor" id="coAdvisor" onchange="coAdvisorChange()">
                 <option value=""></option>
+                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
+                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
+                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
+                <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
+                <option value="other">อื่น ๆ</option>
             </select>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="coAdvisor_other" hidden>
+            <div class="col form-group">
+                <label for="coAdvisor_other_prefix">คำนำหน้า</label>
+                <select class="form-select" name="coAdvisor_other_prefix" id="">
+                    <option value=""></option>
+                    <option value="ดร.">ดร.</option>
+                    <option value="ศ.">ศ.</option>
+                    <option value="ศ.ดร.">ศ.ดร.</option>
+                    <option value="รศ.">รศ.</option>
+                    <option value="รศ.ดร.">รศ.ดร.</option>
+                    <option value="ผศ.">ผศ.</option>
+                    <option value="ผศ.ดร.">ผศ.ดร.</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                </select>
+            </div>
+            <div class="col form-group">
+                <label for="coAdvisor_other_firstname">ชื่อ</label>
+                <input class="form-control" type="text" name="coAdvisor_other_firstname" id="">
+            </div>
+            <div class="col form-group">
+                <label for="coAdvisor_other_lastname">นามสกุล</label>
+                <input class="form-control" type="text" name="coAdvisor_other_lastname" id="">
+            </div>
         </div>
 
         <div class="form-group mb-3">
             <label class="" for="chairman">ประธานกรรมการ</label>
-            <select class="form-select" name="chairman" id="">
+            <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()">
                 <option value=""></option>
+                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
+                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
+                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
+                <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
+                <option value="other">อื่น ๆ</option>
             </select>
         </div>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="chairman_other" hidden>
+            <div class="col form-group">
+                <label for="chairman_other_prefix">คำนำหน้า</label>
+                <select class="form-select" name="chairman_other_prefix" id="">
+                    <option value=""></option>
+                    <option value="ดร.">ดร.</option>
+                    <option value="ศ.">ศ.</option>
+                    <option value="ศ.ดร.">ศ.ดร.</option>
+                    <option value="รศ.">รศ.</option>
+                    <option value="รศ.ดร.">รศ.ดร.</option>
+                    <option value="ผศ.">ผศ.</option>
+                    <option value="ผศ.ดร.">ผศ.ดร.</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                </select>
+            </div>
+            <div class="col form-group">
+                <label for="chairman_other_firstname">ชื่อ</label>
+                <input class="form-control" type="text" name="chairman_other_firstname">
+            </div>
+            <div class="col form-group">
+                <label for="chairman_other_lastname">นามสกุล</label>
+                <input class="form-control" type="text" name="chairman_other_lastname">
+            </div>
+        </div>
+
         <div class="form-group mb-3">
             <label class="" for="director1">กรรมการคนที่ 1</label>
-            <select class="form-select" name="director1" id="">
+            <select class="form-select" name="director1" id="director1" onchange="director1Change()">
                 <option value=""></option>
+                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
+                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
+                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
+                <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
+                <option value="other">อื่น ๆ</option>
             </select>
         </div>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="director1_other" hidden>
+            <div class="col form-group">
+                <label for="director1_other_prefix">คำนำหน้า</label>
+                <select class="form-select" name="director1_other_prefix" id="">
+                    <option value=""></option>
+                    <option value="ดร.">ดร.</option>
+                    <option value="ศ.">ศ.</option>
+                    <option value="ศ.ดร.">ศ.ดร.</option>
+                    <option value="รศ.">รศ.</option>
+                    <option value="รศ.ดร.">รศ.ดร.</option>
+                    <option value="ผศ.">ผศ.</option>
+                    <option value="ผศ.ดร.">ผศ.ดร.</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                </select>
+            </div>
+            <div class="col form-group">
+                <label for="director1_other_firstname">ชื่อ</label>
+                <input class="form-control" type="text" name="director1_other_firstname">
+            </div>
+            <div class="col form-group">
+                <label for="director1_other_lastname">นามสกุล</label>
+                <input class="form-control" type="text" name="director1_other_lastname">
+            </div>
+        </div>
+
         <div class="form-group mb-3">
             <label class="" for="director2">กรรมการคนที่ 2</label>
-            <select class="form-select" name="director2" id="">
+            <select class="form-select" name="director2" id="director2" onchange="director2Change()">
                 <option value=""></option>
+                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
+                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
+                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
+                <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
+                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
+                <option value="other">อื่น ๆ</option>
             </select>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="director2_other" hidden>
+            <div class="col form-group">
+                <label for="director2_other_prefix">คำนำหน้า</label>
+                <select class="form-select" name="director2_other_prefix" id="">
+                    <option value=""></option>
+                    <option value="ดร.">ดร.</option>
+                    <option value="ศ.">ศ.</option>
+                    <option value="ศ.ดร.">ศ.ดร.</option>
+                    <option value="รศ.">รศ.</option>
+                    <option value="รศ.ดร.">รศ.ดร.</option>
+                    <option value="ผศ.">ผศ.</option>
+                    <option value="ผศ.ดร.">ผศ.ดร.</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                </select>
+            </div>
+            <div class="col form-group">
+                <label for="director2_other_firstname">ชื่อ</label>
+                <input class="form-control" type="text" name="director2_other_firstname">
+            </div>
+            <div class="col form-group">
+                <label for="director2_other_lastname">นามสกุล</label>
+                <input class="form-control" type="text" name="director2_other_lastname">
+            </div>
         </div>
 
         <div class="row align-items-center mb-3">
@@ -219,7 +381,7 @@
         let formWord = document.getElementById('formWord');
         let i = 4;
         buttonAddWord.addEventListener('click', () => {
-            $html = '<input class="form-control mb-3" type="text" name="keyword_'+ i +'" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '">';
+            $html = '<input class="form-control mb-3" type="text" name="keyword_' + i + '" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '">';
             formWord.insertAdjacentHTML('beforeend', $html);
             i++;
             console.log('i=', i);
@@ -235,6 +397,49 @@
                 i--;
             }
         })
+
+        const advisorChange = () => {
+            let advisorDOM = document.getElementById('advisor');
+            if (advisorDOM.value === 'other') {
+                document.getElementById('advisor_other').hidden = false;
+            } else {
+                document.getElementById('advisor_other').hidden = true;
+            }
+        }
+
+        const coAdvisorChange = () => {
+            let advisorDOM = document.getElementById('coAdvisor');
+            if (advisorDOM.value === 'other') {
+                document.getElementById('coAdvisor_other').hidden = false;
+            } else {
+                document.getElementById('coAdvisor_other').hidden = true;
+            }
+        }
+
+        const chairmanChange = () => {
+            let advisorDOM = document.getElementById('chairman');
+            if (advisorDOM.value === 'other') {
+                document.getElementById('chairman_other').hidden = false;
+            } else {
+                document.getElementById('chairman_other').hidden = true;
+            }
+        }
+
+        const director1Change = () => {
+            if(document.getElementById('director1').value === 'other') {
+                document.getElementById('director1_other').hidden = false;
+            } else {
+                document.getElementById('director1_other').hidden = true;
+            }
+        }
+
+        const director2Change = () => {
+            if(document.getElementById('director2').value === 'other') {
+                document.getElementById('director2_other').hidden = false;
+            } else {
+                document.getElementById('director2_other').hidden = true;
+            }
+        }
     </script>
 </body>
 
