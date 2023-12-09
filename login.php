@@ -12,7 +12,7 @@
 
 <body>
     <?php require 'template/header_login.php'; ?>
-        <form class="container mt-4" action="resetPassword.php" method="POST">
+        <form class="container mt-4" action="forgetPass.php" method="POST">
             <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
             <div class="form-group mb-3">
                 <label for="email">Email</label>
@@ -22,7 +22,7 @@
                 <label for="pass">Password</label>
                 <input class="form-control" type="password" name="pass" placeholder="Password" required>
                 <div class="form-text">
-                หากลืมรหัสผ่าน <span><a href="/FinalProj/resetPassword.php">คลิกที่นี่</a></span>
+                หากลืมรหัสผ่าน <span><a href="/FinalProj/forgetPass.php">คลิกที่นี่</a></span>
             </div>
             </div>
             
