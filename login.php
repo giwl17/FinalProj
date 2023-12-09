@@ -12,7 +12,7 @@
 
 <body>
     <?php require 'template/header_login.php'; ?>
-        <form class="container mt-4" action="" method="POST">
+        <form class="container mt-4" action="resetPassword.php" method="POST">
             <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
             <div class="form-group mb-3">
                 <label for="email">Email</label>
