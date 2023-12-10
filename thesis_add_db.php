@@ -26,7 +26,7 @@ if (isset($_POST['submitAddThesis'])) {
     }
 
     $advisor = $_POST['advisor'];
-    if($advisor === 'other') {
+    if ($advisor === 'other') {
         $advisor_prefix = $_POST['advisor_other_prefix'];
         $advisor_firstname = $_POST['advisor_other_firstname'];
         $advisor_lastname = $_POST['advisor_other_lastname'];
@@ -38,7 +38,7 @@ if (isset($_POST['submitAddThesis'])) {
     }
 
     $coAdvisor = $_POST['coAdvisor'];
-    if($coAdvisor === 'other') {
+    if ($coAdvisor === 'other') {
         $coAdvisor_prefix = $_POST['coAdvisor_other_prefix'];
         $coAdvisor_firstname = $_POST['coAdvisor_other_firstname'];
         $coAdvisor_lastname = $_POST['coAdvisor_other_lastname'];
@@ -50,7 +50,7 @@ if (isset($_POST['submitAddThesis'])) {
     }
 
     $chairman = $_POST['chairman'];
-    if($chairman === 'other') {
+    if ($chairman === 'other') {
         $chairman_prefix = $_POST['chairman_other_prefix'];
         $chairman_firstname = $_POST['chairman_other_firstname'];
         $chairman_lastname = $_POST['chairman_other_lastname'];
@@ -62,7 +62,7 @@ if (isset($_POST['submitAddThesis'])) {
     }
 
     $director1 = $_POST['director1'];
-    if($director1 === 'other') {
+    if ($director1 === 'other') {
         $director1_prefix = $_POST['director1_other_prefix'];
         $director1_firstname = $_POST['director1_other_firstname'];
         $director1_lastname = $_POST['director1_other_lastname'];
@@ -74,7 +74,7 @@ if (isset($_POST['submitAddThesis'])) {
     }
 
     $director2 = $_POST['director2'];
-    if($director2 === 'other') {
+    if ($director2 === 'other') {
         $director2_prefix = $_POST['director2_other_prefix'];
         $director2_firstname = $_POST['director2_other_firstname'];
         $director2_lastname = $_POST['director2_other_lastname'];
@@ -149,10 +149,62 @@ if (isset($_POST['submitAddThesis'])) {
         $insert->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
 
         $result = $insert->execute();
-        if($result) {
-            echo "เพิ่มข้อมูลสำเร็จ";
+        if ($result) {
+            echo "เพิ่มข้อมูลเล่มสำเร็จ";
+            $lastId = $conn->lastInsertId();
+            $thesisId = $lastId;
+            if (isset($_POST['member1'])) {
+                $order = 1;
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
+                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id) ");
+                $insertMem->bindParam(":student_id", $member1_id);
+                $insertMem->bindParam(":prefix", $member1_prefix);
+                $insertMem->bindParam(":name", $member1_firstname);
+                $insertMem->bindParam(":lastname", $member1_lastname);
+                $insertMem->bindParam(":order_member", $order);
+                $insertMem->bindParam(":thesis_id", $thesisId);
+                $result = $insertMem->execute();
+
+                if($result) {
+                    echo "เพิ่มสมาชิก 1 สำเร็จ";
+                }
+            } 
+            if(isset($_POST['member2'])) {
+                $order = 2;
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
+                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
+                $insertMem->bindParam(":student_id", $member2_id);
+                $insertMem->bindParam(":prefix", $member2_prefix);
+                $insertMem->bindParam(":name", $member2_firstname);
+                $insertMem->bindParam(":lastname", $member2_lastname);
+                $insertMem->bindParam(":order_member", $order);
+                $insertMem->bindParam(":thesis_id", $thesisId);
+                $result = $insertMem->execute();
+
+                if($result) {
+                    echo "เพิ่มสมาชิก 2 สำเร็จ";
+                }
+
+            }
+            if(isset($_POST['member3'])) {
+                $order = 3;
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
+                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
+                $insertMem->bindParam(":student_id", $member3_id);
+                $insertMem->bindParam(":prefix", $member3_prefix);
+                $insertMem->bindParam(":name", $member3_firstname);
+                $insertMem->bindParam(":lastname", $member3_lastname);
+                $insertMem->bindParam(":order_member", $order);
+                $insertMem->bindParam(":thesis_id", $thesisId);
+                $result = $insertMem->execute();
+
+                if($result) {
+                    echo "เพิ่มสมาชิก 3 สำเร็จ";
+                }
+
+            }
         }
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo $e;
     }
 }
