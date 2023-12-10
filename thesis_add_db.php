@@ -150,7 +150,7 @@ if (isset($_POST['submitAddThesis'])) {
 
         $result = $insert->execute();
         if ($result) {
-            echo "เพิ่มข้อมูลเล่มสำเร็จ";
+            // echo "เพิ่มข้อมูลเล่มสำเร็จ";
             $lastId = $conn->lastInsertId();
             $thesisId = $lastId;
             if (isset($_POST['member1'])) {
@@ -166,7 +166,7 @@ if (isset($_POST['submitAddThesis'])) {
                 $result = $insertMem->execute();
 
                 if($result) {
-                    echo "เพิ่มสมาชิก 1 สำเร็จ";
+                    // echo "เพิ่มสมาชิก 1 สำเร็จ";
                 }
             } 
             if(isset($_POST['member2'])) {
@@ -182,7 +182,7 @@ if (isset($_POST['submitAddThesis'])) {
                 $result = $insertMem->execute();
 
                 if($result) {
-                    echo "เพิ่มสมาชิก 2 สำเร็จ";
+                    // echo "เพิ่มสมาชิก 2 สำเร็จ";
                 }
 
             }
@@ -199,10 +199,12 @@ if (isset($_POST['submitAddThesis'])) {
                 $result = $insertMem->execute();
 
                 if($result) {
-                    echo "เพิ่มสมาชิก 3 สำเร็จ";
+                    // echo "เพิ่มสมาชิก 3 สำเร็จ";
                 }
 
             }
+
+            header('location: ./thesisadd');
         }
     } catch (PDOException $e) {
         echo $e;
