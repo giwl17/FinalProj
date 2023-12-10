@@ -358,17 +358,17 @@
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์หน้าอนุมัติ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="approval_file">
+            <input class="form-control" type="file" id="" name="approval_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์เล่มปริญญานิพนธ์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="thesis_file">
+            <input class="form-control" type="file" id="" name="thesis_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
 
         <div class="mb-4">
             <label for="" class="form-label">ไฟล์โปสเตอร์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="poster_file">
+            <input class="form-control" type="file" id="" name="poster_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
         <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล" name="submitAddThesis">
     </form>
@@ -438,6 +438,15 @@
                 document.getElementById('director2_other').hidden = false;
             } else {
                 document.getElementById('director2_other').hidden = true;
+            }
+        }
+
+        const checkPDF = (event) => {
+            let file = event.target.files;
+            if(file[0].type != 'application/pdf') {
+                event.target.value = '';
+            } else {
+                // console.log('pdf');
             }
         }
     </script>
