@@ -11,7 +11,7 @@
 
 <body>
     <?php require "template/header.php"; ?>
-    <form class="container mt-4" method="post" action="thesis_add_db.php">
+    <form class="container mt-4" method="post" action="thesis_add_db.php" enctype="multipart/form-data">
         <h1 class="h3 text-primary text-center mb-4">เพิ่มข้อมูลปริญญานิพนธ์</h1>
         <div class="form-group mb-3">
             <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>

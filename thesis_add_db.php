@@ -103,9 +103,21 @@ if (isset($_POST['submitAddThesis'])) {
         }
     }
 
-    $approval_file = $_POST['approval_file'];
-    $thesis_file = $_POST['thesis_file'];
-    $poster_file = $_POST['poster_file'];
+    $approval_tmp = $_FILES['approval_file']['tmp_name'];
+    $approval_name = $_FILES['approval_file']['name'];
+    $approval_upload_path = 'FileStorage/approval/' . $approval_name;
+    move_uploaded_file($approval_tmp, $approval_upload_path);
+
+    $thesis_tmp = $_FILES['thesis_file']['tmp_name'];
+    $thesis_name = $_FILES['thesis_file']['name'];
+    $thesis_upload_path = 'FileStorage/thesis/' . $thesis_name;
+    move_uploaded_file($thesis_tmp, $thesis_upload_path);
+
+
+    $poster_temp = $_FILES['poster_file']['tmp_name'];
+    $poster_name = $_FILES['poster_file']['name'];
+    $poster_upload_path = 'FileStorage/poster/' . $poster_name;
+    move_uploaded_file($poster_temp, $poster_upload_path);
 
     try {
         $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor)
@@ -116,9 +128,9 @@ if (isset($_POST['submitAddThesis'])) {
         $insert->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
         $insert->bindParam(":semester", $semester, PDO::PARAM_STR);
         $insert->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
-        $insert->bindParam(":thesis_file", $thesis_file, PDO::PARAM_STR);
-        $insert->bindParam(":approval_file", $approval_file, PDO::PARAM_STR);
-        $insert->bindParam(":poster_file", $poster_file, PDO::PARAM_STR);
+        $insert->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
+        $insert->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
+        $insert->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
         $insert->bindParam(":keyword", $keyword, PDO::PARAM_STR);
         $insert->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
         $insert->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
