@@ -37,16 +37,21 @@ if (isset($_POST['submitAddThesis'])) {
         $advisor_lastname = $advisor_array[2];
     }
 
-    $coAdvisor = $_POST['coAdvisor'];
-    if ($coAdvisor === 'other') {
-        $coAdvisor_prefix = $_POST['coAdvisor_other_prefix'];
-        $coAdvisor_firstname = $_POST['coAdvisor_other_firstname'];
-        $coAdvisor_lastname = $_POST['coAdvisor_other_lastname'];
-    } else {
-        $coAdvisor_array = explode(' ', $coAdvisor);
-        $coAdvisor_prefix = $coAdvisor_array[0];
-        $coAdvisor_firstname = $coAdvisor_array[1];
-        $coAdvisor_lastname = $coAdvisor_array[2];
+    $coAdvisor_prefix = '';
+    $coAdvisor_firstname = '';
+    $coAdvisor_lastname = '';
+    if ($_POST['coAdvisor'] != '') {
+        $coAdvisor = $_POST['coAdvisor'];
+        if ($coAdvisor === 'other') {
+            $coAdvisor_prefix = $_POST['coAdvisor_other_prefix'];
+            $coAdvisor_firstname = $_POST['coAdvisor_other_firstname'];
+            $coAdvisor_lastname = $_POST['coAdvisor_other_lastname'];
+        } else {
+            $coAdvisor_array = explode(' ', $coAdvisor);
+            $coAdvisor_prefix = $coAdvisor_array[0];
+            $coAdvisor_firstname = $coAdvisor_array[1];
+            $coAdvisor_lastname = $coAdvisor_array[2];
+        }
     }
 
     $chairman = $_POST['chairman'];
@@ -165,11 +170,11 @@ if (isset($_POST['submitAddThesis'])) {
                 $insertMem->bindParam(":thesis_id", $thesisId);
                 $result = $insertMem->execute();
 
-                if($result) {
+                if ($result) {
                     // echo "เพิ่มสมาชิก 1 สำเร็จ";
                 }
-            } 
-            if(isset($_POST['member2'])) {
+            }
+            if (isset($_POST['member2'])) {
                 $order = 2;
                 $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
                                 VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
@@ -181,12 +186,11 @@ if (isset($_POST['submitAddThesis'])) {
                 $insertMem->bindParam(":thesis_id", $thesisId);
                 $result = $insertMem->execute();
 
-                if($result) {
+                if ($result) {
                     // echo "เพิ่มสมาชิก 2 สำเร็จ";
                 }
-
             }
-            if(isset($_POST['member3'])) {
+            if (isset($_POST['member3'])) {
                 $order = 3;
                 $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
                                 VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
@@ -198,10 +202,9 @@ if (isset($_POST['submitAddThesis'])) {
                 $insertMem->bindParam(":thesis_id", $thesisId);
                 $result = $insertMem->execute();
 
-                if($result) {
+                if ($result) {
                     // echo "เพิ่มสมาชิก 3 สำเร็จ";
                 }
-
             }
 
             header('location: ./thesisadd');

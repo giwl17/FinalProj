@@ -48,7 +48,13 @@
                 }
             }
             $html .= "</div>";
-            $html .= "<div>อาจารยที่ปรึกษา <a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_advisor $row->name_advisor $row->surname_advisor</a>, <a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_coAdvisor $row->name_coAdvisor $row->surname_coAdvisor</a></div>";
+            $html .= "<div>อาจารยที่ปรึกษา <a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_advisor $row->name_advisor $row->surname_advisor</a>";
+            if($row->prefix_coAdvisor != '') {
+                $html .= ", ";
+                $html .= "<a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_coAdvisor $row->name_coAdvisor $row->surname_coAdvisor</a>";
+            }
+            $html .= "</div>";
+
             $html .= "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row->keyword</a></div>";
             $html .= "<div>ปีที่พิมพ์เล่ม <a href='#' class='link-primary' style='text-decoration:none;'>$row->printed_year</a></div>";
             $html .= "</div>";

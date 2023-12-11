@@ -24,6 +24,7 @@
     $result = $sql->fetchAll(PDO::FETCH_OBJ);
     $thesis = [];
     $i = 1;
+
     foreach ($result as $row) {
         $thesis['thesis_id'] = $row->thesis_id;
         $thesis['thai_name'] = $row->thai_name;
@@ -61,71 +62,65 @@
         $i++;
     }
 
-
-    echo "<div class='container my-5'>";
-    echo "<h1>" . $thesis['thai_name'];
-    echo "<br>" . $thesis['english_name'] . "</h1>";
-
-    echo "<div class='d-flex me-3 gap-5'>";
-    echo "<div class='fw-bold'>คณะผู้จัดทำ</div>";
-
-    echo "<div class='d-flex flex-column'>";
+    echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
+            <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
+            <div class='row'>
+                <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
+                <div class='col-auto d-flex flex-column'>";
     for ($i = 1; $i <= count($thesis['author_member_id']); $i++) {
-
         echo $thesis['author_member_id']["member$i"] . " ";
         echo $thesis['author_member_prefix']["member$i"] . "";
         echo $thesis['author_member_name']["member$i"] .  "&nbsp;";
         echo $thesis['author_member_surname']["member$i"];
 
-        if ($i <= count($thesis['author_member_id']) - 1) {
-            echo "<br>";
-        }
+        
     }
-    echo "</div>";
-    echo "</div>";
+    echo "      </div>
+            </div>";
 
-    echo
-    "<div class='d-flex gap-5'>
-        <div class='fw-bold'>ปีที่พิมพ์เล่ม </div>
-        <div>$thesis[printed_year]</div>
+    echo "<div class='row'>
+        <div class='fw-bold col-lg-2 col-md-16'>อาจารย์ที่ปรึกษา</div>
+        <a href='search?advisor=$thesis[prefix_advisor]_$thesis[name_advisor]_$thesis[surname_advisor]' class='col-auto d-flex flex-column'>
+            $thesis[prefix_advisor]$thesis[name_advisor] $thesis[surname_advisor]
+        ";
+        if($thesis['prefix_coAdvisor'] != '') {
+            echo ", ";
+            echo "$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]";
+        }
+
+    echo "
+        </a>
     </div>";
 
-    echo
-    "<div class='d-flex gap-5'>
-        <div class='fw-bold'>ปีที่อนุมัติเล่ม</div>
-        <div>$thesis[semester] / $thesis[approval_year]</div>
-    </div>";
+    echo "<div class='row'>
+        <div class='fw-bold col-md-16 col-lg-2'>ปีที่พิมพ์เล่ม</div>
+        <a href='search?printed=$thesis[printed_year]' class='col-md-16 col-lg-auto'>$thesis[printed_year]</a>
+        </div>";
+        
 
-    echo
-    "<div class='d-flex gap-5'>
-        <div class='fw-bold'>คำสำคัญ</div>
-        <div>$thesis[keyword]</div>
-    </div>";
+    echo "<div class='row'>
+            <div class='fw-bold col-md-16 col-lg-2'>ปีที่อนุมัติเล่ม</div>
+            <a href='search?approval=$thesis[semester]/$thesis[approval_year]' class='link-primary col-md-16 col-lg-auto'>$thesis[semester]/$thesis[approval_year]</a>
+        </div>";
 
-    echo
-    "
-    <div>
-    <span class='fw-bold'>บทคัดย่อ</span><br>
-    <p style='word-wrap: break-word;'>$thesis[abstract]</p>
-    </div>
-    ";
+    echo "<div class='row'>
+            <div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>
+            <div class='col-md-16 col-lg-auto'>$thesis[keyword]</div>
+        </div>";
 
-    echo
-    "
-    <div class='container-fluid d-flex gap-3 justify-content-center'>
-        <a class='btn btn-warning' href='thesis_update?=$id'>แก้ไข</a>
-        <a class='btn btn-danger' href='thesis_delete?=$id'>ลบ</a>
-    </div>
-    ";
+    echo "<div>
+            <span class='fw-bold'>บทคัดย่อ</span><br>
+            <p style='word-wrap: break-word;'>$thesis[abstract]</p>
+        </div>";
 
-
-
-    echo "</div>";
-
+    echo "<div class='container-fluid d-flex gap-3 justify-content-center'>
+                <a class='btn btn-warning' href='thesis_update?=$id'>แก้ไข</a>
+                <a class='btn btn-danger' href='thesis_delete?=$id'>ลบ</a>
+        </div>";
 
 
     ?>
-
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
 
 </html>
