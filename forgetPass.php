@@ -19,7 +19,7 @@
             <label for="email">Email</label>
             <input class="form-control" type="email" name="email" placeholder="Enter email" required>
         </div>
-        <input type="submit" class="btn btn-primary container-fluid"  value="เข้าสู่ระบบ" />
+        <input type="submit" class="btn btn-primary container-fluid" value="เข้าสู่ระบบ" />
     </form>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
@@ -34,7 +34,19 @@
                     success: function(data) {
                         console.log(data);
                         //Success Message == 'Title', 'Message body', Last one leave as it is
-                        swal("Success!", "Message sent Mail", "success");
+                        // swal("Success!", "Message sent Mail", "success");
+                        Swal.fire({
+                            title: "Alert!",
+                            text: "Your message here",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "login.php";
+                            }
+                        });
                     },
                     error: function(data) {
                         //Error Message == 'Title', 'Message body', Last one leave as it is
