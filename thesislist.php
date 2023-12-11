@@ -16,7 +16,7 @@
 
     <?php
     require_once "dbconnect.php";
-    $select = "SELECT * FROM thesis_document";
+    $select = "SELECT * FROM thesis_document ORDER BY thesis_id DESC";
     $stmt = $conn->prepare($select);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -25,8 +25,10 @@
         foreach ($result as $row) {
             $html = "
                     <div class='border border-dark w-100 p-3 d-flex flex-column'>
+                        <a class='text-dark' id='thesisName' href='thesis?id=$row->thesis_id'>
                         <div class='fw-bold'>$row->thai_name</div>
                         <div class='fw-bold'>$row->english_name</div>
+                        </a>
                         <div>คณะผู้จัดทำ           
             ";
 
@@ -38,7 +40,7 @@
                 $count = count($result_selectMem);
                 $i = 1;
                 foreach ($result_selectMem as $mem) {
-                    $nameAuthor = $mem->prefix . "". $mem->name . " " .$mem->lastname;
+                    $nameAuthor = $mem->prefix . "" . $mem->name . " " . $mem->lastname;
                     $html .= "<div class='d-inline'>$nameAuthor</div>";
                     if ($count != $i++) {
                         $html .= "<span class='text-dark'>, </span>";
