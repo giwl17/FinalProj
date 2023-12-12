@@ -18,7 +18,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/">รายการปริญญานิพนธ์</a></li>
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesislistwaiting">รายการที่รอตรวจสอบข้อมูล</a></li>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisadd">เพิ่มข้อมูลปริญญานิพนธ์</a></li>
+                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesis_add">เพิ่มข้อมูลปริญญานิพนธ์</a></li>
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
                     <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li>
                     <li class="nav-item text-center dropdown">
