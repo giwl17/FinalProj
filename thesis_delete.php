@@ -1,6 +1,6 @@
 <?php
     require "dbconnect.php";
-    if($_GET['id']) {
+    if(isset($_GET['id'])) {
         $id = $_GET['id'];
 
         try{

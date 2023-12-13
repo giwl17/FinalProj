@@ -8,6 +8,7 @@ $routes = [
     '/FinalProj/thesis' =>  __DIR__ . '/thesis.php',
     '/FinalProj/thesis_api' =>  __DIR__ . '/thesis_api.php',
     '/FinalProj/thesis_delete' =>  __DIR__ . '/thesis_delete.php',
+    '/FinalProj/thesis_update' =>  __DIR__ . '/thesis_update.php',
 ];
 
 function routeTo($uri, $routes) {
