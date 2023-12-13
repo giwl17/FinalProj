@@ -124,9 +124,12 @@ if (isset($_POST['submitAddThesis'])) {
     $poster_upload_path = 'FileStorage/poster/' . $poster_name;
     move_uploaded_file($poster_temp, $poster_upload_path);
 
+    $thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
+    $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
+
     try {
-        $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor)
-                                VALUES(:thai_name, :english_name, :abstract, :printed_year, :semester, :approval_year, :thesis_file, :approval_file, :poster_file, :keyword, :prefix_chairman, :name_chairman, :surname_chairman, :prefix_director1, :name_director1, :surname_director1, :prefix_director2, :name_director2, :surname_director2, :prefix_advisor, :name_advisor, :surname_advisor, :prefix_coAdvisor, :name_coAdvisor, :surname_coAdvisor) ");
+        $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor, thesis_status, approval_status)
+                                VALUES(:thai_name, :english_name, :abstract, :printed_year, :semester, :approval_year, :thesis_file, :approval_file, :poster_file, :keyword, :prefix_chairman, :name_chairman, :surname_chairman, :prefix_director1, :name_director1, :surname_director1, :prefix_director2, :name_director2, :surname_director2, :prefix_advisor, :name_advisor, :surname_advisor, :prefix_coAdvisor, :name_coAdvisor, :surname_coAdvisor, :thesis_status, :approval_status) ");
         $insert->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
         $insert->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
         $insert->bindParam(":abstract", $abstract, PDO::PARAM_STR);
@@ -152,6 +155,8 @@ if (isset($_POST['submitAddThesis'])) {
         $insert->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
         $insert->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
         $insert->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
+        $insert->bindParam(":thesis_status", $thesis_status);
+        $insert->bindParam(":approval_status", $approval_status);
 
         $result = $insert->execute();
         if ($result) {
