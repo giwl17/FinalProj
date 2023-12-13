@@ -15,32 +15,32 @@
         <h1 class="h3 text-primary text-center mb-4">เพิ่มข้อมูลปริญญานิพนธ์</h1>
         <div class="form-group mb-3">
             <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
-            <textarea class="form-control" name="thesis_name_th" id="" cols="30" rows="4" style="resize: none;"></textarea>
+            <textarea class="form-control required" name="thesis_name_th" cols="30" rows="4" style="resize: none;" required></textarea>
         </div>
         <div class="form-group mb-3">
             <label for="thesis_name_en">ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</label>
-            <textarea class="form-control" name="thesis_name_en" id="" cols="30" rows="4" style="resize: none;"></textarea>
+            <textarea class="form-control" name="thesis_name_en" cols="30" rows="4" style="resize: none;" required></textarea>
         </div>
         <div class="form-group mb-3">
             <label for="abstract">บทคัดย่อ</label>
-            <textarea class="form-control" name="abstract" id="" cols="30" rows="10" style="resize: none;"></textarea>
+            <textarea class="form-control" name="abstract" cols="30" rows="10" style="resize: none;" required></textarea>
         </div>
 
         <div>
             <p>คณะผู้จัดทำ</p>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="member1" id="">
+                <input class="form-check-input" type="checkbox" name="member1">
                 <label class="form-check-label" for="member1">สมาชิกคนที่ 1</label>
                 <div>
                     <div class="form-group mb-3">
                         <label for="member1_id">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="member1_id" id="">
+                        <input class="form-control" type="text" name="member1_id" id="member1_id" required>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
                             <label for="member1_prefix">คำนำหน้า</label>
-                            <select class="form-select" name="member1_prefix" id="">
+                            <select class="form-select" name="member1_prefix" required>
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -49,28 +49,28 @@
                         </div>
                         <div class="col form-group">
                             <label for="">ชื่อ</label>
-                            <input class="form-control" type="text" name="member1_firstname" id="">
+                            <input class="form-control" type="text" name="member1_firstname" required>
                         </div>
                         <div class="col form-group">
                             <label for="">นามสกุล</label>
-                            <input class="form-control" type="text" name="member1_lastname" id="">
+                            <input class="form-control" type="text" name="member1_lastname" required>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="member2" id="">
+                <input class="form-check-input" type="checkbox" name="member2">
                 <label class="form-check-label" for="member2">สมาชิกคนที่ 2</label>
                 <div>
                     <div class="form-group mb-3">
                         <label for="member2_id">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="member2_id" id="">
+                        <input class="form-control" type="text" name="member2_id">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
                             <label for="member2_prefix">คำนำหน้า</label>
-                            <select class="form-select" name="member2_prefix" id="">
+                            <select class="form-select" name="member2_prefix">
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -79,28 +79,28 @@
                         </div>
                         <div class="col form-group">
                             <label for="member2_firstname">ชื่อ</label>
-                            <input class="form-control" type="text" name="member2_firstname" id="">
+                            <input class="form-control" type="text" name="member2_firstname">
                         </div>
                         <div class="col form-group">
                             <label for="member2_lastname">นามสกุล</label>
-                            <input class="form-control" type="text" name="member2_lastname" id="">
+                            <input class="form-control" type="text" name="member2_lastname">
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="member3" id="">
+                <input class="form-check-input" type="checkbox" name="member3">
                 <label class="form-check-label" for="member3">สมาชิกคนที่ 3</label>
                 <div>
                     <div class="form-group mb-3">
                         <label for="member3_id">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="member3_id" id="">
+                        <input class="form-control" type="text" name="member3_id">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
                             <label for="member3_prefix">คำนำหน้า</label>
-                            <select class="form-select" name="member3_prefix" id="">
+                            <select class="form-select" name="member3_prefix">
                                 <option value=""></option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
@@ -109,11 +109,11 @@
                         </div>
                         <div class="col form-group">
                             <label for="member3_firstname">ชื่อ</label>
-                            <input class="form-control" type="text" name="member3_firstname" id="">
+                            <input class="form-control" type="text" name="member3_firstname">
                         </div>
                         <div class="col form-group">
                             <label for="member3_lastname">นามสกุล</label>
-                            <input class="form-control" type="text" name="member3_lastname" id="">
+                            <input class="form-control" type="text" name="member3_lastname">
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="advisor_other" hidden>
             <div class="col form-group">
                 <label for="advisor_other_prefix">คำนำหน้า</label>
-                <select class="form-select" name="advisor_other_prefix" id="">
+                <select class="form-select" name="advisor_other_prefix">
                     <option value=""></option>
                     <option value="ดร.">ดร.</option>
                     <option value="ศ.">ศ.</option>
@@ -151,11 +151,11 @@
             </div>
             <div class="col form-group">
                 <label for="advisor_other_firstname">ชื่อ</label>
-                <input class="form-control" type="text" name="advisor_other_firstname" id="">
+                <input class="form-control" type="text" name="advisor_other_firstname">
             </div>
             <div class="col form-group">
                 <label for="advisor_other_lastname">นามสกุล</label>
-                <input class="form-control" type="text" name="advisor_other_lastname" id="">
+                <input class="form-control" type="text" name="advisor_other_lastname">
             </div>
         </div>
 
@@ -176,7 +176,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="coAdvisor_other" hidden>
             <div class="col form-group">
                 <label for="coAdvisor_other_prefix">คำนำหน้า</label>
-                <select class="form-select" name="coAdvisor_other_prefix" id="">
+                <select class="form-select" name="coAdvisor_other_prefix">
                     <option value=""></option>
                     <option value="ดร.">ดร.</option>
                     <option value="ศ.">ศ.</option>
@@ -190,11 +190,11 @@
             </div>
             <div class="col form-group">
                 <label for="coAdvisor_other_firstname">ชื่อ</label>
-                <input class="form-control" type="text" name="coAdvisor_other_firstname" id="">
+                <input class="form-control" type="text" name="coAdvisor_other_firstname">
             </div>
             <div class="col form-group">
                 <label for="coAdvisor_other_lastname">นามสกุล</label>
-                <input class="form-control" type="text" name="coAdvisor_other_lastname" id="">
+                <input class="form-control" type="text" name="coAdvisor_other_lastname">
             </div>
         </div>
 
@@ -215,7 +215,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="chairman_other" hidden>
             <div class="col form-group">
                 <label for="chairman_other_prefix">คำนำหน้า</label>
-                <select class="form-select" name="chairman_other_prefix" id="">
+                <select class="form-select" name="chairman_other_prefix">
                     <option value=""></option>
                     <option value="ดร.">ดร.</option>
                     <option value="ศ.">ศ.</option>
@@ -254,7 +254,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="director1_other" hidden>
             <div class="col form-group">
                 <label for="director1_other_prefix">คำนำหน้า</label>
-                <select class="form-select" name="director1_other_prefix" id="">
+                <select class="form-select" name="director1_other_prefix">
                     <option value=""></option>
                     <option value="ดร.">ดร.</option>
                     <option value="ศ.">ศ.</option>
@@ -293,7 +293,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3" id="director2_other" hidden>
             <div class="col form-group">
                 <label for="director2_other_prefix">คำนำหน้า</label>
-                <select class="form-select" name="director2_other_prefix" id="">
+                <select class="form-select" name="director2_other_prefix">
                     <option value=""></option>
                     <option value="ดร.">ดร.</option>
                     <option value="ศ.">ศ.</option>
@@ -320,7 +320,7 @@
                 <div class="col-form-label">ปีที่อนุมัติเล่มปริญญานิพนธ์</div>
             </div>
             <div class="col-auto">
-                <select name="semester" id="" class="form-select">
+                <select name="semester" class="form-select">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -331,7 +331,7 @@
                 <div class="col-form-label">/</div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="number" name="approval_year" id="" maxlength="4">
+                <input class="form-control" type="number" name="approval_year" maxlength="4">
             </div>
 
         </div>
@@ -341,7 +341,7 @@
                 <div class="col-form-label">ปีที่ตีพิมพ์เล่ม</div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="number" name="printed_year" id="">
+                <input class="form-control" type="number" name="printed_year">
             </div>
         </div>
 
@@ -358,17 +358,17 @@
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์หน้าอนุมัติ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="approval_file" accept="application/pdf" onchange="checkPDF(event)">
+            <input class="form-control" type="file" name="approval_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
 
         <div class="mb-3">
             <label for="" class="form-label">ไฟล์เล่มปริญญานิพนธ์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="thesis_file" accept="application/pdf" onchange="checkPDF(event)">
+            <input class="form-control" type="file" name="thesis_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
 
         <div class="mb-4">
             <label for="" class="form-label">ไฟล์โปสเตอร์ (ชนิดไฟล์ PDF)</label>
-            <input class="form-control" type="file" id="" name="poster_file" accept="application/pdf" onchange="checkPDF(event)">
+            <input class="form-control" type="file" name="poster_file" accept="application/pdf" onchange="checkPDF(event)">
         </div>
         <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล" name="submitAddThesis">
     </form>
@@ -426,7 +426,7 @@
         }
 
         const director1Change = () => {
-            if(document.getElementById('director1').value === 'other') {
+            if (document.getElementById('director1').value === 'other') {
                 document.getElementById('director1_other').hidden = false;
             } else {
                 document.getElementById('director1_other').hidden = true;
@@ -434,7 +434,7 @@
         }
 
         const director2Change = () => {
-            if(document.getElementById('director2').value === 'other') {
+            if (document.getElementById('director2').value === 'other') {
                 document.getElementById('director2_other').hidden = false;
             } else {
                 document.getElementById('director2_other').hidden = true;
@@ -443,12 +443,13 @@
 
         const checkPDF = (event) => {
             let file = event.target.files;
-            if(file[0].type != 'application/pdf') {
+            if (file[0].type != 'application/pdf') {
                 event.target.value = '';
             } else {
                 // console.log('pdf');
             }
         }
+
     </script>
 </body>
 
