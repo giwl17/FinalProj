@@ -80,16 +80,19 @@
 
     echo "<div class='row'>
         <div class='fw-bold col-lg-2 col-md-16'>อาจารย์ที่ปรึกษา</div>
-        <a href='search?advisor=$thesis[prefix_advisor]_$thesis[name_advisor]_$thesis[surname_advisor]' class='col-auto d-flex flex-column'>
-            $thesis[prefix_advisor]$thesis[name_advisor] $thesis[surname_advisor]
+        <div class='col-auto d-flex flex-column'>
+            <a href='search?advisor=$thesis[prefix_advisor]_$thesis[name_advisor]_$thesis[surname_advisor]'>
+            $thesis[prefix_advisor]$thesis[name_advisor] $thesis[surname_advisor] </a>
+        </div>
         ";
         if($thesis['prefix_coAdvisor'] != '') {
-            echo ", ";
-            echo "$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]";
+            echo ",&nbsp";
+            echo "<div class='col-auto d-flex flex-column'>";
+            echo "<a href='search?coAdvisor=$thesis[prefix_coAdvisor]_$thesis[name_coAdvisor]_$thesis[surname_coAdvisor]'>$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]</a>";
+            echo "</div>";
         }
 
     echo "
-        </a>
     </div>";
 
     echo "<div class='row'>
