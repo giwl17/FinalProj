@@ -64,8 +64,9 @@
                     }
                 }
             }
-            $html .= "</div>";
-            $html .= "<div>อาจารยที่ปรึกษา <a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_advisor $row->name_advisor $row->surname_advisor</a>";
+            $u = '_';
+            $html .= "</div>";  
+            $html .= "<div>อาจารยที่ปรึกษา <a href='search?advisor=$row->prefix_advisor$u$row->name_advisor$u$row->surname_advisor' class='link-primary' style='text-decoration:none;'>$row->prefix_advisor $row->name_advisor $row->surname_advisor</a>";
             if($row->prefix_coAdvisor != '') {
                 $html .= ", ";
                 $html .= "<a href='#' class='link-primary' style='text-decoration:none;'>$row->prefix_coAdvisor $row->name_coAdvisor $row->surname_coAdvisor</a>";
