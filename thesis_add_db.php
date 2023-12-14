@@ -172,7 +172,7 @@ if (isset($_POST['submitAddThesis'])) {
                 $insertMem->bindParam(":name", $member1_firstname);
                 $insertMem->bindParam(":lastname", $member1_lastname);
                 $insertMem->bindParam(":order_member", $order);
-                $insertMem->bindParam(":thesis_id", $thesisId);
+                $insertMem->bindParam(":    ", $thesisId);
                 $result = $insertMem->execute();
 
                 if ($result) {
