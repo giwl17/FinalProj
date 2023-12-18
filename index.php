@@ -11,6 +11,10 @@ $routes = [
     '/FinalProj/thesis_update' =>  __DIR__ . '/thesis_update.php',
     '/FinalProj/search' =>  __DIR__ . '/search.php',
     '/FinalProj/searchbar_db' =>  __DIR__ . '/searchbar_db.php',
+    '/FinalProj/officeradd' =>  __DIR__ . '/officer_add.php',
+    '/FinalProj/temporaryadd' =>  __DIR__ . '/temporary_add.php',
+    '/FinalProj/teacheradd' =>  __DIR__ . '/teacher_add.php',
+    '/FinalProj/studentadd' =>  __DIR__ . '/student_add.php',
 ];
 
 function routeTo($uri, $routes) {
