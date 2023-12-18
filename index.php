@@ -7,7 +7,10 @@ $routes = [
     '/FinalProj/thesisadd' =>  __DIR__ . '/thesis_add.php',
     '/FinalProj/thesis' =>  __DIR__ . '/thesis.php',
     '/FinalProj/thesis_api' =>  __DIR__ . '/thesis_api.php',
-
+    '/FinalProj/officeradd' =>  __DIR__ . '/officer_add.php',
+    '/FinalProj/temporaryadd' =>  __DIR__ . '/temporary_add.php',
+    '/FinalProj/teacheradd' =>  __DIR__ . '/teacher_add.php',
+    '/FinalProj/studentadd' =>  __DIR__ . '/student_add.php',
 
     
 ];
