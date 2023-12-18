@@ -53,7 +53,6 @@
         $thesis['name_coAdvisor'] = $row->name_coAdvisor;
         $thesis['surname_coAdvisor'] = $row->surname_coAdvisor;
 
-
         $thesis['author_member_id']["member$i"] = $row->student_id;
         $thesis['author_member_prefix']["member$i"] = $row->prefix;
         $thesis['author_member_name']["member$i"] = $row->name;
@@ -117,8 +116,8 @@
         </div>";
 
     echo "<div class='container-fluid d-flex gap-3 justify-content-center'>
-                <a class='btn btn-warning' href='thesis_update?=$id'>แก้ไข</a>
-                <a class='btn btn-danger' href='thesis_delete?=$id'>ลบ</a>
+                <a class='btn btn-warning' href='thesis_update?id=$id'>แก้ไข</a>
+                <a class='btn btn-danger' href='thesis_delete?id=$id' onclick=\"return confirm('ต้องการลบข้อมูลหรือไม่')\">ลบ</a>
         </div>";
 
 

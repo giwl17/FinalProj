@@ -1,6 +1,8 @@
 <?php
 require_once 'dbconnect.php';
-if (isset($_POST['submitAddThesis'])) {
+if (isset($_POST['submitUpdateThesis'])) {
+    $id = $_POST['id'];
+
     $thesis_name_th = $_POST['thesis_name_th'];
     $thesis_name_en = $_POST['thesis_name_en'];
     $abstract = $_POST['abstract'];
@@ -128,52 +130,58 @@ if (isset($_POST['submitAddThesis'])) {
     $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
 
     try {
-        $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor, thesis_status, approval_status)
-                                VALUES(:thai_name, :english_name, :abstract, :printed_year, :semester, :approval_year, :thesis_file, :approval_file, :poster_file, :keyword, :prefix_chairman, :name_chairman, :surname_chairman, :prefix_director1, :name_director1, :surname_director1, :prefix_director2, :name_director2, :surname_director2, :prefix_advisor, :name_advisor, :surname_advisor, :prefix_coAdvisor, :name_coAdvisor, :surname_coAdvisor, :thesis_status, :approval_status) ");
-        $insert->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
-        $insert->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
-        $insert->bindParam(":abstract", $abstract, PDO::PARAM_STR);
-        $insert->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
-        $insert->bindParam(":semester", $semester, PDO::PARAM_STR);
-        $insert->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
-        $insert->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
-        $insert->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
-        $insert->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
-        $insert->bindParam(":keyword", $keyword, PDO::PARAM_STR);
-        $insert->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
-        $insert->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
-        $insert->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
-        $insert->bindParam(":prefix_director1", $director1_prefix, PDO::PARAM_STR);
-        $insert->bindParam(":name_director1", $director1_firstname, PDO::PARAM_STR);
-        $insert->bindParam(":surname_director1", $director1_lastname, PDO::PARAM_STR);
-        $insert->bindParam(":prefix_director2", $director2_prefix, PDO::PARAM_STR);
-        $insert->bindParam(":name_director2", $director2_firstname, PDO::PARAM_STR);
-        $insert->bindParam(":surname_director2", $director2_lastname, PDO::PARAM_STR);
-        $insert->bindParam(":prefix_advisor", $advisor_prefix, PDO::PARAM_STR);
-        $insert->bindParam(":name_advisor", $advisor_firstname, PDO::PARAM_STR);
-        $insert->bindParam(":surname_advisor", $advisor_lastname, PDO::PARAM_STR);
-        $insert->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
-        $insert->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
-        $insert->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
-        $insert->bindParam(":thesis_status", $thesis_status);
-        $insert->bindParam(":approval_status", $approval_status);
+        $update =  $conn->prepare("UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
+        abstract = :abstract, printed_year = :printed_year, semester = :semester, approval_year = :approval_year, 
+        thesis_file = :thesis_file, approval_file = :approval_file, poster_file = :poster_file, keyword = :keyword, 
+        prefix_chairman = :prefix_chairman, name_chairman = :name_chairman, surname_chairman = :surname_chairman, 
+        prefix_director1 = :prefix_director1, name_director1 = :name_director1, surname_director1 = :surname_director1, 
+        prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
+        prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
+        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
+        WHERE thesis_id = :id");
+        $update->bindParam(":id", $id);
+        $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
+        $update->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
+        $update->bindParam(":abstract", $abstract, PDO::PARAM_STR);
+        $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
+        $update->bindParam(":semester", $semester, PDO::PARAM_STR);
+        $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
+        $update->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
+        $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director1", $director1_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director1", $director1_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director1", $director1_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director2", $director2_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director2", $director2_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director2", $director2_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_advisor", $advisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_advisor", $advisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_advisor", $advisor_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
 
-        $result = $insert->execute();
+        $result = $update->execute();
         if ($result) {
-            // echo "เพิ่มข้อมูลเล่มสำเร็จ";
+            echo "แก้ข้อมูลเล่มสำเร็จ";
             $lastId = $conn->lastInsertId();
             $thesisId = $lastId;
             if (isset($_POST['member1'])) {
                 $order = 1;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id) ");
-                $insertMem->bindParam(":student_id", $member1_id);
-                $insertMem->bindParam(":prefix", $member1_prefix);
-                $insertMem->bindParam(":name", $member1_firstname);
-                $insertMem->bindParam(":lastname", $member1_lastname);
-                $insertMem->bindParam(":order_member", $order);
-                $insertMem->bindParam(":thesis_id", $thesisId);
-                $result = $insertMem->execute();
+                $updateMem = $conn->prepare("UPDATE author_thesis SET student_id = :student_id, prefix = :prefix, name = :name, lastname = :lastname
+                                WHERE thesis_id = :id AND order_member = :order");
+                $updateMem->bindParam(":student_id", $member1_id);
+                $updateMem->bindParam(":prefix", $member1_prefix);
+                $updateMem->bindParam(":name", $member1_firstname);
+                $updateMem->bindParam(":lastname", $member1_lastname);
+                $updateMem->bindParam(":order", $order);
+                $updateMem->bindParam(":id", $id);
+                $result = $updateMem->execute();
 
                 if ($result) {
                     // echo "เพิ่มสมาชิก 1 สำเร็จ";
@@ -181,15 +189,15 @@ if (isset($_POST['submitAddThesis'])) {
             }
             if (isset($_POST['member2'])) {
                 $order = 2;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
-                $insertMem->bindParam(":student_id", $member2_id);
-                $insertMem->bindParam(":prefix", $member2_prefix);
-                $insertMem->bindParam(":name", $member2_firstname);
-                $insertMem->bindParam(":lastname", $member2_lastname);
-                $insertMem->bindParam(":order_member", $order);
-                $insertMem->bindParam(":thesis_id", $thesisId);
-                $result = $insertMem->execute();
+                $updateMem = $conn->prepare("UPDATE author_thesis SET student_id = :student_id, prefix = :prefix, name = :name, lastname = :lastname
+                                 WHERE thesis_id = :id AND order_member = :order");
+                $updateMem->bindParam(":student_id", $member2_id);
+                $updateMem->bindParam(":prefix", $member2_prefix);
+                $updateMem->bindParam(":name", $member2_firstname);
+                $updateMem->bindParam(":lastname", $member2_lastname);
+                $updateMem->bindParam(":order", $order);
+                $updateMem->bindParam(":id", $id);
+                $result = $updateMem->execute();
 
                 if ($result) {
                     // echo "เพิ่มสมาชิก 2 สำเร็จ";
@@ -197,22 +205,22 @@ if (isset($_POST['submitAddThesis'])) {
             }
             if (isset($_POST['member3'])) {
                 $order = 3;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, order_member, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :order_member, :thesis_id)");
-                $insertMem->bindParam(":student_id", $member3_id);
-                $insertMem->bindParam(":prefix", $member3_prefix);
-                $insertMem->bindParam(":name", $member3_firstname);
-                $insertMem->bindParam(":lastname", $member3_lastname);
-                $insertMem->bindParam(":order_member", $order);
-                $insertMem->bindParam(":thesis_id", $thesisId);
-                $result = $insertMem->execute();
+                $updateMem = $conn->prepare("UPDATE author_thesis SET student_id = :student_id, prefix = :prefix, name = :name, lastname = :lastname
+                                  WHERE thesis_id = :id AND order_member = :order");
+                $updateMem->bindParam(":student_id", $member3_id);
+                $updateMem->bindParam(":prefix", $member3_prefix);
+                $updateMem->bindParam(":name", $member3_firstname);
+                $updateMem->bindParam(":lastname", $member3_lastname);
+                $updateMem->bindParam(":order", $order);
+                $updateMem->bindParam(":id", $id);
+                $result = $updateMem->execute();
 
                 if ($result) {
                     // echo "เพิ่มสมาชิก 3 สำเร็จ";
                 }
             }
 
-            header('location: ./thesisadd');
+            header('location: /FinalProj');
         }
     } catch (PDOException $e) {
         echo $e;
