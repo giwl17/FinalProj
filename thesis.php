@@ -65,13 +65,14 @@
             <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
             <div class='row'>
                 <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
-                <div class='col-auto d-flex flex-column'>";
+                <div class='col-auto flex-column'>";
     for ($i = 1; $i <= count($thesis['author_member_id']); $i++) {
+        echo "<div>";
         echo $thesis['author_member_id']["member$i"] . " ";
         echo $thesis['author_member_prefix']["member$i"] . "";
         echo $thesis['author_member_name']["member$i"] .  "&nbsp;";
         echo $thesis['author_member_surname']["member$i"];
-
+        echo "</div>";
         
     }
     echo "      </div>

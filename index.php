@@ -10,6 +10,7 @@ $routes = [
     '/FinalProj/thesis_delete' =>  __DIR__ . '/thesis_delete.php',
     '/FinalProj/thesis_update' =>  __DIR__ . '/thesis_update.php',
     '/FinalProj/search' =>  __DIR__ . '/search.php',
+    '/FinalProj/searchbar_db' =>  __DIR__ . '/searchbar_db.php',
 ];
 
 function routeTo($uri, $routes) {

@@ -16,8 +16,9 @@
     <?php require "template/header.php"; ?>
 
     <div class='container d-flex flex-column my-5 gap-3'>
-        <div class="d-flex my-3">
-            <select name="" id="" class="form-select rounded-0 w-25">
+        <div class="d-flex my-3 position-relative">
+            <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
+            <select name="" id="selectSearch" class="form-select rounded-0 w-25">
                 <option value="all" selected>ทั้งหมด</option>
                 <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                 <option value="keyword">คำสำคัญ</option>
@@ -28,12 +29,47 @@
                 <option value="advisor">ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา</option>
             </select>
 
-            <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1">
-            <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+            <div class="flex-grow-1 position-relative">
+                <input type="search" name="" id="inputSearch" class="form-control rounded-0" placeholder="">
+                <div class="w-100 position-absolute d-none" id="searching">
+                   
+                </div>
+            </div>
+            <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch();"><i class="bi bi-search px-1"></i>ค้นหา</button>
         </div>
 
-    <?php require "thesislist_db.php"  ?>
+        <?php require "thesislist_db.php"  ?>
     </div>
+
+    <script>
+        function submitSearch() {
+            let selectSearch = document.getElementById('selectSearch').value;
+            let inputSearch = document.getElementById('inputSearch');
+        }
+
+        inputSearch.addEventListener('keyup', () => {
+            let input = inputSearch.value;
+            let searchingDOM = document.getElementById('searching');
+
+            if (input != '') {
+                searchingDOM.classList.remove('d-none');
+
+                let options = {
+                    method: 'GET',
+                    input: input,
+                }
+                let url = '/FinalProj/searchbar_db?data=' + input + "&selected=" + selectSearch.value;
+                fetch(url, options)
+                    .then(response => {
+                        return response.text()
+                    })
+                    .then(data => searchingDOM.innerHTML = data)
+            } else {
+                searchingDOM.classList.add('d-none');
+                searchingDOM.innerHTML = "";
+            }
+        });
+    </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
