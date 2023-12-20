@@ -17,6 +17,7 @@ $routes = [
     '/FinalProj/studentadd' =>  __DIR__ . '/student_add.php',
     '/FinalProj/sendMailCreateAccount' =>  __DIR__ . '/sendMailCreateAccount.php',
     '/FinalProj/test_api' =>  __DIR__ . '/test_api.php',
+    '/FinalProj/chart_director' =>  __DIR__ . '/chart_director.php',
 
 
 ];

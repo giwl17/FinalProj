@@ -33,6 +33,9 @@ if (isset($_GET['advisor'])) {
     $approval_year = $approvalEx[1];
 
     $searchSelect = "semester";
+} else if (isset($_GET['keyword'])) {
+    $keyword = $_GET['keyword'];
+    $searchSelect = 'keyword';
 }
 
 ?>
@@ -88,6 +91,8 @@ if (isset($_GET['advisor'])) {
                 <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
             <?php elseif ($searchSelect === 'semester') : ?>
                 <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
+            <?php elseif ($searchSelect === 'keyword') : ?>
+                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
             <?php endif; ?>
             <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
         </div>
@@ -118,8 +123,15 @@ if (isset($_GET['advisor'])) {
                 WHERE semester = :semester AND approval_year = :approval_year";
 
                 $insert_thesis = $conn->prepare($sql);
-                $insert_thesis->bindParam(":semester" , $semester);
-                $insert_thesis->bindParam(":approval_year" , $approval_year);
+                $insert_thesis->bindParam(":semester", $semester);
+                $insert_thesis->bindParam(":approval_year", $approval_year);
+            } else if ($searchSelect === "keyword") {
+                $sql = "SELECT * FROM thesis_document
+                WHERE keyword LIKE :keyword";
+
+                $keywordLike = "%" . $keyword . "%";
+                $insert_thesis = $conn->prepare($sql);
+                $insert_thesis->bindParam(":keyword", $keywordLike);
             }
 
             $insert_thesis->execute();
