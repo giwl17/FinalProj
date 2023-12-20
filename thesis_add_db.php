@@ -96,16 +96,15 @@ if (isset($_POST['submitAddThesis'])) {
     $printed_year = $_POST['printed_year'];
 
 
-    $keyword = '';
-    $i = 1;
-    while (true) {
-        if (isset($_POST['keyword_' . $i])) {
-            ${"keyword_" . $i} = $_POST['keyword_' . $i];
-            // echo ${"keyword_" . $i};
-            $keyword .= ${"keyword_" . $i} . ', ';
-            $i++;
-        } else {
-            break;
+    if (isset($_POST['keyword'])) {
+        $keywordInput = $_POST['keyword'];
+        $keywords = "";
+
+        for ($i = 0; $i < count($keywordInput); $i++) {
+            $keywords .= $keywordInput[$i];
+            if (!($i == (count($keywordInput) - 1))) {
+                $keywords .= ", ";
+            }
         }
     }
 
@@ -140,7 +139,7 @@ if (isset($_POST['submitAddThesis'])) {
         $insert->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
         $insert->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
         $insert->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
-        $insert->bindParam(":keyword", $keyword, PDO::PARAM_STR);
+        $insert->bindParam(":keyword", $keywords, PDO::PARAM_STR);
         $insert->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
         $insert->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
         $insert->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);

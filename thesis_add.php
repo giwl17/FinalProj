@@ -361,9 +361,9 @@
 
         <div class="form-group" id="formWord">
             <label for="">คำสำคัญ (อย่างน้อย 3 คำ)</label>
-            <input class="form-control mb-3" type="text" name="keyword_1" id="keyword_1" placeholder="คำสำคัญ 1" required>
-            <input class="form-control mb-3" type="text" name="keyword_2" id="keyword_2" placeholder="คำสำคัญ 2" required>
-            <input class="form-control mb-3" type="text" name="keyword_3" id="keyword_3" placeholder="คำสำคัญ 3" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_1" placeholder="คำสำคัญ 1" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_2" placeholder="คำสำคัญ 2" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_3" placeholder="คำสำคัญ 3" required>
         </div>
         <div class="mb-3">
             <input class="btn btn-success" type="button" value="+" id="buttonAddWord">
@@ -395,7 +395,7 @@
         let formWord = document.getElementById('formWord');
         let i = 4;
         buttonAddWord.addEventListener('click', () => {
-            $html = '<input class="form-control mb-3" type="text" name="keyword_' + i + '" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
+            $html = '<input class="form-control mb-3" type="text" name="keyword[]" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
             formWord.insertAdjacentHTML('beforeend', $html);
             i++;
             console.log('i=', i);
