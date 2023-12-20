@@ -15,7 +15,10 @@ $routes = [
     '/FinalProj/temporaryadd' =>  __DIR__ . '/temporary_add.php',
     '/FinalProj/teacheradd' =>  __DIR__ . '/teacher_add.php',
     '/FinalProj/studentadd' =>  __DIR__ . '/student_add.php',
+    '/FinalProj/sendMailCreateAccount' =>  __DIR__ . '/sendMailCreateAccount.php',
     '/FinalProj/test_api' =>  __DIR__ . '/test_api.php',
+
+
 ];
 
 function routeTo($uri, $routes) {
