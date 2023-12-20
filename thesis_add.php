@@ -7,9 +7,25 @@
     <title>เพิ่มเล่มปริญญานิพนธ์</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+    <?php
+    session_start();
+    ob_start();
+    if (isset($_SESSION['insertDataSuccess'])) {
+        echo "<script>
+        Swal.fire({
+            title: 'เพิ่มข้อมูลสำเร็จ',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1800
+          });
+        </script>";
+        unset($_SESSION['insertDataSuccess']);
+    }
+    ?>
     <?php require "template/header.php"; ?>
     <form class="container mt-4" method="post" action="thesis_add_db.php" enctype="multipart/form-data">
         <h1 class="h3 text-primary text-center mb-4">เพิ่มข้อมูลปริญญานิพนธ์</h1>
@@ -449,16 +465,19 @@
         }
 
         const checkMemberReq = (checkInput) => {
-            let member_id = checkInput.name+ '_id';
-            let member_prefix = checkInput.name+ '_prefix';
-            let member_firstname = checkInput.name+ '_firstname';
-            let member_lastname = checkInput.name+ '_lastname';
+            let member_id = checkInput.name + '_id';
+            let member_prefix = checkInput.name + '_prefix';
+            let member_firstname = checkInput.name + '_firstname';
+            let member_lastname = checkInput.name + '_lastname';
             document.getElementById(member_id).toggleAttribute('required');
             document.getElementById(member_prefix).toggleAttribute('required');
             document.getElementById(member_firstname).toggleAttribute('required');
             document.getElementById(member_lastname).toggleAttribute('required');
         }
     </script>
+
+
+
 </body>
 
 </html>

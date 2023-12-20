@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'dbconnect.php';
 if (isset($_POST['submitAddThesis'])) {
     $thesis_name_th = $_POST['thesis_name_th'];
@@ -196,6 +197,8 @@ if (isset($_POST['submitAddThesis'])) {
                 $insertMem->bindParam(":thesis_id", $thesisId);
                 $result = $insertMem->execute();
             }
+
+            $_SESSION['insertDataSuccess'] = true;
             header('location: ./thesisadd');
         }
     } catch (PDOException $e) {
