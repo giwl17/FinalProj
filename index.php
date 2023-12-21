@@ -10,6 +10,16 @@ $routes = [
     '/FinalProj/thesis_delete' =>  __DIR__ . '/thesis_delete.php',
     '/FinalProj/thesis_update' =>  __DIR__ . '/thesis_update.php',
     '/FinalProj/search' =>  __DIR__ . '/search.php',
+    '/FinalProj/searchbar_db' =>  __DIR__ . '/searchbar_db.php',
+    '/FinalProj/officeradd' =>  __DIR__ . '/officer_add.php',
+    '/FinalProj/temporaryadd' =>  __DIR__ . '/temporary_add.php',
+    '/FinalProj/teacheradd' =>  __DIR__ . '/teacher_add.php',
+    '/FinalProj/studentadd' =>  __DIR__ . '/student_add.php',
+    '/FinalProj/sendMailCreateAccount' =>  __DIR__ . '/sendMailCreateAccount.php',
+    '/FinalProj/test_api' =>  __DIR__ . '/test_api.php',
+    '/FinalProj/chart_director' =>  __DIR__ . '/chart_director.php',
+
+
 ];
 
 function routeTo($uri, $routes) {

@@ -25,6 +25,8 @@
     $thesis = [];
     $i = 1;
 
+
+
     foreach ($result as $row) {
         $thesis['thesis_id'] = $row->thesis_id;
         $thesis['thai_name'] = $row->thai_name;
@@ -61,18 +63,20 @@
         $i++;
     }
 
+
+
     echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
             <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
             <div class='row'>
                 <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
-                <div class='col-auto d-flex flex-column'>";
+                <div class='col-auto flex-column'>";
     for ($i = 1; $i <= count($thesis['author_member_id']); $i++) {
+        echo "<div>";
         echo $thesis['author_member_id']["member$i"] . " ";
         echo $thesis['author_member_prefix']["member$i"] . "";
         echo $thesis['author_member_name']["member$i"] .  "&nbsp;";
         echo $thesis['author_member_surname']["member$i"];
-
-        
+        echo "</div>";
     }
     echo "      </div>
             </div>";
@@ -84,12 +88,12 @@
             $thesis[prefix_advisor]$thesis[name_advisor] $thesis[surname_advisor] </a>
         </div>
         ";
-        if($thesis['prefix_coAdvisor'] != '') {
-            echo ",&nbsp";
-            echo "<div class='col-auto d-flex flex-column'>";
-            echo "<a href='search?coAdvisor=$thesis[prefix_coAdvisor]_$thesis[name_coAdvisor]_$thesis[surname_coAdvisor]'>$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]</a>";
-            echo "</div>";
-        }
+    if ($thesis['prefix_coAdvisor'] != '') {
+        echo ",&nbsp";
+        echo "<div class='col-auto d-flex flex-column'>";
+        echo "<a href='search?coAdvisor=$thesis[prefix_coAdvisor]_$thesis[name_coAdvisor]_$thesis[surname_coAdvisor]'>$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]</a>";
+        echo "</div>";
+    }
 
     echo "
     </div>";
@@ -98,17 +102,30 @@
         <div class='fw-bold col-md-16 col-lg-2'>ปีที่พิมพ์เล่ม</div>
         <a href='search?printed=$thesis[printed_year]' class='col-md-16 col-lg-auto'>$thesis[printed_year]</a>
         </div>";
-        
+
 
     echo "<div class='row'>
             <div class='fw-bold col-md-16 col-lg-2'>ปีที่อนุมัติเล่ม</div>
             <a href='search?approval=$thesis[semester]/$thesis[approval_year]' class='link-primary col-md-16 col-lg-auto'>$thesis[semester]/$thesis[approval_year]</a>
         </div>";
 
-    echo "<div class='row'>
-            <div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>
-            <div class='col-md-16 col-lg-auto'>$thesis[keyword]</div>
-        </div>";
+    echo "<div class='row'>";
+    echo "<div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>";   
+    $keyword = explode(", ", $thesis['keyword']);
+    echo "<div class='col-auto d-flex flex-row'>";
+    for ($i = 0; $i < count($keyword); $i++) {
+        echo "<a href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+        if (!($i == count($keyword) - 1)) {
+            echo ",&nbsp";
+        }
+    }   
+    echo "</div>";
+    echo  "</div>";
+
+    // echo "<div class='row'>
+    //         <div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>
+    //         <div class='col-md-16 col-lg-auto'>$thesis[keyword]</div>
+    //     </div>";
 
     echo "<div>
             <span class='fw-bold'>บทคัดย่อ</span><br>

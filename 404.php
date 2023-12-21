@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
+    <title>404 Not found</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
