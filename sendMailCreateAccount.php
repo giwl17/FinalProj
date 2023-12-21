@@ -52,7 +52,7 @@ $mail->addAddress($email, $mailName);
 $mail->Subject = $subject;
 $mail->Body = <<<END
 
-    Click <a href="http://example.com/reset-password.php?token=$token">here</a> 
+    Click <a href="http://example.com/createAccount.php?token=$token">here</a> 
     to create your account.
 
     END;
