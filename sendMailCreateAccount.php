@@ -52,7 +52,7 @@ $mail->addAddress($email, $mailName);
 $mail->Subject = $subject;
 $mail->Body = <<<END
 
-    Click <a href="http://example.com/createAccount.php?token=$token">here</a> 
+    Click <a href="https://www.rmuttcpethesis.com/FinalProj/createAccount.php?token=$token">here</a> 
     to create your account.
 
     END;
@@ -65,5 +65,8 @@ try {
     echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
 }
 
+echo "<script type=\"text/javascript\">
+alert('Message sent, please check your inbox');
+</script>.";
+header("Location: officer_add.php");
 
-echo "Message sent, please check your inbox.";
