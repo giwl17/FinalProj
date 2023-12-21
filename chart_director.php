@@ -1,6 +1,6 @@
 <?php
 include "dbconnect.php";
-$select = $conn->prepare("SELECT prefix_director1, name_director1, surname_director1, COUNT(*) as count FROM thesis_document GROUP BY prefix_director1, name_director1, surname_director1");
+$select = $conn->prepare("SELECT prefix_advisor, name_advisor, surname_advisor, COUNT(*) as count FROM thesis_document GROUP BY prefix_advisor, name_advisor, surname_advisor");
 $prefix = "ผู้ช่วยศาสตราจารย์";
 $name = "มาโนช";
 $surname = "ประชา";
@@ -12,7 +12,7 @@ $result_manod = $select->fetchAll(PDO::FETCH_ASSOC);
 
 // print_r($result_manod);
 foreach ($result_manod as $row) {
-    $dataPoints[] =  array("y" => $row['count'], "label" => $row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1']);
+    $dataPoints[] =  array("y" => $row['count'], "label" => $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor']);
 }
 
 // var_dump($dataPoints);
