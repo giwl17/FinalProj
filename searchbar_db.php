@@ -128,6 +128,41 @@ if (isset($_GET['data']) && $_GET['selected']) {
         } else {
             echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
+    } else if($selected == 'thesis_name') {
+        $inputLike = "" . $input . "%";
+        require "dbconnect.php";
+        $stmt = $conn->prepare("SELECT * FROM thesis_document
+        INNER JOIN author_thesis ON  thesis_document.thesis_id = author_thesis.thesis_id
+        WHERE thai_name LIKE :input 
+        OR english_name LIKE :input
+        LIMIT 10");
+        $stmt->execute([':input' => $inputLike]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount() > 0) {
+            $thaiName = "";
+            $englishName = "";
+
+            $isShow_advisor = false;
+            $isShow_coAdvisor = false;
+
+            echo "<div class='list-group w-100'>";
+            foreach ($result as $row) {
+                if (strpos($row['thai_name'], $input) === 0) {
+                    if ($row['thai_name'] !== $thaiName) {
+                        echo "<a href='thesis?id=$row[thesis_id]' class='list-group-item list-group-item-action'>ชื่อปริญญานิพนธ์ : $row[thai_name]</a>";
+                        $thaiName = $row['thai_name'];
+                    }
+                } else if (strpos($row['english_name'], $input) === 0) {
+                    if ($row['english_name'] !== $englishName) {
+                        echo "<a href='thesis?id=$row[thesis_id]' class='list-group-item list-group-item-action'>ชื่อปริญญานิพนธ์ : $row[english_name]</a>";
+                        $englishName = $row['english_name'];
+                    }
+                }
+            }
+            echo "</div>";
+        } else {
+            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+        }
     }
 }
 // echo "hello";

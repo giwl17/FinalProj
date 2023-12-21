@@ -4,7 +4,12 @@ require "dbconnect.php";
 
 if (isset($_GET['advisor'])) {
     $advisor = $_GET['advisor'];
-    $advisor = explode("_", $advisor);
+    if(strpos($advisor, "_") !== false) {
+        $advisor = explode("_", $advisor);
+    } else {
+        $advisor = explode(" ", $advisor);
+    }
+     
 
     $prefix_advisor = $advisor[0];
     $name_advisor = $advisor[1];

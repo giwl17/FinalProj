@@ -60,6 +60,7 @@ foreach ($result_manod as $row) {
                     includeZero: true,
                 },
                 data: [{
+                    click: onClick,
                     type: "bar",
                     indexLabel: "{y}",
                     indexLabelPlacement: "inside",
@@ -71,6 +72,10 @@ foreach ($result_manod as $row) {
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
 
+            function onClick(e) {
+                // alert(e.dataSeries.type + ", dataPoint { label:" + e.dataPoint.label + ", y: " + e.dataPoint.y + " }");
+                location.href = `search?advisor=${e.dataPoint.label}`;
+            }
         }
     </script>
 </head>
