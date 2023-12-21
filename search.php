@@ -58,7 +58,7 @@ if (isset($_GET['advisor'])) {
         <div class="d-flex my-3 position-relative">
             <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
 
-            <select name="" id="" class="form-select rounded-0 w-25">
+            <select name="" id="selectSearch" class="form-select rounded-0 w-25">
                 <option value="all" <?php if ($searchSelect == 'all') {
                                         echo "selected";
                                     } ?>>ทั้งหมด</option>
@@ -85,16 +85,20 @@ if (isset($_GET['advisor'])) {
                                         } ?>>ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา</option>
             </select>
 
-            <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . $name_advisor . " " . $surname_advisor; ?>">
-            <?php elseif ($searchSelect === 'printed_year') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
-            <?php elseif ($searchSelect === 'semester') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
-            <?php elseif ($searchSelect === 'keyword') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
-            <?php endif; ?>
-            <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+            <div class="flex-grow-1 position-relative">
+                <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . $name_advisor . " " . $surname_advisor; ?>">
+                <?php elseif ($searchSelect === 'printed_year') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
+                <?php elseif ($searchSelect === 'semester') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
+                <?php elseif ($searchSelect === 'keyword') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
+                <?php endif; ?>
+
+                <div class="w-100 position-absolute d-none" id="searching"></div>
+            </div>
+            <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch()"><i class="bi bi-search px-1"></i>ค้นหา</button>
         </div>
 
         <?php
@@ -181,6 +185,37 @@ if (isset($_GET['advisor'])) {
         }
         ?>
     </div>
+
+    <script>
+        function submitSearch() {
+            let selectSearch = document.getElementById('selectSearch').value;
+            let inputSearch = document.getElementById('inputSearch');
+        }
+
+        inputSearch.addEventListener('keyup', () => {
+            let input = inputSearch.value;
+            let searchingDOM = document.getElementById('searching');
+
+            if (input != '') {
+                searchingDOM.classList.remove('d-none');
+
+                let options = {
+                    method: 'GET',
+                    input: input,
+                }
+                let url = '/FinalProj/searchbar_db?data=' + input + "&selected=" + selectSearch.value;
+                fetch(url, options)
+                    .then(response => {
+                        return response.text()
+                    })
+                    .then(data => searchingDOM.innerHTML = data)
+            } else {
+                searchingDOM.classList.add('d-none');
+                searchingDOM.innerHTML = "";
+            }
+        });
+    </script>
+
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
