@@ -7,9 +7,25 @@
     <title>เพิ่มเล่มปริญญานิพนธ์</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+    <?php
+    session_start();
+    ob_start();
+    if (isset($_SESSION['insertDataSuccess'])) {
+        echo "<script>
+        Swal.fire({
+            title: 'เพิ่มข้อมูลสำเร็จ',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1800
+          });
+        </script>";
+        unset($_SESSION['insertDataSuccess']);
+    }
+    ?>
     <?php require "template/header.php"; ?>
     <form class="container mt-4" method="post" action="thesis_add_db.php" enctype="multipart/form-data">
         <h1 class="h3 text-primary text-center mb-4">เพิ่มข้อมูลปริญญานิพนธ์</h1>
@@ -345,9 +361,9 @@
 
         <div class="form-group" id="formWord">
             <label for="">คำสำคัญ (อย่างน้อย 3 คำ)</label>
-            <input class="form-control mb-3" type="text" name="keyword_1" id="keyword_1" placeholder="คำสำคัญ 1" required>
-            <input class="form-control mb-3" type="text" name="keyword_2" id="keyword_2" placeholder="คำสำคัญ 2" required>
-            <input class="form-control mb-3" type="text" name="keyword_3" id="keyword_3" placeholder="คำสำคัญ 3" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_1" placeholder="คำสำคัญ 1" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_2" placeholder="คำสำคัญ 2" required>
+            <input class="form-control mb-3" type="text" name="keyword[]" id="keyword_3" placeholder="คำสำคัญ 3" required>
         </div>
         <div class="mb-3">
             <input class="btn btn-success" type="button" value="+" id="buttonAddWord">
@@ -379,7 +395,7 @@
         let formWord = document.getElementById('formWord');
         let i = 4;
         buttonAddWord.addEventListener('click', () => {
-            $html = '<input class="form-control mb-3" type="text" name="keyword_' + i + '" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
+            $html = '<input class="form-control mb-3" type="text" name="keyword[]" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
             formWord.insertAdjacentHTML('beforeend', $html);
             i++;
             console.log('i=', i);
@@ -449,16 +465,19 @@
         }
 
         const checkMemberReq = (checkInput) => {
-            let member_id = checkInput.name+ '_id';
-            let member_prefix = checkInput.name+ '_prefix';
-            let member_firstname = checkInput.name+ '_firstname';
-            let member_lastname = checkInput.name+ '_lastname';
+            let member_id = checkInput.name + '_id';
+            let member_prefix = checkInput.name + '_prefix';
+            let member_firstname = checkInput.name + '_firstname';
+            let member_lastname = checkInput.name + '_lastname';
             document.getElementById(member_id).toggleAttribute('required');
             document.getElementById(member_prefix).toggleAttribute('required');
             document.getElementById(member_firstname).toggleAttribute('required');
             document.getElementById(member_lastname).toggleAttribute('required');
         }
     </script>
+
+
+
 </body>
 
 </html>

@@ -38,7 +38,7 @@
                         <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#">สถิติการจัดเก็บเล่ม</a></li>
-                            <li><a class="dropdown-item" href="#">สถิติการกำกับเล่ม</a></li>
+                            <li><a class="dropdown-item" href="/FinalProj/chart_director">สถิติการกำกับเล่ม</a></li>
                         </ul>
                     </li>
 
