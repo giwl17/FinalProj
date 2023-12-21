@@ -18,17 +18,36 @@ if (isset($_GET['advisor'])) {
     $searchSelect = 'advisor';
 } else if (isset($_GET['coAdvisor'])) {
     $coAdvisor = $_GET['coAdvisor'];
+    if(strpos($coAdvisor, "_") !== false) {
+      try{
+        $coAdvisor = explode("_", $coAdvisor);
+        $prefix_advisor = $coAdvisor[0];
+        $name_advisor = $coAdvisor[1];
+        $surname_advisor = $coAdvisor[2];
+      } catch (Exception $e) {
+        $prefix_advisor = "";
+        $name_advisor = $coAdvisor[0];
+        $surname_advisor = $coAdvisor[1];
+      }
+        
+    } else {
+        try{
+            $coAdvisor = explode(" ", $coAdvisor);
+            $prefix_advisor = $coAdvisor[0];
+            $name_advisor = $coAdvisor[1];
+            $surname_advisor = $coAdvisor[2];
+          } catch (Exception $e) {
+            $prefix_advisor = "";
+            $name_advisor = $coAdvisor[0];
+            $surname_advisor = $coAdvisor[1];
+          }
+    }
+    
 
-    $coAdvisor = explode("_", $coAdvisor);
-
-    $prefix_advisor = $coAdvisor[0];
-    $name_advisor = $coAdvisor[1];
-    $surname_advisor = $coAdvisor[2];
-
+   
     $searchSelect = 'advisor';
 } else if (isset($_GET['printed'])) {
     $printed = $_GET['printed'];
-
     $searchSelect = 'printed_year';
 } else if (isset($_GET['approval'])) {
     $approval = $_GET['approval'];
@@ -51,7 +70,8 @@ if (isset($_GET['advisor'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RMUTT</title>
+    <title>จัดการเล่มปริญญานิพนธ์</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
 </head>
 
 <body>

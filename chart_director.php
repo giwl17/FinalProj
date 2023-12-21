@@ -33,7 +33,8 @@ foreach ($result_manod as $row) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>สถิติการกำกับเล่ม</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>

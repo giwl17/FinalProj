@@ -52,53 +52,55 @@ if (isset($_GET['data']) && $_GET['selected']) {
                     }
                 } else if (strpos($row['abstract'], $input) === 0) {
                     if ($row['abstract'] !== $abstract) {
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>บทคัดย่อ : $row[abstract]</a>";
+                        echo "<a href='thesis?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>บทคัดย่อ : $row[abstract]</a>";
                         $abstract = $row['abstract'];
                     }
                 } else if (strpos($row['printed_year'], $input) === 0) {
                     if ($row['printed_year'] !== $printed) {
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>ปีที่ตีพิมพ์เล่ม : $row[printed_year]</a>";
+                        echo "<a href='search?printed=$row[printed_year]' class='list-group-item list-group-item-action text-truncate'>ปีที่ตีพิมพ์เล่ม : $row[printed_year]</a>";
                         $printed = $row['printed_year'];
                     }
                 } else if (strpos($row['keyword'], $input) === 0) {
                     if ($row['keyword'] != $keyword) {
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>คำสำคัญ : $row[keyword]</a>";
+                        echo "<a href='search?keyword=$row[keyword]' class='list-group-item list-group-item-action text-truncate'>คำสำคัญ : $row[keyword]</a>";
                         $keyword = $row['keyword'];
                     }
-                } else if (strpos($row['prefix_advisor'], $input) === 0) {
+                }
+                if (strpos($row['prefix_advisor'], $input) === 0) {
                     if (!$isShow_advisor) {
-                        $advisor_name = $row['prefix_advisor'] . $row['name_advisor'] . " " . $row['surname_advisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
+                        $advisor_name = $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'];
+                        echo "<a href='search?advisor=$advisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
                         $isShow_advisor = true;
                     }
                 } else if (strpos($row['name_advisor'], $input) === 0) {
                     if (!$isShow_advisor) {
-                        $advisor_name = $row['prefix_advisor'] . $row['name_advisor'] . " " . $row['surname_advisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
+                        $advisor_name = $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'];
+                        echo "<a href='search?advisor=$advisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
                         $isShow_advisor = true;
                     }
                 } else if (strpos($row['surname_advisor'], $input) === 0) {
                     if (!$isShow_advisor) {
-                        $advisor_name = $row['prefix_advisor'] . $row['name_advisor'] . " " . $row['surname_advisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
+                        $advisor_name = $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'];
+                        echo "<a href='search?advisor=$advisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาหลัก : $advisor_name </a>";
                         $isShow_advisor = true;
                     }
-                } else if (strpos($row['prefix_coAdvisor'], $input) === 0) {
+                }
+                if (strpos($row['prefix_coAdvisor'], $input) === 0) {
                     if (!$isShow_coAdvisor) {
-                        $coAdvisor_name = $row['prefix_coAdvisor'] . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
+                        $coAdvisor_name = $row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
+                        echo "<a href='search?coAdvisor=$coAdvisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
                         $isShow_coAdvisor = true;
                     }
                 } else if (strpos($row['name_coAdvisor'], $input) === 0) {
                     if (!$isShow_coAdvisor) {
-                        $coAdvisor_name = $row['prefix_coAdvisor'] . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
+                        $coAdvisor_name = $row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
+                        echo "<a href='search?coAdvisor=$coAdvisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
                         $isShow_coAdvisor = true;
                     }
                 } else if (strpos($row['surname_coAdvisor'], $input) === 0) {
                     if (!$isShow_coAdvisor) {
-                        $coAdvisor_name = $row['prefix_coAdvisor'] . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
-                        echo "<a href='?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
+                        $coAdvisor_name = $row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
+                        echo "<a href='search?coAdvisor=$coAdvisor_name' class='list-group-item list-group-item-action text-truncate'>อาจารย์ที่ปรึกษาร่วม : $coAdvisor_name </a>";
                         $isShow_coAdvisor = true;
                     }
                 }
@@ -128,7 +130,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
         } else {
             echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
-    } else if($selected == 'thesis_name') {
+    } else if ($selected == 'thesis_name') {
         $inputLike = "" . $input . "%";
         require "dbconnect.php";
         $stmt = $conn->prepare("SELECT * FROM thesis_document
@@ -156,6 +158,33 @@ if (isset($_GET['data']) && $_GET['selected']) {
                     if ($row['english_name'] !== $englishName) {
                         echo "<a href='thesis?id=$row[thesis_id]' class='list-group-item list-group-item-action'>ชื่อปริญญานิพนธ์ : $row[english_name]</a>";
                         $englishName = $row['english_name'];
+                    }
+                }
+            }
+            echo "</div>";
+        } else {
+            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+        }
+    } else if ($selected == 'keyword') {
+        $inputLike = "%" . $input . "%";
+        require "dbconnect.php";
+        $stmt = $conn->prepare("SELECT * FROM thesis_document
+        INNER JOIN author_thesis ON  thesis_document.thesis_id = author_thesis.thesis_id
+        WHERE keyword LIKE :input 
+        LIMIT 10");
+        $stmt->execute([':input' => $inputLike]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount() > 0) {
+            $keyword = "";
+            echo "<div class='list-group w-100'>";
+            foreach ($result as $row) {
+                if (strpos($row['keyword'], $input) !== false) {
+                    $keywords = explode(", ", $row['keyword']);
+                    for ($i = 0; $i < count($keywords); $i++) {
+                        if ($keywords[$i] != $keyword) {
+                            echo "<a href='search?keyword=$keywords[$i]' class='list-group-item list-group-item-action text-truncate'>คำสำคัญ : $keywords[$i]</a>";
+                            $keyword = $keywords[$i];
+                        }
                     }
                 }
             }
