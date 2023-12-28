@@ -287,7 +287,7 @@ if (count($rows) == 0) {
         echo "<div>พบรายการทั้งหมด "  . count($rows) . " รายการ</div>";
     }
     for ($i = 0; $i < count($rows); $i++) {
-        if ($selectSearch1 === 'ชื่อหรือนามสกุลคณะผู้จัดทำ') {
+        if ($selectSearch1 === 'ชื่อหรือนามสกุลคณะผู้จัดทำ' OR $selectSearch2 === 'ชื่อหรือนามสกุลคณะผู้จัดทำ') {
             foreach ($rows[$i]['author_member'] as $key => $value) {
                 if ((strpos($rows[$i]['author_member'][$key]['prefix'], $inputSearch1) !== false || strpos($rows[$i]['author_member'][$key]['name'], $inputSearch1) !== false)) {
                     echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>";
