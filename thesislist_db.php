@@ -39,7 +39,17 @@
             }
             $html .= "</div>";
 
-            $html .= "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row->keyword</a></div>";
+            // $html .= "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row->keyword</a></div>";            
+            $keyword = explode(", ", $row->keyword);
+            $html .= "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
+            for ($i = 0; $i < count($keyword); $i++) {
+                $html .= "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                if (!($i == count($keyword) - 1)) {
+                    $html .= ",&nbsp";
+                }
+            }   
+            $html .= "</div>";
+
             $html .= "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row->printed_year' class='link-primary' style='text-decoration:none;'>$row->printed_year</a></div>";
             $html .= "</div>";
 

@@ -4,12 +4,12 @@ require "dbconnect.php";
 
 if (isset($_GET['advisor'])) {
     $advisor = $_GET['advisor'];
-    if(strpos($advisor, "_") !== false) {
+    if (strpos($advisor, "_") !== false) {
         $advisor = explode("_", $advisor);
     } else {
         $advisor = explode(" ", $advisor);
     }
-     
+
 
     $prefix_advisor = $advisor[0];
     $name_advisor = $advisor[1];
@@ -18,33 +18,32 @@ if (isset($_GET['advisor'])) {
     $searchSelect = 'advisor';
 } else if (isset($_GET['coAdvisor'])) {
     $coAdvisor = $_GET['coAdvisor'];
-    if(strpos($coAdvisor, "_") !== false) {
-      try{
-        $coAdvisor = explode("_", $coAdvisor);
-        $prefix_advisor = $coAdvisor[0];
-        $name_advisor = $coAdvisor[1];
-        $surname_advisor = $coAdvisor[2];
-      } catch (Exception $e) {
-        $prefix_advisor = "";
-        $name_advisor = $coAdvisor[0];
-        $surname_advisor = $coAdvisor[1];
-      }
-        
+    if (strpos($coAdvisor, "_") !== false) {
+        try {
+            $coAdvisor = explode("_", $coAdvisor);
+            $prefix_advisor = $coAdvisor[0];
+            $name_advisor = $coAdvisor[1];
+            $surname_advisor = $coAdvisor[2];
+        } catch (Exception $e) {
+            $prefix_advisor = "";
+            $name_advisor = $coAdvisor[0];
+            $surname_advisor = $coAdvisor[1];
+        }
     } else {
-        try{
+        try {
             $coAdvisor = explode(" ", $coAdvisor);
             $prefix_advisor = $coAdvisor[0];
             $name_advisor = $coAdvisor[1];
             $surname_advisor = $coAdvisor[2];
-          } catch (Exception $e) {
+        } catch (Exception $e) {
             $prefix_advisor = "";
             $name_advisor = $coAdvisor[0];
             $surname_advisor = $coAdvisor[1];
-          }
+        }
     }
-    
 
-   
+
+
     $searchSelect = 'advisor';
 } else if (isset($_GET['printed'])) {
     $printed = $_GET['printed'];
@@ -198,7 +197,18 @@ if (isset($_GET['advisor'])) {
                     }
                     echo "</div>";
 
-                    echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
+                    // echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
+
+                    $keyword = explode(", ", $row['keyword']);
+                    echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
+                    for ($i = 0; $i < count($keyword); $i++) {
+                        echo "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                        if (!($i == count($keyword) - 1)) {
+                            echo ",&nbsp";
+                        }
+                    }
+                    echo "</div>";
+
                     echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
                     echo "</div>";
                 }
