@@ -15,27 +15,29 @@
 <body>
     <?php require "template/header.php"; ?>
 
-    <div class='container d-flex flex-column my-5 gap-3'>
-        <div class="d-flex my-3 position-relative">
-            <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
-            <select name="" id="selectSearch" class="form-select rounded-0 w-25">
-                <option value="all" selected>ทั้งหมด</option>
-                <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
-                <option value="keyword">คำสำคัญ</option>
-                <option value="printed_year">ปีตีพิมพ์เล่ม</option>
-                <option value="semester">ภาคการศึกษา/ปี ที่อนุมัติเล่ม</option>
-                <option value="abstract">บทคัดย่อ</option>
-                <option value="author">ชื่อหรือนามสกุลคณะผู้จัดทำ</option>
-                <option value="advisor">ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา</option>
-            </select>
+    <div class='container d-flex flex-column my-5 gap-3 position-relative'>
+        <div class="d-flex flex-column">
+            <div class="d-flex position-relative">
+                <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
+                <select name="" id="selectSearch" class="form-select rounded-0 w-25">
+                    <option value="all" selected>ทั้งหมด</option>
+                    <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
+                    <option value="keyword">คำสำคัญ</option>
+                    <option value="printed_year">ปีตีพิมพ์เล่ม</option>
+                    <option value="semester">ภาคการศึกษา/ปี ที่อนุมัติเล่ม</option>
+                    <option value="abstract">บทคัดย่อ</option>
+                    <option value="author">ชื่อหรือนามสกุลคณะผู้จัดทำ</option>
+                    <option value="advisor">ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา</option>
+                </select>
 
-            <div class="flex-grow-1 position-relative">
-                <input type="search" name="" id="inputSearch" class="form-control rounded-0" placeholder="">
-                <div class="w-100 position-absolute d-none" id="searching">
-                   
+                <div class="flex-grow-1 position-relative">
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0" placeholder="">
+                    <div class="w-100 position-absolute d-none" id="searching">
+                    </div>
                 </div>
+                <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch();"><i class="bi bi-search px-1"></i>ค้นหา</button>
             </div>
-            <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch();"><i class="bi bi-search px-1"></i>ค้นหา</button>
+            <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
 
         <?php require "thesislist_db.php"  ?>
