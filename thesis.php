@@ -7,6 +7,7 @@
     <title>RMUTT</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -24,8 +25,6 @@
     $result = $sql->fetchAll(PDO::FETCH_OBJ);
     $thesis = [];
     $i = 1;
-
-
 
     foreach ($result as $row) {
         $thesis['thesis_id'] = $row->thesis_id;
@@ -66,7 +65,16 @@
 
 
     echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
-            <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
+            <div class='d-flex w-100 justify-content-between'>
+                <div class='col-auto'>
+                    <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
+                </div>
+                <div class='col-auto d-flex flex-column'>
+                        <a href='#' class='link'>ไฟล์เล่ม</a>
+                        <a href='#' class='link'>ไฟล์โพสเตอร์</a>
+                    </ul>
+                </div>
+            </div>
             <div class='row'>
                 <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
                 <div class='col-auto flex-column'>";
@@ -110,7 +118,7 @@
         </div>";
 
     echo "<div class='row'>";
-    echo "<div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>";   
+    echo "<div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>";
     $keyword = explode(", ", $thesis['keyword']);
     echo "<div class='col-auto d-flex flex-row'>";
     for ($i = 0; $i < count($keyword); $i++) {
@@ -118,7 +126,7 @@
         if (!($i == count($keyword) - 1)) {
             echo ",&nbsp";
         }
-    }   
+    }
     echo "</div>";
     echo  "</div>";
 
@@ -134,12 +142,36 @@
 
     echo "<div class='container-fluid d-flex gap-3 justify-content-center'>
                 <a class='btn btn-warning' href='thesis_update?id=$id'>แก้ไข</a>
-                <a class='btn btn-danger' href='thesis_delete?id=$id' onclick=\"return confirm('ต้องการลบข้อมูลหรือไม่')\">ลบ</a>
+                <a class='btn btn-danger' onclick=\"alertDelete($id)\">ลบ</a>
         </div>";
 
 
     ?>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function alertDelete(id) {
+            Swal.fire({
+                title: "แน่ใจหรือไม่?",
+                text: "ต้องการลบข้อมูลปริญญานิพนธ์นี้ใช่ไหม",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "ลบข้อมูล"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "ลบสำเร็จ!",
+                        text: "คุณได้ลบรายการปริญญานิพนธ์เรียบร้อยแล้ว",
+                        icon: "success"
+                    }).then(() => {
+                        window.location = "thesis_delete?id=" + id;
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
