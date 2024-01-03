@@ -29,6 +29,11 @@
 
         <div class="tab-content" id="myTabContent">
             <!-- tab manual -->
+            <?php
+            if (isset($_GET["sucess"])) {
+            $sucess = $_GET['sucess'];
+            echo "$sucess"; } ?>
+            
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <form class="container mt-4" method="post" action="sendMailCreateAccount" enctype="multipart/form-data">
                     <div class="row g-3">

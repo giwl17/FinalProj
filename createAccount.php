@@ -4,25 +4,26 @@ $token = $_GET["token"];
 
 $token_hash = hash("sha256", $token);
 
-// $mysqli = require __DIR__ . "/database.php";
-require_once 'dbconnect.php';
 
+require_once 'dbconnect.php';
+try {
 $sql = "SELECT * FROM account
         WHERE reset_token_hash = :token_hash";
 
 $select = $conn->prepare($sql);
 
-$select->bindParam("token_hash", $token_hash);
-$select->bindParam("name", $_GET['name']);
-$select->bindParam("lastname", $_GET['lastname']);
+$select->bindParam("token_hash", $token_hash,PDO::PARAM_STR);
+
 
 $select->execute();
 
 // $result = $stmt->get_result();
 $user = $select->fetch(PDO::FETCH_ASSOC);
-// $user = $result->fetch_assoc();
 
-
+if($user){
+    $name = $user['name'];
+    $lastname = $user['lastname'];
+}
 
 if ($user === null) {
     die("token not found");
@@ -31,7 +32,9 @@ if ($user === null) {
 if (strtotime($user["reset_token_expires_at"]) <= time()) {
     die("token has expired");
 }
-
+} catch (PDOException $e) {
+    echo''. $e->getMessage() .'';
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,10 +50,10 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
 
 <body>
     <?php require 'template/header_login.php'; ?>
-        <form class="container mt-4" action="login.php" method="POST">
+        <form class="container mt-4" action="createAccount_db.php" method="POST">
             <h1 class="h1 text-center">สร้างรหัสผ่าน</h1>
             <div class="form-group mb-3">
-                สวัสดีคุณ <?php echo "$name&nbsp;&nbsp;$lastname";?>
+                สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
                 
             </div>
             <div class="form-group mb-3">
