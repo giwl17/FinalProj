@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -65,13 +66,14 @@
 
 
     echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
-            <div class='d-flex w-100 justify-content-between'>
+            <div class='d-flex w-100 justify-content-between flex-sm-column flex-md-column flex-lg-row align-items-center'>
                 <div class='col-auto'>
                     <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
                 </div>
-                <div class='col-auto d-flex flex-column'>
-                        <a href='#' class='link'>ไฟล์เล่ม</a>
-                        <a href='#' class='link'>ไฟล์โพสเตอร์</a>
+                <div class='col-auto d-flex gap-2'>
+                        <div><a href='file?id=$id&type=thesis' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์เล่ม</a></div>
+                        <div><a href='file?id=$id&type=poster' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์โพสเตอร์</a></div>
+                        <div><a href='file?id=$id&type=approval' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์อนุมัติ</a></div>
                     </ul>
                 </div>
             </div>
@@ -172,6 +174,7 @@
             });
         }
     </script>
+    <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
