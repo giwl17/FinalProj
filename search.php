@@ -4,7 +4,12 @@ require "dbconnect.php";
 
 if (isset($_GET['advisor'])) {
     $advisor = $_GET['advisor'];
-    $advisor = explode("_", $advisor);
+    if (strpos($advisor, "_") !== false) {
+        $advisor = explode("_", $advisor);
+    } else {
+        $advisor = explode(" ", $advisor);
+    }
+
 
     $prefix_advisor = $advisor[0];
     $name_advisor = $advisor[1];
@@ -13,17 +18,35 @@ if (isset($_GET['advisor'])) {
     $searchSelect = 'advisor';
 } else if (isset($_GET['coAdvisor'])) {
     $coAdvisor = $_GET['coAdvisor'];
+    if (strpos($coAdvisor, "_") !== false) {
+        try {
+            $coAdvisor = explode("_", $coAdvisor);
+            $prefix_advisor = $coAdvisor[0];
+            $name_advisor = $coAdvisor[1];
+            $surname_advisor = $coAdvisor[2];
+        } catch (Exception $e) {
+            $prefix_advisor = "";
+            $name_advisor = $coAdvisor[0];
+            $surname_advisor = $coAdvisor[1];
+        }
+    } else {
+        try {
+            $coAdvisor = explode(" ", $coAdvisor);
+            $prefix_advisor = $coAdvisor[0];
+            $name_advisor = $coAdvisor[1];
+            $surname_advisor = $coAdvisor[2];
+        } catch (Exception $e) {
+            $prefix_advisor = "";
+            $name_advisor = $coAdvisor[0];
+            $surname_advisor = $coAdvisor[1];
+        }
+    }
 
-    $coAdvisor = explode("_", $coAdvisor);
 
-    $prefix_advisor = $coAdvisor[0];
-    $name_advisor = $coAdvisor[1];
-    $surname_advisor = $coAdvisor[2];
 
     $searchSelect = 'advisor';
 } else if (isset($_GET['printed'])) {
     $printed = $_GET['printed'];
-
     $searchSelect = 'printed_year';
 } else if (isset($_GET['approval'])) {
     $approval = $_GET['approval'];
@@ -46,7 +69,8 @@ if (isset($_GET['advisor'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RMUTT</title>
+    <title>จัดการเล่มปริญญานิพนธ์</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
 </head>
 
 <body>
@@ -58,7 +82,7 @@ if (isset($_GET['advisor'])) {
         <div class="d-flex my-3 position-relative">
             <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
 
-            <select name="" id="" class="form-select rounded-0 w-25">
+            <select name="" id="selectSearch" class="form-select rounded-0 w-25">
                 <option value="all" <?php if ($searchSelect == 'all') {
                                         echo "selected";
                                     } ?>>ทั้งหมด</option>
@@ -85,16 +109,20 @@ if (isset($_GET['advisor'])) {
                                         } ?>>ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา</option>
             </select>
 
-            <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . $name_advisor . " " . $surname_advisor; ?>">
-            <?php elseif ($searchSelect === 'printed_year') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
-            <?php elseif ($searchSelect === 'semester') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
-            <?php elseif ($searchSelect === 'keyword') : ?>
-                <input type="search" name="" id="" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
-            <?php endif; ?>
-            <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+            <div class="flex-grow-1 position-relative">
+                <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . $name_advisor . " " . $surname_advisor; ?>">
+                <?php elseif ($searchSelect === 'printed_year') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
+                <?php elseif ($searchSelect === 'semester') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
+                <?php elseif ($searchSelect === 'keyword') : ?>
+                    <input type="search" name="" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
+                <?php endif; ?>
+
+                <div class="w-100 position-absolute d-none" id="searching"></div>
+            </div>
+            <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch()"><i class="bi bi-search px-1"></i>ค้นหา</button>
         </div>
 
         <?php
@@ -169,7 +197,18 @@ if (isset($_GET['advisor'])) {
                     }
                     echo "</div>";
 
-                    echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
+                    // echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
+
+                    $keyword = explode(", ", $row['keyword']);
+                    echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
+                    for ($i = 0; $i < count($keyword); $i++) {
+                        echo "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                        if (!($i == count($keyword) - 1)) {
+                            echo ",&nbsp";
+                        }
+                    }
+                    echo "</div>";
+
                     echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
                     echo "</div>";
                 }
@@ -181,6 +220,37 @@ if (isset($_GET['advisor'])) {
         }
         ?>
     </div>
+
+    <script>
+        function submitSearch() {
+            let selectSearch = document.getElementById('selectSearch').value;
+            let inputSearch = document.getElementById('inputSearch');
+        }
+
+        inputSearch.addEventListener('keyup', () => {
+            let input = inputSearch.value;
+            let searchingDOM = document.getElementById('searching');
+
+            if (input != '') {
+                searchingDOM.classList.remove('d-none');
+
+                let options = {
+                    method: 'GET',
+                    input: input,
+                }
+                let url = '/FinalProj/searchbar_db?data=' + input + "&selected=" + selectSearch.value;
+                fetch(url, options)
+                    .then(response => {
+                        return response.text()
+                    })
+                    .then(data => searchingDOM.innerHTML = data)
+            } else {
+                searchingDOM.classList.add('d-none');
+                searchingDOM.innerHTML = "";
+            }
+        });
+    </script>
+
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

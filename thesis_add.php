@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เพิ่มเล่มปริญญานิพนธ์</title>
+    <title>จัดการเล่นปริญญานิพนธ์ - เพิ่มเล่มปริญญานิพนธ์</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -50,8 +51,8 @@
                 <label class="form-check-label" for="member1">สมาชิกคนที่ 1</label>
                 <div>
                     <div class="form-group mb-3">
-                        <label for="member1_id">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="member1_id" id="member1_id" required>
+                        <label for="member1_id">รหัสนักศึกษา (มีขีด)</label>
+                        <input class="form-control members_id" type="text" name="member1_id" id="member1_id" maxlength="14" pattern="\d{12}-\d$" required>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
@@ -76,11 +77,11 @@
             </div>
 
             <div class="form-check member">
-                <input class="form-check-input" type="checkbox" name="member2" onchange="checkMemberReq(this)">
+                <input class="form-check-input" type="checkbox" name="member2">
                 <label class="form-check-label" for="member2">สมาชิกคนที่ 2</label>
                 <div class="form-group mb-3 member-child">
-                    <label for="member2_id">รหัสนักศึกษา</label>
-                    <input class="form-control" type="text" name="member2_id" id="member2_id">
+                    <label for="member2_id">รหัสนักศึกษา (มีขีด)</label>
+                    <input class="form-control members_id" type="text" name="member2_id" id="member2_id" maxlength="14">
                 </div>
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                     <div class="col form-group">
@@ -108,8 +109,8 @@
                 <label class="form-check-label" for="member3">สมาชิกคนที่ 3</label>
                 <div>
                     <div class="form-group mb-3">
-                        <label for="member3_id">รหัสนักศึกษา</label>
-                        <input class="form-control" type="text" name="member3_id" id="member3_id">
+                        <label for="member3_id">รหัสนักศึกษา (มีขีด)</label>
+                        <input class="form-control members_id" type="text" name="member3_id" id="member3_id" maxlength="14">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
@@ -136,7 +137,7 @@
 
         <div class="form-group mb-3" id="formAdvisor">
             <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
-            <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()">
+            <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()" required>
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                 <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
@@ -214,7 +215,7 @@
 
         <div class="form-group mb-3">
             <label class="" for="chairman">ประธานกรรมการ</label>
-            <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()">
+            <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()" required>
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                 <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
@@ -253,7 +254,7 @@
 
         <div class="form-group mb-3">
             <label class="" for="director1">กรรมการคนที่ 1</label>
-            <select class="form-select" name="director1" id="director1" onchange="director1Change()">
+            <select class="form-select" name="director1" id="director1" onchange="director1Change(this)" required>
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                 <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
@@ -292,7 +293,7 @@
 
         <div class="form-group mb-3">
             <label class="" for="director2">กรรมการคนที่ 2</label>
-            <select class="form-select" name="director2" id="director2" onchange="director2Change()">
+            <select class="form-select" name="director2" id="director2" onchange="director2Change()" required>
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                 <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
@@ -334,7 +335,7 @@
                 <div class="col-form-label">ปีที่อนุมัติเล่มปริญญานิพนธ์</div>
             </div>
             <div class="col-auto">
-                <select name="semester" class="form-select">
+                <select name="semester" class="form-select" required>
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -345,7 +346,7 @@
                 <div class="col-form-label">/</div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="number" name="approval_year" maxlength="4">
+                <input class="form-control" type="number" name="approval_year" maxlength="4" required>
             </div>
 
         </div>
@@ -355,7 +356,7 @@
                 <div class="col-form-label">ปีที่ตีพิมพ์เล่ม</div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="number" name="printed_year">
+                <input class="form-control" type="number" name="printed_year" required>
             </div>
         </div>
 
@@ -474,6 +475,16 @@
             document.getElementById(member_firstname).toggleAttribute('required');
             document.getElementById(member_lastname).toggleAttribute('required');
         }
+
+        //check members_id RegEx
+        let members_id = document.querySelectorAll('.members_id');
+        members_id.forEach((member) => {
+            member.addEventListener("keyup", () => {
+                if(member.value[11] !== undefined) {
+                    member.value[12] = "-";
+                }
+            });
+        });
     </script>
 
 

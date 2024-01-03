@@ -1,6 +1,6 @@
 <?php
 include "dbconnect.php";
-$select = $conn->prepare("SELECT prefix_director1, name_director1, surname_director1, COUNT(*) as count FROM thesis_document GROUP BY prefix_director1, name_director1, surname_director1");
+$select = $conn->prepare("SELECT prefix_advisor, name_advisor, surname_advisor, COUNT(*) as count FROM thesis_document GROUP BY prefix_advisor, name_advisor, surname_advisor");
 $prefix = "ผู้ช่วยศาสตราจารย์";
 $name = "มาโนช";
 $surname = "ประชา";
@@ -12,7 +12,7 @@ $result_manod = $select->fetchAll(PDO::FETCH_ASSOC);
 
 // print_r($result_manod);
 foreach ($result_manod as $row) {
-    $dataPoints[] =  array("y" => $row['count'], "label" => $row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1']);
+    $dataPoints[] =  array("y" => $row['count'], "label" => $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor']);
 }
 
 // var_dump($dataPoints);
@@ -33,7 +33,8 @@ foreach ($result_manod as $row) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>สถิติการกำกับเล่ม</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
@@ -60,6 +61,7 @@ foreach ($result_manod as $row) {
                     includeZero: true,
                 },
                 data: [{
+                    click: onClick,
                     type: "bar",
                     indexLabel: "{y}",
                     indexLabelPlacement: "inside",
@@ -71,6 +73,10 @@ foreach ($result_manod as $row) {
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
 
+            function onClick(e) {
+                // alert(e.dataSeries.type + ", dataPoint { label:" + e.dataPoint.label + ", y: " + e.dataPoint.y + " }");
+                location.href = `search?advisor=${e.dataPoint.label}`;
+            }
         }
     </script>
 </head>
