@@ -3,9 +3,10 @@
 class Database
 {
     private const DBHOST = "localhost";
-    private const DBUSER = "root";
-    private const DBPASS = "";
-    private const DBNAME = "project";
+    private const DBUSER = "rmuttcp";
+    private const DBPASS = "xG5qK2sg43";
+    private const DBNAME = "rmuttcp_project";
+
     private $dsn  = "mysql:host=" . self::DBHOST . ";dbname=" . self::DBNAME . "";
     protected $conn = null;
 
