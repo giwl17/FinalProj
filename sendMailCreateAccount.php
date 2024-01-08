@@ -8,6 +8,15 @@ $download_permissions = $_POST["download_permissions"];
 $member_manage_permission = $_POST["member_manage_permission"];
 $account_manage_permission = $_POST["account_manage_permission"];
 $status = $_POST["status"];
+$page = $_POST["page"];
+
+if (isset($_POST["studentID"])) {
+    $studentID = $_POST["studentID"];
+}else{
+    $studentID = null;
+}
+
+
 
 
 
@@ -26,8 +35,8 @@ require 'vendor/autoload.php';
 require_once 'dbconnect.php';
 // require "mail.php";
 try {
-    $insert = $conn->prepare("INSERT INTO account (password,prefix,name,lastname,email,role,download_permissions,member_manage_permission,account_manage_permission,status,reset_token_hash,reset_token_expires_at)
-        VALUES(:token,:prefix,:name,:lastname,:email,:role,:download_permissions,:member_manage_permission,:account_manage_permission,:status,:reset_token_hash,:reset_token_expires_at)");
+    $insert = $conn->prepare("INSERT INTO account (password,studentId,prefix,name,lastname,email,role,download_permissions,member_manage_permission,account_manage_permission,status,reset_token_hash,reset_token_expires_at)
+        VALUES(:token,:studentID,:prefix,:name,:lastname,:email,:role,:download_permissions,:member_manage_permission,:account_manage_permission,:status,:reset_token_hash,:reset_token_expires_at)");
     $insert->bindParam("token", $token_hash, PDO::PARAM_STR);
     $insert->bindParam("prefix", $prefix, PDO::PARAM_STR);
     $insert->bindParam("name", $name, PDO::PARAM_STR);
@@ -40,6 +49,8 @@ try {
     $insert->bindParam("status", $status);
     $insert->bindParam("reset_token_hash", $token_hash);
     $insert->bindParam("reset_token_expires_at", $expiry);
+    $insert->bindParam("studentID", $studentID);
+   
 
 
     $result = $insert->execute();
@@ -93,7 +104,7 @@ if ($result) {
 
         $mail->send();
         echo '<script>alert("send mail complete");</script>';
-        echo '<script>window.location.href = "officer_add.php";</script>';
+        echo '<script>window.location.href = "' . $page . '.php";</script>';
 
         // echo 'Email sent successfully. Check your inbox for the reset link.';
     } catch (Exception $e) {
@@ -104,7 +115,7 @@ if ($result) {
     // exit();
 } else {
     echo '<script>alert("mail cant be send ");</script>';
-    echo '<script>window.location.href = "officer_add.php";</script>';
+    echo '<script>window.location.href = "' . $page . '.php";</script>';
     // echo 'Email not found in our records.';
 }
 

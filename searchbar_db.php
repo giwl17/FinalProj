@@ -192,6 +192,86 @@ if (isset($_GET['data']) && $_GET['selected']) {
         } else {
             echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
+    } else if ($selected == 'abstract') {
+        $inputLike = "%" . $input . "%";
+        require "dbconnect.php";
+        $stmt = $conn->prepare("SELECT * FROM thesis_document
+        INNER JOIN author_thesis ON  thesis_document.thesis_id = author_thesis.thesis_id
+        WHERE abstract LIKE :input 
+        LIMIT 10");
+        $stmt->execute([':input' => $inputLike]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $abstract = "";
+        if ($stmt->rowCount() > 0) {
+            $keyword = "";
+            echo "<div class='list-group w-100'>";
+            foreach ($result as $row) {
+                if (strpos($row['abstract'], $input) === 0) {
+                    if ($abstract != $row['abstract']) {
+                        echo "<a href='search?abstract=$row[abstract]' class='list-group-item list-group-item-action text-truncate'>บทคัดย่อ : $row[abstract]</a>";
+                        $abstract = $row['abstract'];
+                    }
+                }
+            }
+            echo "</div>";
+        } else {
+            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+        }
+    } else if ($selected == 'author') {
+        require "database.php";
+        $conn = new Database();
+        $result = $conn->selectThesisFull();
+        echo "<div class='list-group w-100'>";
+        $countFound = 0;
+        foreach ($result as $row) {
+            foreach ($row['author_member'] as $member) {
+                if ((strpos($member['prefix'], $input) !== false) or (strpos($member['name'], $input) !== false) or (strpos($member['lastname'], $input) !== false)) {
+                    echo "<a href='thesis?id=$row[thesis_id]' class='list-group-item list-group-item-action text-truncate'>ผู้จัดทำ : $member[prefix]$member[name] $member[lastname]</a>";
+                    $countFound++;
+                }
+            }
+        }
+        if ($countFound == 0) {
+            echo "<a href='#' class='list-group-item list-group-item-action text-truncate'>ไม่พบข้อมูล</a>";
+        }
+        echo "</div>";
+    } else if ($selected == 'advisor') {
+        $inputLike = "" . $input . "%";
+        require "dbconnect.php";
+        $stmt = $conn->prepare("SELECT * FROM thesis_document
+        WHERE prefix_advisor LIKE :input 
+        OR name_advisor LIKE :input
+        OR surname_advisor LIKE :input
+        OR prefix_coAdvisor LIKE :input
+        OR name_coAdvisor LIKE :input
+        OR surname_coAdvisor LIKE :input
+        LIMIT 10");
+        $stmt->execute([':input' => $inputLike]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount() > 0) {
+            echo "<div class='list-group w-100'>";
+            foreach ($result as $row) {
+                if (
+                    (strpos($row['prefix_advisor'], $input) === 0)
+                    or (strpos($row['name_advisor'], $input) === 0)
+                    or (strpos($row['surname_advisor'], $input) === 0)
+                ) {
+                    $advisor_name = $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'];
+                    echo "<a href='search?advisor=$advisor_name' class='list-group-item list-group-item-action'>อาจารย์ที่ปรึกษาหลัก : $advisor_name</a>";
+                } else if (
+                    (strpos($row['prefix_coAdvisor'], $input) === 0)
+                    or (strpos($row['name_coAdvisor'], $input) === 0)
+                    or (strpos($row['surname_coAdvisor'], $input) === 0)
+                ) {
+                    $advisor_name = $row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
+                    echo "<a href='search?coAdvisor=$advisor_name' class='list-group-item list-group-item-action'>อาจารย์ที่ปรึกษาร่วม : $advisor_name</a>";
+                }
+            }
+            echo "</div>";
+        } else {
+            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+        }
     }
 }
 // echo "hello";
