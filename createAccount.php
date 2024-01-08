@@ -42,6 +42,7 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
     <title>Login page</title>
 
     <link rel="stylesheet" href="css/main.css">
@@ -49,6 +50,15 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
 </head>
 
 <body>
+<script>
+        // Check if the page is being loaded from the cache (user clicked the back button)
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                // Force a page refresh
+                location.reload();
+            }
+        };
+    </script>
     <?php require 'template/header_login.php'; ?>
         <form class="container mt-4" action="createAccount_db.php" method="POST">
             <h1 class="h1 text-center">สร้างรหัสผ่าน</h1>
