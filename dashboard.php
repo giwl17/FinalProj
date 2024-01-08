@@ -1,20 +1,33 @@
+<?php
+session_start();
+if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
+    header("Location: login.php"); // ถ้าไม่มี session หรือ cookie ให้ redirect ไปที่หน้า login
+    exit();
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์ - รายการ</title>
+    <title>Welcome</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="bootstrap/js/bootstrap.min.js">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <?php require "template/header.php"; ?>
+    <?php require 'template/header_home.php'; ?>
 
+  <!--   <h1>Welcome, <?php echo $_SESSION['email'] ?? $_COOKIE['email']; ?></h1><br>
+    <h1>Welcome, <?php echo $_SESSION['name'] ?? $_COOKIE['email']; ?></h1><br>-->
+
+    <!-- <a href="logout.php">Logout</a>  -->
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
             <div class="d-flex position-relative">
@@ -43,7 +56,6 @@
 
         <?php require "thesislist_db.php"  ?>
     </div>
-
     <script>
         function submitSearch() {
             let selectSearch = document.getElementById('selectSearch').value;
