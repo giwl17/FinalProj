@@ -14,42 +14,41 @@
 </head>
 
 <body>
-  <?php
-  session_start();
-  include 'dbconnect.php';
+<?php
+session_start();
+include 'dbconnect.php';
 
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $hashed_password = hash('sha256', $password);
-
-    $sql = "SELECT * FROM account WHERE email = :email AND password = :password";
+    $sql = "SELECT * FROM account WHERE email = :email";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hashed_password);
     $stmt->execute();
 
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($row) {
-      $_SESSION['email'] = $email;
-      $_SESSION['name'] = $row['name'];
-      setcookie('email', $email, time() + (86400 * 30), "/");
-      header("Location: dashboard.php");
-      exit();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['name'];
+        setcookie('email', $email, time() + (86400 * 30), "/");
+        header("Location: dashboard.php");
+        exit();
     } else {
-      echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Login Failed",
-                        text: "Invalid email or password!"
-                    }).then(function() {
-                        window.location = "login.php";
-                    });
-                  </script>';
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: "Invalid email or password!"
+            }).then(function() {
+                window.location = "login.php";
+            });
+        </script>';
     }
-  }
-  ?>
+}
+?>
+
   <?php require 'template/header_login.php'; ?>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="container mt-4">
     <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
