@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -17,9 +18,9 @@
 
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
-            <div class="d-flex position-relative">
+            <form class="d-flex position-relative" action="search.php">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
-                <select name="" id="selectSearch" class="form-select rounded-0 w-25">
+                <select name="selected" id="selectSearch" class="form-select rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -31,12 +32,12 @@
                 </select>
 
                 <div class="flex-grow-1 position-relative">
-                    <input type="search" name="" id="inputSearch" class="form-control rounded-0" placeholder="">
+                    <input type="search" name="data" id="inputSearch" class="form-control rounded-0" placeholder="">
                     <div class="w-100 position-absolute d-none" id="searching">
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary rounded-0 col-auto" onclick="submitSearch();"><i class="bi bi-search px-1"></i>ค้นหา</button>
-            </div>
+                <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+            </form>
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
 
@@ -47,6 +48,8 @@
         function submitSearch() {
             let selectSearch = document.getElementById('selectSearch').value;
             let inputSearch = document.getElementById('inputSearch');
+
+            
         }
 
         inputSearch.addEventListener('keyup', () => {
@@ -74,6 +77,7 @@
     </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

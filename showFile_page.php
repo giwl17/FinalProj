@@ -41,13 +41,22 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
 </head>
 
 <body>
-    <div class="d-flex flex-column justify-content-center h-100 bg-body-light shadow-sm">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 bg-body-light shadow-sm">
         <?php if ($type === 'thesis') : ?>
-            <h1 class="h3 text-center p-3">ไฟล์เล่มปริญญานิพนธ์</h1>
+            <div class="p-2 w-100 text-center">
+                <h1 class="h3">ไฟล์เล่มปริญญานิพนธ์</h1>
+                <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
+            </div>
         <?php elseif ($type === 'poster') : ?>
-            <h1 class="h3 text-center p-3">ไฟล์โปสเตอร์</h1>
+            <div class="p-2 w-100 text-center">
+                <h1 class="h3">ไฟล์โปสเตอร์</h1>
+                <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
+            </div>
         <?php elseif ($type === 'approval') : ?>
-            <h1 class="h3 text-center p-3">ไฟล์อนุมัติ</h1>
+            <div class="p-2 w-100 text-center">
+                <h1 class="h3">ไฟล์อนุมัติ</h1>
+                <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
+            </div>
         <?php endif; ?>
         <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
         <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
@@ -57,6 +66,11 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
     <script>
         function disableMouseClick(e) {
             console.log(event);
+        }
+
+        function downloadFile() {
+            alert("click");
+
         }
     </script>
 </body>
