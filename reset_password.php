@@ -23,7 +23,7 @@ if (isset($_GET['token'])) {
 
             // Update the user's password in the 'users' table
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
+            $stmt = $conn->prepare("UPDATE account SET password = ? WHERE email = ?");
             $stmt->execute([$hashed_password, $email]);
 
             // Delete the used token from the 'password_resets' table
@@ -62,6 +62,7 @@ if (isset($_GET['token'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password page</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
