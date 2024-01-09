@@ -18,12 +18,7 @@
 
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
-<<<<<<< HEAD
-            <div class="d-flex position-relative">
-           
-=======
             <form class="d-flex position-relative" action="search.php">
->>>>>>> 08dedef27c9a602425694c97bc9db3883dda354a
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
                 <select name="selected" id="selectSearch" class="form-select rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
