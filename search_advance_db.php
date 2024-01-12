@@ -267,15 +267,15 @@ if (count($rows) == 0) {
 } else {
     $searchTxt = "";
     if ($sql !== '') {
-        $searchTxt .= "<div class='bg-light p-3 border border-dark'>ค้นหา: \"" . $inputSearch1 . "\" จาก " . $selectSearch1;
+        $searchTxt .= "<div class='bg-light p-3 border border-dark'>ค้นหา: \"" . $inputSearch1 . "\" ใน " . $selectSearch1;
         if ($inputSearch2 !== '') {
-            $searchTxt .= " <span class='fw-bold'> $selectCondition1</span> \"$inputSearch2\" จาก $selectSearch2";
+            $searchTxt .= " <span class='fw-bold'> $selectCondition1</span> \"$inputSearch2\" ใน $selectSearch2";
             if ($inputSearch3 !== '') {
-                $searchTxt .= " <span class='fw-bold'> $selectCondition2</span> \"$inputSearch3\" จาก $selectSearch3";
+                $searchTxt .= " <span class='fw-bold'> $selectCondition2</span> \"$inputSearch3\" ใน $selectSearch3";
                 if ($inputSearch4 !== '') {
-                    $searchTxt .= " <span class='fw-bold'> $selectCondition3</span> \"$inputSearch4\" จาก $selectSearch4";
+                    $searchTxt .= " <span class='fw-bold'> $selectCondition3</span> \"$inputSearch4\" ใน $selectSearch4";
                     if ($inputSearch5 !== '') {
-                        $searchTxt .= " <span class='fw-bold'> $selectCondition4</span> \"$inputSearch5\" จาก $selectSearch5";
+                        $searchTxt .= " <span class='fw-bold'> $selectCondition4</span> \"$inputSearch5\" ใน $selectSearch5";
                     }
                 }
             }
