@@ -17,7 +17,9 @@
             margin-top: 20px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
@@ -90,11 +92,20 @@
             <!-- tab csv -->
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="container mt-5">
-                    <form action="/upload" method="post" enctype="multipart/form-data" class="form-inline">
+                    <form action="csv_reader.php" method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
-                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv">
+                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" required>
                             <div id="tableContainer" class="mb-3"></div>
+                            <div hidden>
+                                <input type="text" id="role" name="role" value="2">
+                                <input type="text" id="download_permissions" name="download_permissions" value="1">
+                                <input type="text" id="member_manage_permission" name="member_manage_permission" value="1">
+                                <input type="text" id="account_manage_permission" name="account_manage_permission" value="1">
+                                <input type="text" id="status" name="status" value="1">
+                                <input type="text" id="page" name="page" value="officer_add">
+
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary ml-2">Upload</button>
@@ -130,22 +141,21 @@
         function displayTable(csvData) {
             const rows = csvData.split('\n');
             const tableContainer = document.getElementById('tableContainer');
-            
+
             let tableHTML = '<table>';
             let count = 0;
             rows.forEach(row => {
-                
+
                 const columns = row.split(',');
                 tableHTML += '<tr>';
                 columns.forEach(column => {
-                    if(count==0){
-                        if (column!="")
-                        tableHTML += `<th>${column}</th>`;
+                    if (count == 0) {
+                        if (column != "")
+                            tableHTML += `<th>${column}</th>`;
+                    } else {
+                        if (column != "")
+                            tableHTML += `<td>${column}</td>`;
                     }
-                    else{
-                    if (column!="")
-                    tableHTML += `<td>${column}</td>`;
-                }
                 });
                 tableHTML += '</tr>';
                 count++;
