@@ -1,10 +1,25 @@
+<?php
+    require "dbconnect.php";
+    $id = $_GET['id'];
+    echo $id;
+    
+
+    $select = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_id = ?");
+    $select->execute([$id]);
+    $result = $select->fetchAll();
+    foreach($result as $row) {
+        echo $row['thai_name'];
+        echo $row['english_name'];
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์ : ตรวจสอบข้อมูล</title>
+    <title>ตรวจสอบข้อมูล</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -13,12 +28,6 @@
 </head>
 
 <body>
-    <?php require "template/header.php" ?>
-    <div class="container my-5 d-flex flex-column justify-content-center align-items-center">
-        <h1 class="h3 text-primary">รายการที่รอตรวจสอบข้อมูล</h1>
-        <?php require "thesis_check_db.php" ?>
-    </div>
-
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
