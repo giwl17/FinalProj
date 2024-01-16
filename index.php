@@ -20,6 +20,8 @@ $routes = [
     '/FinalProj/chart_director' =>  __DIR__ . '/chart_director.php',
     '/FinalProj/search/advance' =>  __DIR__ . '/search_advance.php',
     '/FinalProj/file' =>  __DIR__ . '/showFile_page.php',
+    '/FinalProj/thesislistwaiting' =>  __DIR__ . '/thesis_check.php',
+    '/FinalProj/thesislistwaiting/thesis' =>  __DIR__ . '/thesis_check_detail.php',
 
 
 ];
