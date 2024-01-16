@@ -18,7 +18,7 @@
             <label for="email">Email</label>
             <input class="form-control" type="email" name="email" placeholder="Enter email" required>
         </div>
-        <input type="submit" class="btn btn-primary container-fluid" value="เข้าสู่ระบบ" />
+        <input type="submit" class="btn btn-primary container-fluid" value="ส่งลิงก์สำหรับเปลี่ยนรหัสผ่าน" />
     </form>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
