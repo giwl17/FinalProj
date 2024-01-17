@@ -136,7 +136,8 @@ try {
         prefix_director1 = :prefix_director1, name_director1 = :name_director1, surname_director1 = :surname_director1, 
         prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
         prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
-        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
+        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor,
+        approval_status = :approval_status
         WHERE thesis_id = :id");
     $update->bindParam(":id", $id);
     $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
@@ -164,6 +165,7 @@ try {
     $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
     $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
     $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
+    $update->bindParam(":approval_status", $approval_status, PDO::PARAM_STR);
 
     $result = $update->execute();
     if ($result) {
@@ -219,7 +221,7 @@ try {
             }
         }
 
-        header('location: /FinalProj');
+        header('location: /FinalProj/thesislistwaiting');
     }
 } catch (PDOException $e) {
     echo $e;

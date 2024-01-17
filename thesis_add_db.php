@@ -165,35 +165,38 @@ if (isset($_POST['submitAddThesis'])) {
             $thesisId = $lastId;
             if (isset($_POST['member1'])) {
                 $order = 1;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id) ");
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
                 $insertMem->bindParam(":student_id", $member1_id);
                 $insertMem->bindParam(":prefix", $member1_prefix);
                 $insertMem->bindParam(":name", $member1_firstname);
                 $insertMem->bindParam(":lastname", $member1_lastname);
                 $insertMem->bindParam(":thesis_id", $thesisId);
+                $insertMem->bindParam(":order_member", $order);
                 $result = $insertMem->execute();
             }
             if (isset($_POST['member2'])) {
                 $order = 2;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id)");
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
                 $insertMem->bindParam(":student_id", $member2_id);
                 $insertMem->bindParam(":prefix", $member2_prefix);
                 $insertMem->bindParam(":name", $member2_firstname);
                 $insertMem->bindParam(":lastname", $member2_lastname);
                 $insertMem->bindParam(":thesis_id", $thesisId);
+                $insertMem->bindParam(":order_member", $order);
                 $result = $insertMem->execute();
             }
             if (isset($_POST['member3'])) {
                 $order = 3;
-                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id)
-                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id)");
+                $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                                VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
                 $insertMem->bindParam(":student_id", $member3_id);
                 $insertMem->bindParam(":prefix", $member3_prefix);
                 $insertMem->bindParam(":name", $member3_firstname);
                 $insertMem->bindParam(":lastname", $member3_lastname);
                 $insertMem->bindParam(":thesis_id", $thesisId);
+                $insertMem->bindParam(":order_member", $order);
                 $result = $insertMem->execute();
             }
 
