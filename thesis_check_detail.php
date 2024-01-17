@@ -593,6 +593,8 @@ function checkPrefixMembers($members)
         }
 
         function deleteThesis() {
+            var formData = new FormData();
+            formData.append('id', <?= $id ?>);
             Swal.fire({
                     title: 'ลบรายการ',
                     text: 'คุณต้องการลบรายการนี้หรือไม่',
@@ -603,12 +605,21 @@ function checkPrefixMembers($members)
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire('ลบรายการนี้สำเร็จ!', '', 'success')
-                            .then(
-                                () => {
-                                    location.replace("/FinalProj/thesislistwaiting");
-                                }
-                            )
+
+                        fetch("../deleteThesis.php", {
+                            body: formData,
+                            method: "POST"
+                        }).then((res) => {
+                            return res.text()
+                        }).then(res => {
+                            console.log(res)
+                            Swal.fire('ลบรายการนี้สำเร็จ!', '', 'success')
+                                .then(
+                                    () => {
+                                        location.replace("/FinalProj/thesislistwaiting");
+                                    }
+                                )
+                        })
                     }
                 })
         }
