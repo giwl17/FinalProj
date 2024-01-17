@@ -23,15 +23,9 @@ if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
 
 <body>
     <?php require 'template/header_home.php'; ?>
-
-  <!--   <h1>Welcome, <?php echo $_SESSION['email'] ?? $_COOKIE['email']; ?></h1><br>
-    <h1>Welcome, <?php echo $_SESSION['name'] ?? $_COOKIE['email']; ?></h1><br>-->
-
-    <!-- <a href="logout.php">Logout</a>  -->
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
             <div class="d-flex position-relative">
-           
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
                 <select name="" id="selectSearch" class="form-select rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>

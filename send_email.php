@@ -10,7 +10,7 @@ require_once 'dbconnect.php';
 
 date_default_timezone_set("Asia/Bangkok");
 $token = bin2hex(random_bytes(32)); 
-$hashed_token = hash("sha256", $token);
+// $hashed_token = hash("sha256", $token);
 // $expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

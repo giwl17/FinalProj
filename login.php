@@ -32,15 +32,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['email'] = $user['email'];
         $_SESSION['name'] = $user['name'];
+        $_SESSION['lastname'] = $user['lastname'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['download_permissions'] = $user['download_permissions'];
+        $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
+        $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
+        $_SESSION['status'] = $user['status'];
         setcookie('email', $email, time() + (86400 * 30), "/");
         header("Location: dashboard.php");
         exit();
     } else {
         echo '<script>
             Swal.fire({
-                icon: "error",
-                title: "Login Failed",
-                text: "Invalid email or password!"
+                icon: "ERROR",
+                title: "Login ไม่สำเร็จ",
+                text: "email หรือ password ไม่ถูกต้อง!"
             }).then(function() {
                 window.location = "login.php";
             });
