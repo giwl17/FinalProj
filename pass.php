@@ -38,14 +38,14 @@
                 .then(data => {
                     if (data === 'exists') {
                         Swal.fire({
-                            title: "Email Exists!",
-                            text: "The email exists in the database.",
+                            title: "ส่งอีเมลสำเร็จ",
+                            text: "ส่งลิงก์สำหรับเปลี่ยนรหัสผ่านไปยังอีเมลเรียบร้อย",
                             icon: "success"
                         });
                     } else {
                         Swal.fire({
-                            title: "Email Not Found!",
-                            text: "The email does not exist in the database.",
+                            title: "ส่งอีเมลไม่สำเร็จ",
+                            text: "ไม่มีพบผู้ใช้งาน",
                             icon: "error"
                         });
                     }
