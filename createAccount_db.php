@@ -5,7 +5,8 @@ $password = $_POST["password"];
 $checkPassword = $_POST["checkPassword"];
 
 $token_hash = hash("sha256", $token);
-$password_hash= hash("sha256", $password);
+// $password_hash= hash("sha256", $password);
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 
 require_once 'dbconnect.php';
