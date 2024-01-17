@@ -9,7 +9,7 @@ $password_hash= hash("sha256", $password);
 
 
 require_once 'dbconnect.php';
-if ( strcmp( $password, $checkPassword )) {
+if ( strcmp( $password, $checkPassword )!==0) {
     try {
         $sql = "UPDATE account SET password = :password_hash , reset_token_hash =NULL,reset_token_expires_at =NULL
                 WHERE reset_token_hash = :token_hash";
