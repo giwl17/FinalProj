@@ -109,62 +109,120 @@ while (true) {
     }
 }
 
-$approval_tmp = $_FILES['approval_file']['tmp_name'];
-$approval_name = $_FILES['approval_file']['name'];
-$approval_upload_path = 'FileStorage/approval/' . $approval_name;
-move_uploaded_file($approval_tmp, $approval_upload_path);
+if ($_FILES['approval_file']['size'] !== 0) {
+    $approval_tmp = $_FILES['approval_file']['tmp_name'];
+    $approval_name = $_FILES['approval_file']['name'];
+    $approval_upload_path = 'FileStorage/approval/' . $approval_name;
+    move_uploaded_file($approval_tmp, $approval_upload_path);
+}
 
-$thesis_tmp = $_FILES['thesis_file']['tmp_name'];
-$thesis_name = $_FILES['thesis_file']['name'];
-$thesis_upload_path = 'FileStorage/thesis/' . $thesis_name;
-move_uploaded_file($thesis_tmp, $thesis_upload_path);
+if ($_FILES['thesis_file']['size'] !== 0) {
+    $thesis_tmp = $_FILES['thesis_file']['tmp_name'];
+    $thesis_name = $_FILES['thesis_file']['name'];
+    $thesis_upload_path = 'FileStorage/thesis/' . $thesis_name;
+    move_uploaded_file($thesis_tmp, $thesis_upload_path);
+}
+
+if ($_FILES['poster_file']['size'] !== 0) {
+    $poster_temp = $_FILES['poster_file']['tmp_name'];
+    $poster_name = $_FILES['poster_file']['name'];
+    $poster_upload_path = 'FileStorage/poster/' . $poster_name;
+    move_uploaded_file($poster_temp, $poster_upload_path);
+}
 
 
-$poster_temp = $_FILES['poster_file']['tmp_name'];
-$poster_name = $_FILES['poster_file']['name'];
-$poster_upload_path = 'FileStorage/poster/' . $poster_name;
-move_uploaded_file($poster_temp, $poster_upload_path);
+
 
 $thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
 $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
 
 try {
-    $update =  $conn->prepare("UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
+    if ($_FILES['approval_file']['size'] !== 0 and $_FILES['thesis_file']['size'] !== 0 and $_FILES['poster_file']['size'] !== 0) {
+        $update =  $conn->prepare("UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
         abstract = :abstract, printed_year = :printed_year, semester = :semester, approval_year = :approval_year, 
         thesis_file = :thesis_file, approval_file = :approval_file, poster_file = :poster_file, keyword = :keyword, 
         prefix_chairman = :prefix_chairman, name_chairman = :name_chairman, surname_chairman = :surname_chairman, 
         prefix_director1 = :prefix_director1, name_director1 = :name_director1, surname_director1 = :surname_director1, 
         prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
         prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
-        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
+        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor,
+        thesis_file = :thesis_file, approval_file = :approval_file, poster_file = :poster_file
         WHERE thesis_id = :id");
-    $update->bindParam(":id", $id);
-    $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
-    $update->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
-    $update->bindParam(":abstract", $abstract, PDO::PARAM_STR);
-    $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
-    $update->bindParam(":semester", $semester, PDO::PARAM_STR);
-    $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
-    $update->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
-    $update->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
-    $update->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
-    $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
-    $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
-    $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
-    $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
-    $update->bindParam(":prefix_director1", $director1_prefix, PDO::PARAM_STR);
-    $update->bindParam(":name_director1", $director1_firstname, PDO::PARAM_STR);
-    $update->bindParam(":surname_director1", $director1_lastname, PDO::PARAM_STR);
-    $update->bindParam(":prefix_director2", $director2_prefix, PDO::PARAM_STR);
-    $update->bindParam(":name_director2", $director2_firstname, PDO::PARAM_STR);
-    $update->bindParam(":surname_director2", $director2_lastname, PDO::PARAM_STR);
-    $update->bindParam(":prefix_advisor", $advisor_prefix, PDO::PARAM_STR);
-    $update->bindParam(":name_advisor", $advisor_firstname, PDO::PARAM_STR);
-    $update->bindParam(":surname_advisor", $advisor_lastname, PDO::PARAM_STR);
-    $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
-    $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
-    $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
-
+        $update->bindParam(":id", $id);
+        $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
+        $update->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
+        $update->bindParam(":abstract", $abstract, PDO::PARAM_STR);
+        $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
+        $update->bindParam(":semester", $semester, PDO::PARAM_STR);
+        $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
+        $update->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
+        $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director1", $director1_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director1", $director1_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director1", $director1_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director2", $director2_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director2", $director2_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director2", $director2_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_advisor", $advisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_advisor", $advisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_advisor", $advisor_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
+        $update->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
+        // $result = $update->execute([$thesis_name_th, $thesis_name_en, $abstract, $printed_year, $semester, $approval_year, $thesis_upload_path, $approval_upload_path, $poster_upload_path, $keyword, ]);
+    } else {
+        $sql = "UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
+        abstract = :abstract, printed_year = :printed_year, semester = :semester, approval_year = :approval_year, keyword = :keyword, 
+        prefix_chairman = :prefix_chairman, name_chairman = :name_chairman, surname_chairman = :surname_chairman, 
+        prefix_director1 = :prefix_director1, name_director1 = :name_director1, surname_director1 = :surname_director1, 
+        prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
+        prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
+        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
+        ";
+        if($_FILES['approval_file']['size'] !== 0) {
+            $sql .= ", approval_file = \"$approval_upload_path\"";
+        }
+        if($_FILES['poster_file']['size'] !== 0) {
+            $sql .= ", poster_file = \"$poster_upload_path\"";
+        }
+        if($_FILES['thesis_file']['size'] !== 0) {
+            $sql .= ", thesis_file = \"$thesis_upload_path\"";
+        }
+        $sql .= " WHERE thesis_id = :id";
+        echo $sql;
+        $update =  $conn->prepare($sql);
+        $update->bindParam(":id", $id);
+        $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
+        $update->bindParam(":english_name", $thesis_name_en, PDO::PARAM_STR);
+        $update->bindParam(":abstract", $abstract, PDO::PARAM_STR);
+        $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
+        $update->bindParam(":semester", $semester, PDO::PARAM_STR);
+        $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
+        $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
+        $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director1", $director1_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director1", $director1_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director1", $director1_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_director2", $director2_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_director2", $director2_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_director2", $director2_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_advisor", $advisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_advisor", $advisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_advisor", $advisor_lastname, PDO::PARAM_STR);
+        $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
+        $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
+        $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
+    }
     $result = $update->execute();
     if ($result) {
         echo "แก้ข้อมูลเล่มสำเร็จ";
