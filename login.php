@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo '<script>
             Swal.fire({
-                icon: "ERROR",
+                icon: "error",
                 title: "Login ไม่สำเร็จ",
                 text: "email หรือ password ไม่ถูกต้อง!"
             }).then(function() {
