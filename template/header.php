@@ -30,8 +30,13 @@ if (isset($_SESSION['role'])) {
             </div>
         </div>
         <?php if (isset($_SESSION['role'])) : ?>
-            <div>
-                <a href="login" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
+            <div class="btn-group">
+                <a type="button" class="btn btn-outline-light text-dark" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <?= $name ?> || <?= $role ?>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
+                </ul>
             </div>
         <?php else : ?>
             <div>

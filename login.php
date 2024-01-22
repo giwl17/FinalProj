@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
         $_SESSION['status'] = $user['status'];
         setcookie('email', $email, time() + (86400 * 30), "/");
-        header("Location: dashboard.php");
+        // header("Location: dashboard.php");
+        header("Location: /FinalProj");
         exit();
     } else {
         echo '<script>
