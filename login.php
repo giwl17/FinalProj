@@ -39,7 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
         $_SESSION['status'] = $user['status'];
         setcookie('email', $email, time() + (86400 * 30), "/");
+<<<<<<< HEAD
         header("Location: /FinalProj/dashboard");
+=======
+        // header("Location: dashboard.php");
+        header("Location: /FinalProj");
+>>>>>>> 88a4edf17a71976e1124443e8c7681ae0ac309f2
         exit();
     } else {
         echo '<script>
@@ -56,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
   <?php require 'template/header_login.php'; ?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="container mt-4">
+  <form method="post" class="container mt-4">
     <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
     <!-- Email: <input type="text" name="email"><br>
         Password: <input type="password" name="password"><br> -->

@@ -1,3 +1,25 @@
+<?php
+session_start();
+if (isset($_SESSION['role'])) {
+    $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
+    $role = "";
+    if ($_SESSION['role'] == 1) {
+        $role = "ผู้ดูแลระบบ";
+    } elseif ($_SESSION['role'] == 2) {
+        $role = "เจ้าหน้าที่";
+    } elseif ($_SESSION['role'] == 3) {
+        $role = "เจ้าหน้าที่ชั่วคราว";
+    } elseif ($_SESSION['role'] == 4) {
+        $role = "อาจารย์";
+    } elseif ($_SESSION['role'] == 5) {
+        $role = "นักศึกษา";
+    } else {
+        // header("Location: login.php");
+        // exit();
+    }
+}
+?>
+
 <div class="container-fluid d-flex flex-column px-0 shadow-sm">
     <div class="d-flex justify-content-between align-items-center px-5 py-3">
         <div class="d-flex align-items-center">
@@ -7,9 +29,21 @@
                 <p class="h6 text-secondary d-none d-sm-block">ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
             </div>
         </div>
-        <div>
-            <a href="login" style="text-decoration:none; color:#333333;">บัญชีผู้ใช้งาน</a>
-        </div>
+        <?php if (isset($_SESSION['role'])) : ?>
+            <div class="btn-group">
+                <a type="button" class="btn btn-outline-light text-dark" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <?= $name ?> || <?= $role ?>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
+                </ul>
+            </div>
+        <?php else : ?>
+            <div>
+                <a href="login" style="text-decoration:none; color:#333333;">เข้าสู่ระบบ</a>
+            </div>
+        <?php endif; ?>
+
     </div>
 
 
@@ -20,8 +54,6 @@
                 <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesislistwaiting">รายการที่รอตรวจสอบข้อมูล</a></li>
                 <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisadd">เพิ่มข้อมูลปริญญานิพนธ์</a></li>
                 <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
-                <!-- <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/member">จัดการสมาชิก</a></li> -->
-
                 <li class="nav-item text-center dropdown">
                     <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">จัดการสมาชิก</a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -29,11 +61,8 @@
                         <li><a class="dropdown-item" href="/FinalProj/temporaryadd">เพิ่มข้อมูลเจ้าหน้าที่ชั่วคราว</a></li>
                         <li><a class="dropdown-item" href="/FinalProj/teacheradd">เพิ่มข้อมูลอาจารย์</a></li>
                         <li><a class="dropdown-item" href="/FinalProj/studentadd">เพิ่มข้อมูลนักศึกษา</a></li>
-
-
                     </ul>
                 </li>
-
                 <li class="nav-item text-center dropdown">
                     <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
                     <ul class="dropdown-menu dropdown-menu-end">
