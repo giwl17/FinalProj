@@ -22,7 +22,10 @@ if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
 </head>
 
 <body>
-    <?php require 'template/header_home.php'; ?>
+    <?php
+        require 'template/header_home.php';
+    ?>
+
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
             <div class="d-flex position-relative">
