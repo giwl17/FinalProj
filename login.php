@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
   <?php require 'template/header_login.php'; ?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="container mt-4">
+  <form method="post" class="container mt-4">
     <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
     <!-- Email: <input type="text" name="email"><br>
         Password: <input type="password" name="password"><br> -->
