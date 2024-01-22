@@ -1,3 +1,10 @@
+<?php
+// session_start();
+// if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
+//     header("Location: login.php"); // ถ้าไม่มี session หรือ cookie ให้ redirect ไปที่หน้า login
+//     exit();
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,8 +21,7 @@
 </head>
 
 <body>
-    <?php require "template/header.php"; ?>
-
+    <?php require 'template/header.php';?>
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
             <form class="d-flex position-relative" action="search.php">
@@ -49,7 +55,7 @@
             let selectSearch = document.getElementById('selectSearch').value;
             let inputSearch = document.getElementById('inputSearch');
 
-            
+
         }
 
         inputSearch.addEventListener('keyup', () => {

@@ -4,6 +4,8 @@ $uri = parse_url( $_SERVER['REQUEST_URI'])['path'];
 $routes = [
     '/FinalProj/' =>   __DIR__ . '/thesislist.php',
     '/FinalProj/login' =>  __DIR__ . '/login.php',
+    '/FinalProj/logout' =>  __DIR__ . '/logout.php',
+    '/FinalProj/pass' =>  __DIR__ . '/pass.php',
     '/FinalProj/thesisadd' =>  __DIR__ . '/thesis_add.php',
     '/FinalProj/thesis' =>  __DIR__ . '/thesis.php',
     '/FinalProj/thesis_api' =>  __DIR__ . '/thesis_api.php',
@@ -22,7 +24,7 @@ $routes = [
     '/FinalProj/file' =>  __DIR__ . '/showFile_page.php',
     '/FinalProj/thesislistwaiting' =>  __DIR__ . '/thesis_check.php',
     '/FinalProj/thesislistwaiting/thesis' =>  __DIR__ . '/thesis_check_detail.php',
-
+    '/FinalProj/bin' =>  __DIR__ . '/rubbish_bin.php',
 
 ];
 

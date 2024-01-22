@@ -32,7 +32,7 @@ if ($_SESSION['role'] == 1) {
                     <?php echo $name; ?> || <?php echo $role ?>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
-                    <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
+                    <li><a href="/FinalProj/logout" class="dropdown-item" type="button">Logout</a></li>
                 </ul>
             </div>
         </div>

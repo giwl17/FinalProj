@@ -45,11 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo '<script>
             Swal.fire({
-                icon: "ERROR",
+                icon: "error",
                 title: "Login ไม่สำเร็จ",
                 text: "email หรือ password ไม่ถูกต้อง!"
             }).then(function() {
-                window.location = "login.php";
+                window.location = "/FinalProj/login";
             });
         </script>';
     }
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <label for="pass">Password</label>
       <input class="form-control" type="password" name="password" placeholder="Password" required>
       <div class="form-text">
-        หากลืมรหัสผ่าน <span><a href="/FinalProj/pass.php">คลิกที่นี่</a></span>
+        หากลืมรหัสผ่าน <span><a href="/FinalProj/pass">คลิกที่นี่</a></span>
       </div>
     </div>
     <input type="submit" class="btn btn-primary container-fluid mb-3" value="เข้าสู่ระบบ" />
