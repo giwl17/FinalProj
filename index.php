@@ -3,7 +3,6 @@ $uri = parse_url( $_SERVER['REQUEST_URI'])['path'];
 
 $routes = [
     '/FinalProj/' =>   __DIR__ . '/thesislist.php',
-    '/FinalProj/dashboard' =>   __DIR__ . '/dashboard.php',
     '/FinalProj/login' =>  __DIR__ . '/login.php',
     '/FinalProj/logout' =>  __DIR__ . '/logout.php',
     '/FinalProj/pass' =>  __DIR__ . '/pass.php',
