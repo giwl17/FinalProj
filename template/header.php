@@ -108,7 +108,7 @@ if (isset($_SESSION['role'])) {
                         <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
                     </ul>
                 </li>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/#'>ถังขยะ</a></li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/bin'>ถังขยะ</a></li>
                 <li class='nav-item text-center dropdown'>
                     <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
                     <ul class='dropdown-menu dropdown-menu-end'>
