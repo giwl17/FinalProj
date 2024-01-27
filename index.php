@@ -24,7 +24,7 @@ $routes = [
     '/FinalProj/file' =>  __DIR__ . '/showFile_page.php',
     '/FinalProj/thesislistwaiting' =>  __DIR__ . '/thesis_check.php',
     '/FinalProj/thesislistwaiting/thesis' =>  __DIR__ . '/thesis_check_detail.php',
-    '/FinalProj/bin' =>  __DIR__ . '/rubbish_bin.php',
+    '/FinalProj/recycle_bin' =>  __DIR__ . '/recycle_bin.php',
 
 ];
 
