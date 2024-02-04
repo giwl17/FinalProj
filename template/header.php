@@ -92,7 +92,7 @@ if (isset($_SESSION['role'])) {
                     </ul>
                 </li>
             </ul>";
-            } elseif ($role == "ผู้ดูแลลระบบ") {
+            } elseif ($role == "ผู้ดูแลระบบ") {
                 // $role = "ผู้ดูแลระบบ";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
