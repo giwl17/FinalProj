@@ -1,7 +1,7 @@
 <?php
 session_start();
 $role = "";
-if (isset($_SESSION['role'])) {
+if (isset($_SESSION['role'])) { 
     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
     if ($_SESSION['role'] == 1) {
         $role = "ผู้ดูแลระบบ";
@@ -48,7 +48,7 @@ if (isset($_SESSION['role'])) {
     <nav class="navbar navbar-expand-sm justify-content-center bg-light px-5 py-3">
         <div class="container-fluid p-0 justify-content-sm-end justify-content-center">
             <?php
-            if ($role == 5) {
+            if ($role == "นักศึกษา") {
                 // $role = "นักศึกษา";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
@@ -60,7 +60,7 @@ if (isset($_SESSION['role'])) {
                     </ul>
                 </li>
             </ul>";
-            } elseif ($role == 4) {
+            } elseif ($role == "อาจารย์") {
                 // $role = "อาจารย์";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
@@ -72,14 +72,14 @@ if (isset($_SESSION['role'])) {
                     </ul>
                 </li>
             </ul>";
-            } elseif ($role == 3) {
+            } elseif ($role == "เจ้าหน้าที่ชั่วคราว") {
                 // $role = "เจ้าหน้าที่ชั่วคราว";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesislistwaiting'>รายการที่รอตรวจสอบข้อมูล</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisadd'>เพิ่มข้อมูลปริญญานิพนธ์</a></li>
             </ul>";
-            } elseif ($role == 2) {
+            } elseif ($role == "เจ้าหน้าที่") {
                 // $role = "เจ้าหน้าที่";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
@@ -92,7 +92,7 @@ if (isset($_SESSION['role'])) {
                     </ul>
                 </li>
             </ul>";
-            } elseif ($role == 1) {
+            } elseif ($role == "ผู้ดูแลลระบบ") {
                 // $role = "ผู้ดูแลระบบ";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
