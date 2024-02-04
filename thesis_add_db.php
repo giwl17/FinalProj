@@ -125,7 +125,12 @@ if (isset($_POST['submitAddThesis'])) {
     move_uploaded_file($poster_temp, $poster_upload_path);
 
     $thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
-    $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
+    //1 = ผู้ดูแลระบบ 2 = เจ้าหน้าที่ 3 = เจ้าหน้าที่ชั่วคราว 4 = อาจารย์ 5 = นักศึกษา 
+    if ($_SESSION['role'] == 3) { //ถ้าเป็นเจ้าหน้าที่
+        $approval_status = 0; // 0 = รออนุมัติ, 1 = อนุมัติ
+    } else {
+        $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
+    }
 
     try {
         $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor, thesis_status, approval_status)
