@@ -1,6 +1,6 @@
 <?php
     require_once "dbconnect.php";
-    $select = "SELECT * FROM thesis_document WHERE thesis_status = 1 ORDER BY thesis_id DESC";
+    $select = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY thesis_id DESC";
     $stmt = $conn->prepare($select);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
