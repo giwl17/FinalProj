@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 $role = "";
 if (isset($_SESSION['role'])) { 
     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
