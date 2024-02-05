@@ -3,93 +3,72 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bin</title>
-    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/js/bootstrap.min.js">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Check All Data</title>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
 </head>
 
 <body>
-    <?php require 'template/header.php'; ?>
-    <div class="container">
-        <h1 class="mt-5 mb-4">Delete Items</h1>
+    <?php require "template/header.php"; ?>
 
-        <ul id="itemList" class="list-group">
-            <!-- Display items dynamically here -->
-        </ul>
+    <div class="container mt-5">
+        <h2>Check All Data</h2>
 
-        <button class="btn btn-danger mt-3" onclick="deleteSelectedItems()">Delete Selected Items</button>
-    </div>
+        <form id="checkboxForm" action="bin_db.php" method="post">
+            <table id="dataTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Select All</th>
+                        <th>Thesis ID</th>
+                        <th>Thai Name</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Sample data
-        const items = [{
-                id: 1,
-                name: 'Item 1'
-            },
-            {
-                id: 2,
-                name: 'Item 2'
-            },
-            {
-                id: 3,
-                name: 'Item 3'
-            },
-            // Add more items as needed
-        ];
+                    <!-- Fetch Data from Database -->
+                    <?php
+                    // Include your database connection code here
+                    include 'dbconnect.php';
 
-        // Function to display items on the page
-        function displayItems() {
-            const itemList = document.getElementById('itemList');
-            itemList.innerHTML = '';
+                    // Fetch data from the database
+                    $stmt = $conn->query("SELECT * FROM thesis_document");
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            items.forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `<div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="item${item.id}" value="${item.id}">
-                            <label class="custom-control-label" for="item${item.id}">${item.name}</label>
-                        </div>`;
-                itemList.appendChild(li);
+                    // Display checkboxes for each record
+                    foreach ($data as $row) {
+                        echo '<tr>';
+                        echo '<td><input type="checkbox" class="form-check-input" name="checkbox[]" value="' . $row['thesis_id'] . '"></td>';
+                        echo '<td>' . $row['thesis_id'] . '</td>';
+                        echo '<td>' . $row['thai_name'] . '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable();
             });
-        }
+        </script>
 
-        // Function to delete selected items
-        function deleteSelectedItems() {
-            const selectedItems = [];
-
-            // Get selected items
-            items.forEach(item => {
-                const checkbox = document.getElementById(`item${item.id}`);
-                if (checkbox.checked) {
-                    selectedItems.push(item.id);
-                }
-            });
-
-            // Delete selected items from the array
-            selectedItems.forEach(itemId => {
-                const index = items.findIndex(item => item.id === itemId);
-                if (index !== -1) {
-                    items.splice(index, 1);
-                }
-            });
-
-            // Refresh the displayed items
-            displayItems();
-        }
-
-        // Initial display
-        displayItems();
-    </script>
 </body>
 
 </html>
