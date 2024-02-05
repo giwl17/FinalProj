@@ -143,10 +143,15 @@
             <p style='word-wrap: break-word;'>$thesis[abstract]</p>
         </div>";
 
-    echo "<div class='container-fluid d-flex gap-3 justify-content-center'>
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
+            echo 
+            "<div class='container-fluid d-flex gap-3 justify-content-center'>
                 <a class='btn btn-warning' href='thesis_update?id=$id'>แก้ไข</a>
                 <a class='btn btn-danger' onclick=\"alertDelete($id)\">ลบ</a>
-        </div>";
+          </div>";
+        }
+    }
 
 
     ?>
