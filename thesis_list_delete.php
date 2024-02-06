@@ -68,7 +68,7 @@
             $pagLink = "";
 
             if ($page >= 2) {
-                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page - 1) . "'>  Prev </a></li>";
+                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page - 1) . "'>  < </a></li>";
             }
 
             for ($i = 1; $i <= $total_pages; $i++) {
@@ -87,7 +87,7 @@
             echo $pagLink;
 
             if ($page < $total_pages) {
-                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page + 1) . "'>  Next </a></li>";
+                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page + 1) . "'>  > </a></li>";
             }
 
             ?>
