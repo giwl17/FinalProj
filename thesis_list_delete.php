@@ -13,29 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
-    <style>
-        .pagination {
-            display: inline-block;
-        }
-
-        .pagination a {
-            font-size: 14px;
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid black;
-        }
-
-        .pagination a.active {
-            background-color: rgba(41, 145, 214, 0.7);
-            font-weight: bold;
-        }
-
-        .pagination a:hover:not(.active) {
-            background-color: rgba(41, 145, 214, 0.3);
-        }
-    </style>
 </head>
 
 <body>
@@ -77,7 +54,8 @@
             </tbody>
         </table>
 
-        <div class="pagination d-flex justify-content-center">
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination">
             <?php
             $rs_result = $conn->prepare("SELECT * FROM thesis_document");
             $rs_result->execute();
@@ -90,26 +68,31 @@
             $pagLink = "";
 
             if ($page >= 2) {
-                echo "<a href='thesisdelete?page=" . ($page - 1) . "'>  Prev </a>";
+                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page - 1) . "'>  Prev </a></li>";
             }
 
             for ($i = 1; $i <= $total_pages; $i++) {
                 if ($i == $page) {
-                    $pagLink .= "<a class = 'active' href='thesisdelete?page="
-                        . $i . "'>" . $i . " </a>";
+                    $pagLink .= "<li class='page-item active'>
+                    <a class='page-link' href='thesisdelete?page="
+                        . $i . "'>" . $i . " </a>
+                    </li>";
                 } else {
-                    $pagLink .= "<a href='thesisdelete?page=" . $i . "'>   
-                                                " . $i . " </a>";
+                    $pagLink .= "<li class='page-item'>
+                    <a class='page-link' href='thesisdelete?page=" . $i . "'>   
+                                                " . $i . " </a>
+                    </li>";
                 }
             };
             echo $pagLink;
 
             if ($page < $total_pages) {
-                echo "<a href='thesisdelete?page=" . ($page + 1) . "'>  Next </a>";
+                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page + 1) . "'>  Next </a></li>";
             }
 
             ?>
-        </div>
+            </ul>
+        </nav>
 
         <div class="d-flex justify-content-center">
             <button class="btn btn-danger" onclick="submitDelete()">ลบรายการที่เลือก</button>
