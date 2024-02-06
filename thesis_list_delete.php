@@ -13,6 +13,29 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
+    <style>
+        .pagination {
+            display: inline-block;
+        }
+
+        .pagination a {
+            font-size: 14px;
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid black;
+        }
+
+        .pagination a.active {
+            background-color: rgba(41, 145, 214, 0.7);
+            font-weight: bold;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: rgba(41, 145, 214, 0.3);
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +44,14 @@
         <h1 class="h3 text-center">รายการที่ต้องการลบ</h1>
         <?php
         require "dbconnect.php";
-        $stmt = $conn->prepare("SELECT * FROM thesis_document");
+        $per_page_record = 3;
+        if (isset($_GET["page"])) {
+            $page  = $_GET["page"];
+        } else {
+            $page = 1;
+        }
+        $start_from = ($page - 1) * $per_page_record;
+        $stmt = $conn->prepare("SELECT * FROM thesis_document LIMIT {$start_from}, {$per_page_record}");
         $result = $stmt->execute();
         ?>
         <table class="table table-hover">
@@ -46,6 +76,41 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <div class="pagination d-flex justify-content-center">
+            <?php
+            $rs_result = $conn->prepare("SELECT * FROM thesis_document");
+            $rs_result->execute();
+            $row = $rs_result->fetchAll();
+            $total_records = $rs_result->rowCount();
+
+            echo "</br>";
+            // Number of pages required.   
+            $total_pages = ceil($total_records / $per_page_record);
+            $pagLink = "";
+
+            if ($page >= 2) {
+                echo "<a href='thesisdelete?page=" . ($page - 1) . "'>  Prev </a>";
+            }
+
+            for ($i = 1; $i <= $total_pages; $i++) {
+                if ($i == $page) {
+                    $pagLink .= "<a class = 'active' href='thesisdelete?page="
+                        . $i . "'>" . $i . " </a>";
+                } else {
+                    $pagLink .= "<a href='thesisdelete?page=" . $i . "'>   
+                                                " . $i . " </a>";
+                }
+            };
+            echo $pagLink;
+
+            if ($page < $total_pages) {
+                echo "<a href='thesisdelete?page=" . ($page + 1) . "'>  Next </a>";
+            }
+
+            ?>
+        </div>
+
         <div class="d-flex justify-content-center">
             <button class="btn btn-danger" onclick="submitDelete()">ลบรายการที่เลือก</button>
         </div>
