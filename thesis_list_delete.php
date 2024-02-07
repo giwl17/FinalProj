@@ -21,7 +21,11 @@
         <h1 class="h3 text-center">รายการที่ต้องการลบ</h1>
         <?php
         require "dbconnect.php";
-        $per_page_record = 3;
+        if(isset($_POST['selectShow'])) {
+            $per_page_record = $_POST['selectShow'];
+        } else {
+            $per_page_record = 5;
+        }
         if (isset($_GET["page"])) {
             $page  = $_GET["page"];
         } else {
@@ -31,6 +35,18 @@
         $stmt = $conn->prepare("SELECT * FROM thesis_document LIMIT {$start_from}, {$per_page_record}");
         $result = $stmt->execute();
         ?>
+        <form method="POST" id="formSelectPage" action="/FinalProj/thesisdelete">
+            <div class="d-flex flex-column justify-content-end align-items-end">
+                <label class="w-25" for="selectShow">แสดงรายการ</label>
+                <select class="form-select w-25" id="selectShow" name="selectShow" onchange="showPages(this)">
+                    <option value="5" <?php if($per_page_record == 5) echo "selected" ?>>5</option>
+                    <option value="10" <?php if($per_page_record == 10) echo "selected" ?>>10</option>
+                    <option value="30" <?php if($per_page_record == 30) echo "selected" ?>>30</option>
+                    <option value="50" <?php if($per_page_record == 50) echo "selected" ?>>50</option>
+                    <option value="100" <?php if($per_page_record == 100) echo "selected" ?>>100</option>
+                </select>
+            </div>
+        </form>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -56,41 +72,41 @@
 
         <nav class="d-flex justify-content-center">
             <ul class="pagination">
-            <?php
-            $rs_result = $conn->prepare("SELECT * FROM thesis_document");
-            $rs_result->execute();
-            $row = $rs_result->fetchAll();
-            $total_records = $rs_result->rowCount();
+                <?php
+                $rs_result = $conn->prepare("SELECT * FROM thesis_document");
+                $rs_result->execute();
+                $row = $rs_result->fetchAll();
+                $total_records = $rs_result->rowCount();
 
-            echo "</br>";
-            // Number of pages required.   
-            $total_pages = ceil($total_records / $per_page_record);
-            $pagLink = "";
+                echo "</br>";
+                // Number of pages required.   
+                $total_pages = ceil($total_records / $per_page_record);
+                $pagLink = "";
 
-            if ($page >= 2) {
-                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page - 1) . "'>  < </a></li>";
-            }
+                if ($page >= 2) {
+                    echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page - 1) . "'>  < </a></li>";
+                }
 
-            for ($i = 1; $i <= $total_pages; $i++) {
-                if ($i == $page) {
-                    $pagLink .= "<li class='page-item active'>
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($i == $page) {
+                        $pagLink .= "<li class='page-item active'>
                     <a class='page-link' href='thesisdelete?page="
-                        . $i . "'>" . $i . " </a>
+                            . $i . "'>" . $i . " </a>
                     </li>";
-                } else {
-                    $pagLink .= "<li class='page-item'>
+                    } else {
+                        $pagLink .= "<li class='page-item'>
                     <a class='page-link' href='thesisdelete?page=" . $i . "'>   
                                                 " . $i . " </a>
                     </li>";
+                    }
+                };
+                echo $pagLink;
+
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page + 1) . "'>  > </a></li>";
                 }
-            };
-            echo $pagLink;
 
-            if ($page < $total_pages) {
-                echo "<li class='page-item'><a class='page-link' href='thesisdelete?page=" . ($page + 1) . "'>  > </a></li>";
-            }
-
-            ?>
+                ?>
             </ul>
         </nav>
 
@@ -131,6 +147,11 @@
             } else {
                 console.log("any checked");
             }
+        }
+
+        function showPages(event) {
+            const form = document.getElementById("formSelectPage");
+            form.submit();
         }
     </script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
