@@ -21,7 +21,7 @@
         <h1 class="h3 text-center">รายการที่ต้องการลบ</h1>
         <?php
         require "dbconnect.php";
-        if(isset($_POST['selectShow'])) {
+        if (isset($_POST['selectShow'])) {
             $per_page_record = $_POST['selectShow'];
         } else {
             $per_page_record = 5;
@@ -32,18 +32,18 @@
             $page = 1;
         }
         $start_from = ($page - 1) * $per_page_record;
-        $stmt = $conn->prepare("SELECT * FROM thesis_document LIMIT {$start_from}, {$per_page_record}");
+        $stmt = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_status = 1 LIMIT {$start_from}, {$per_page_record}");
         $result = $stmt->execute();
         ?>
         <form method="POST" id="formSelectPage" action="/FinalProj/thesisdelete">
             <div class="d-flex flex-column justify-content-end align-items-end">
                 <label class="w-25" for="selectShow">แสดงรายการ</label>
                 <select class="form-select w-25" id="selectShow" name="selectShow" onchange="showPages(this)">
-                    <option value="5" <?php if($per_page_record == 5) echo "selected" ?>>5</option>
-                    <option value="10" <?php if($per_page_record == 10) echo "selected" ?>>10</option>
-                    <option value="30" <?php if($per_page_record == 30) echo "selected" ?>>30</option>
-                    <option value="50" <?php if($per_page_record == 50) echo "selected" ?>>50</option>
-                    <option value="100" <?php if($per_page_record == 100) echo "selected" ?>>100</option>
+                    <option value="5" <?php if ($per_page_record == 5) echo "selected" ?>>5</option>
+                    <option value="10" <?php if ($per_page_record == 10) echo "selected" ?>>10</option>
+                    <option value="30" <?php if ($per_page_record == 30) echo "selected" ?>>30</option>
+                    <option value="50" <?php if ($per_page_record == 50) echo "selected" ?>>50</option>
+                    <option value="100" <?php if ($per_page_record == 100) echo "selected" ?>>100</option>
                 </select>
             </div>
         </form>
@@ -60,7 +60,7 @@
             <tbody>
                 <?php foreach ($stmt as $row) : ?>
                     <tr>
-                        <td><input type="checkbox" name="select" class="select"></td>
+                        <td><input type="checkbox" name="select_<?= $row['thesis_id'] ?>" class="select"></td>
                         <td><?= $row['thai_name'] ?></td>
                         <td><?= $row['english_name'] ?></td>
                         <td><?= $row['printed_year'] ?></td>
@@ -73,7 +73,7 @@
         <nav class="d-flex justify-content-center">
             <ul class="pagination">
                 <?php
-                $rs_result = $conn->prepare("SELECT * FROM thesis_document");
+                $rs_result = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_status = 1");
                 $rs_result->execute();
                 $row = $rs_result->fetchAll();
                 $total_records = $rs_result->rowCount();
@@ -145,7 +145,41 @@
                     confirmButtonText: 'เข้าใจแล้ว'
                 })
             } else {
-                console.log("any checked");
+                let checkedList = [];
+                selectItems.forEach(item => {
+                    console.log(item.name);
+                    console.log(item.checked);
+                    if (item.checked)
+                        checkedList.push(item.name);
+                })
+
+                Swal.fire({
+                    title: "ลบรายการที่เลือกหรือไม่?",
+                    text: "รายการที่ลบจะไปอยู่ในถังขยะ",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "ลบรายการที่เลือก"
+                }).then((result) => {
+                    fetch("/FinalProj/thesis_delete.php", {
+                        method: "post",
+                        body: JSON.stringify(checkedList),
+                    }).then(res => {
+                        return res.text()
+                    }).then(data => {
+                        if (data == '1') {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "ลบสำเร็จ!",
+                                    icon: "success"
+                                }).then(result => {
+                                    window.location.replace("/FinalProj/thesisdelete")
+                                })
+                            }
+                        }
+                    })
+                });
             }
         }
 
@@ -155,9 +189,6 @@
         }
     </script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
-
-
 </body>
 
 </html>
