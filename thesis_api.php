@@ -32,6 +32,7 @@ if (isset($_GET['id'])) {
     $sql = $conn->prepare("SELECT * FROM thesis_document
     WHERE thesis_status = 1 
     AND (thai_name LIKE :like
+    OR printed_year LIKE :like
     OR english_name LIKE :like)
     ORDER BY thesis_id DESC
     LIMIT $limit
@@ -59,7 +60,8 @@ if (isset($_GET['id'])) {
     $sql = $conn->prepare("SELECT * FROM thesis_document
     WHERE thesis_status = 1 
     AND (thai_name LIKE :like
-    OR english_name LIKE :like)
+    OR english_name LIKE :like
+    OR printed_year LIKE :like)
     ORDER BY thesis_id DESC");
     $sql->bindParam(":like", $like);
     $sql->execute();

@@ -36,7 +36,7 @@
         <form method="POST" id="formSelectPage" action="/FinalProj/thesisdelete">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <label class="" for="search">ค้นหาชื่อปริญญานิพนธ์</label>
+                    <label class="" for="search">ค้นหาชื่อปริญญานิพนธ์หรือปีที่ตีพิมพ์</label>
                     <input class="form-control" type="search" name="search" id="search" onchange="searchThesis()">
                 </div>
                 <div>
