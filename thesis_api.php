@@ -31,20 +31,45 @@ if (isset($_GET['id'])) {
 
     $sql = $conn->prepare("SELECT * FROM thesis_document
     WHERE thai_name LIKE :like
-    OR english_nmae LIKE :like
-    LIMIT :limit
-    ORDER BY DESC");
+    OR english_name LIKE :like   
+    ORDER BY thesis_id DESC
+    LIMIT $limit
+    ");
     $sql->bindParam(":like", $like);
-    $sql->bindParam(":limit", $limit);
     $sql->execute();
     $result = $sql->fetchAll(PDO::FETCH_OBJ);
     $thesis = [];
+    $i = 0;
     foreach ($result as $row) {
-        $thesis['thai_name'] = $row->thai_name;
-        $thesis['english_name'] = $row->english_name;
-        $thesis['printed_year'] = $row->printed_year;
-        $thesis['semester'] = $row->semester;
-        $thesis['approval_year'] = $row->approval_year;
+        $thesis[$i]['thai_name'] = $row->thai_name;
+        $thesis[$i]['english_name'] = $row->english_name;
+        $thesis[$i]['printed_year'] = $row->printed_year;
+        $thesis[$i]['semester'] = $row->semester;
+        $thesis[$i]['approval_year'] = $row->approval_year;
+        $i++;
+    }
+    $thesis = json_encode($thesis, JSON_UNESCAPED_UNICODE);
+    echo $thesis;
+} else if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $like = "%" . $search . "%";
+
+    $sql = $conn->prepare("SELECT * FROM thesis_document
+    WHERE thai_name LIKE :like
+    OR english_name LIKE :like
+    ORDER BY thesis_id DESC");
+    $sql->bindParam(":like", $like);
+    $sql->execute();
+    $result = $sql->fetchAll(PDO::FETCH_OBJ);
+    $thesis = [];
+    $i = 0;
+    foreach ($result as $row) {
+        $thesis[$i]['thai_name'] = $row->thai_name;
+        $thesis[$i]['english_name'] = $row->english_name;
+        $thesis[$i]['printed_year'] = $row->printed_year;
+        $thesis[$i]['semester'] = $row->semester;
+        $thesis[$i]['approval_year'] = $row->approval_year;
+        $i++;
     }
     $thesis = json_encode($thesis, JSON_UNESCAPED_UNICODE);
     echo $thesis;

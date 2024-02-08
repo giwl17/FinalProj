@@ -264,6 +264,7 @@
                     return res.json()
                 })
                 .then(data => {
+                    console.log(data)
                     let html = "";
                     data.forEach(item => {
                         html += `<td><input type='checkbox' name='select_${item.thesis_id}' class='select'></td>`
