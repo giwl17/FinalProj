@@ -30,8 +30,9 @@ if (isset($_GET['id'])) {
     $limit = $_GET['limit'];
 
     $sql = $conn->prepare("SELECT * FROM thesis_document
-    WHERE thai_name LIKE :like
-    OR english_name LIKE :like   
+    WHERE thesis_status = 1 
+    AND (thai_name LIKE :like
+    OR english_name LIKE :like)
     ORDER BY thesis_id DESC
     LIMIT $limit
     ");
@@ -41,6 +42,7 @@ if (isset($_GET['id'])) {
     $thesis = [];
     $i = 0;
     foreach ($result as $row) {
+        $thesis[$i]['thesis_id'] = $row->thesis_id;
         $thesis[$i]['thai_name'] = $row->thai_name;
         $thesis[$i]['english_name'] = $row->english_name;
         $thesis[$i]['printed_year'] = $row->printed_year;
@@ -55,8 +57,9 @@ if (isset($_GET['id'])) {
     $like = "%" . $search . "%";
 
     $sql = $conn->prepare("SELECT * FROM thesis_document
-    WHERE thai_name LIKE :like
-    OR english_name LIKE :like
+    WHERE thesis_status = 1 
+    AND (thai_name LIKE :like
+    OR english_name LIKE :like)
     ORDER BY thesis_id DESC");
     $sql->bindParam(":like", $like);
     $sql->execute();
@@ -64,6 +67,7 @@ if (isset($_GET['id'])) {
     $thesis = [];
     $i = 0;
     foreach ($result as $row) {
+        $thesis[$i]['thesis_id'] = $row->thesis_id;
         $thesis[$i]['thai_name'] = $row->thai_name;
         $thesis[$i]['english_name'] = $row->english_name;
         $thesis[$i]['printed_year'] = $row->printed_year;

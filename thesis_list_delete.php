@@ -134,11 +134,11 @@
 
         function submitDelete() {
             let anyChecked = false;
-            console.log("clicked");
             let selectItems = document.querySelectorAll('.select');
             selectItems.forEach((item) => {
                 if (item.checked) {
                     anyChecked = true;
+
                 }
             });
             if (!anyChecked) {
@@ -153,7 +153,6 @@
                     if (item.checked)
                         checkedList.push(item.name);
                 })
-
                 Swal.fire({
                     title: "ลบรายการที่เลือกหรือไม่?",
                     text: "รายการที่ลบจะไปอยู่ในถังขยะ",
@@ -163,23 +162,33 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "ลบรายการที่เลือก"
                 }).then((result) => {
-                    fetch("/FinalProj/thesis_delete.php", {
-                        method: "post",
-                        body: JSON.stringify(checkedList),
-                    }).then(res => {
-                        return res.text()
-                    }).then(data => {
-                        if (data == '1') {
-                            if (result.isConfirmed) {
+                    console.log(checkedList);
+                    if (result.isConfirmed) {
+                        
+                        fetch("/FinalProj/thesis_delete.php", {
+                            method: "post",
+                            body: JSON.stringify(checkedList),
+                        }).then(res => {
+                            return res.text()
+                        }).then(data => {
+                            if (data == '1') {
+                                if (result.isConfirmed) {
+                                    Swal.fire({
+                                        title: "ลบสำเร็จ!",
+                                        icon: "success"
+                                    }).then(result => {
+                                        window.location.replace("/FinalProj/thesisdelete")
+                                    })
+                                }
+                            } else {
                                 Swal.fire({
-                                    title: "ลบสำเร็จ!",
-                                    icon: "success"
-                                }).then(result => {
-                                    window.location.replace("/FinalProj/thesisdelete")
+                                    title: "มีบางอย่างผิดพลาด",
+                                    icon: "error"
                                 })
                             }
-                        }
-                    })
+                        })
+                    }
+
                 });
             }
         }
