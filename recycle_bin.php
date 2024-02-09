@@ -28,39 +28,43 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php require 'template/header.php'; ?>
     <div class="container mt-5">
         <h1 class="h3 text-center">Recycle Bin</h1>
-        <table id="example" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
-                    <th>ชื่อปริญญานิพนธ์ (ภาษาไทย)</th>
-                    <th>ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</th>
-                    <th>ปีที่ตีพิมพ์เล่ม</th>
-                    <th>ปีการศึกษา</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($data as $row) : ?>
+        <div class="row">
+            <table id="example" class="table table-bordered">
+                <thead>
                     <tr>
-                        <td><input type="checkbox" name="select_<?= $row['thesis_id'] ?>" class="select"></td>
-                        <td><?= $row['thai_name'] ?></td>
-                        <td><?= $row['english_name'] ?></td>
-                        <td><?= $row['printed_year'] ?></td>
-                        <td><?= $row['semester'] . "/" . $row['approval_year'] ?></td>
+                        <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
+                        <th>ชื่อปริญญานิพนธ์ (ภาษาไทย)</th>
+                        <th>ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</th>
+                        <th>ปีที่ตีพิมพ์เล่ม</th>
+                        <th>ปีการศึกษา</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $row) : ?>
+                        <tr>
+                            <td><input type="checkbox" name="select_<?= $row['thesis_id'] ?>" class="select"></td>
+                            <td><?= $row['thai_name'] ?></td>
+                            <td><?= $row['english_name'] ?></td>
+                            <td><?= $row['printed_year'] ?></td>
+                            <td><?= $row['semester'] . "/" . $row['approval_year'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div>
+                <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
+            </div>
+            <div>
+                <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
+            </div>
+            <div>
+                <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
+            </div>
+        </div>
     </div>
-    <div class="d-flex justify-content-center">
-        <div>
-            <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
-        </div>
-        <div>
-            <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
-        </div>
-        <div>
-            <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
-        </div>
+    <div class="container mt-5">
     </div>
 
     <script>
