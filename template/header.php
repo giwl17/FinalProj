@@ -110,6 +110,7 @@ if (isset($_SESSION['role'])) {
                     </ul>
                 </li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/recycle_bin'>ถังขยะ</a></li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/archive'>Archive</a></li>
                 <li class='nav-item text-center dropdown'>
                     <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
                     <ul class='dropdown-menu dropdown-menu-end'>
