@@ -1,7 +1,7 @@
 <?php
 include 'dbconnect.php';
 
-$stmt = $conn->query("SELECT * FROM thesis_document WHERE thesis_status = 0");
+$stmt = $conn->query("SELECT * FROM thesis_document WHERE thesis_status = 2");
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
