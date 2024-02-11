@@ -275,8 +275,8 @@ try {
                 // echo "เพิ่มสมาชิก 3 สำเร็จ";
             }
         }
-
-        header('location: /FinalProj');
+        $urlLocation = '/FinalProj/thesis?id=' . $id;
+        header("location: $urlLocation");
     }
 } catch (PDOException $e) {
     echo $e;
