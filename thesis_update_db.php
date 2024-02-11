@@ -101,11 +101,11 @@ if (isset($_POST['keywords'])) {
     $keywords = $_POST['keywords'];
     foreach ($keywords as $index => $keyword) {
         $keywordTxt .= $keyword;
-        if (!($keyword == $keywords[array_key_last($keywords)])) {
+        if ($index == count($keywords) - 1) {
+        } else {
             $keywordTxt .=  ",";
         }
     }
-    echo $keywordTxt;
 }
 
 if ($_FILES['approval_file']['size'] !== 0) {
@@ -186,13 +186,13 @@ try {
         prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
         prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
         ";
-        if($_FILES['approval_file']['size'] !== 0) {
+        if ($_FILES['approval_file']['size'] !== 0) {
             $sql .= ", approval_file = \"$approval_upload_path\"";
         }
-        if($_FILES['poster_file']['size'] !== 0) {
+        if ($_FILES['poster_file']['size'] !== 0) {
             $sql .= ", poster_file = \"$poster_upload_path\"";
         }
-        if($_FILES['thesis_file']['size'] !== 0) {
+        if ($_FILES['thesis_file']['size'] !== 0) {
             $sql .= ", thesis_file = \"$thesis_upload_path\"";
         }
         $sql .= " WHERE thesis_id = :id";
@@ -275,8 +275,8 @@ try {
                 // echo "เพิ่มสมาชิก 3 สำเร็จ";
             }
         }
-        $urlLocation = '/FinalProj/thesis?id=' . $id;
-        header("location: $urlLocation");
+
+        header('location: /FinalProj');
     }
 } catch (PDOException $e) {
     echo $e;
