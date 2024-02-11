@@ -103,7 +103,7 @@ if (isset($_POST['keywords'])) {
         $keywordTxt .= $keyword;
         if ($index == count($keywords) - 1) {
         } else {
-            $keywordTxt .=  ",";
+            $keywordTxt .=  ", ";
         }
     }
 }
