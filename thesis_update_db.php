@@ -96,17 +96,16 @@ $approval_year = $_POST['approval_year'];
 $printed_year = $_POST['printed_year'];
 
 
-$keyword = '';
-$i = 1;
-while (true) {
-    if (isset($_POST['keyword_' . $i])) {
-        ${"keyword_" . $i} = $_POST['keyword_' . $i];
-        // echo ${"keyword_" . $i};
-        $keyword .= ${"keyword_" . $i} . ', ';
-        $i++;
-    } else {
-        break;
+$keywordTxt = '';
+if (isset($_POST['keywords'])) {
+    $keywords = $_POST['keywords'];
+    foreach ($keywords as $index => $keyword) {
+        $keywordTxt .= $keyword;
+        if (!($keyword == $keywords[array_key_last($keywords)])) {
+            $keywordTxt .=  ",";
+        }
     }
+    echo $keywordTxt;
 }
 
 if ($_FILES['approval_file']['size'] !== 0) {
@@ -206,7 +205,7 @@ try {
         $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
         $update->bindParam(":semester", $semester, PDO::PARAM_STR);
         $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
-        $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
+        $update->bindParam(":keyword", $keywordTxt, PDO::PARAM_STR);
         $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
         $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
         $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
@@ -276,8 +275,8 @@ try {
                 // echo "เพิ่มสมาชิก 3 สำเร็จ";
             }
         }
-
-        header('location: /FinalProj');
+        $urlLocation = '/FinalProj/thesis?id=' . $id;
+        header("location: $urlLocation");
     }
 } catch (PDOException $e) {
     echo $e;
