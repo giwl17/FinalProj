@@ -67,7 +67,7 @@
 
 
     echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
-            <div class='d-flex w-100 justify-content-between flex-sm-column flex-md-column flex-lg-row align-items-center'>
+            <div class='d-flex flex-column w-100'>
                 <div class='col-auto'>
                     <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
                 </div>
@@ -132,11 +132,6 @@
     }
     echo "</div>";
     echo  "</div>";
-
-    // echo "<div class='row'>
-    //         <div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>
-    //         <div class='col-md-16 col-lg-auto'>$thesis[keyword]</div>
-    //     </div>";
 
     echo "<div>
             <span class='fw-bold'>บทคัดย่อ</span><br>
