@@ -1,4 +1,8 @@
 <?php
+
+if(!isset($_COOKIE['email'])) {
+    header("Location: /FinalProj/login");
+}
 session_start();
 require "database.php";
 $conn = new Database();
