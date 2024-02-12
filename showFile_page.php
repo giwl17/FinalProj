@@ -67,7 +67,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
     <div class="p-2 w-100 text-center">
         <h1 class="h3">ไฟล์โปสเตอร์</h1>
         <?php if ($_SESSION['download_permissions'] == 1) : ?>
-            <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+            <?php if ($fileSelect !== 'FileStorage/poster/') :  ?>
                 <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
     </div>
     <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
@@ -80,7 +80,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
     <div class="p-2 w-100 text-center">
         <h1 class="h3">ไฟล์อนุมัติ</h1>
         <?php if ($_SESSION['download_permissions'] == 1) : ?>
-            <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+            <?php if ($fileSelect !== 'FileStorage/approval/') :  ?>
                 <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
     </div>
     <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
