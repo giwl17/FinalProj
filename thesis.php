@@ -72,9 +72,9 @@
             </div>
             <?php if (isset($_SESSION['email'])) : ?>
                 <div class='col-auto d-flex gap-2'>
-                    <div><a href='file?id=$id&type=thesis' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์เล่ม</a></div>
-                    <div><a href='file?id=$id&type=poster' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์โพสเตอร์</a></div>
-                    <div><a href='file?id=$id&type=approval' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์อนุมัติ</a></div>
+                    <div><a href='file?id=<?=$id?>&type=thesis' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์เล่ม</a></div>
+                    <div><a href='file?id=<?=$id?>&type=poster' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์โพสเตอร์</a></div>
+                    <div><a href='file?id=<?=$id?>&type=approval' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์อนุมัติ</a></div>
                     </ul>
                 </div>
             <?php endif; ?>
