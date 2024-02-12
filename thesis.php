@@ -63,119 +63,121 @@
 
         $i++;
     }
+    ?>
 
-
-
-    echo "<div class='container w-75 my-5 d-flex flex-column gap-3'>
-            <div class='d-flex flex-column w-100'>
-                <div class='col-auto'>
-                    <h1> $thesis[thai_name] <br> $thesis[english_name] </h1>
-                </div>
+    <div class='container w-75 my-5 d-flex flex-column gap-3'>
+        <div class='d-flex flex-column w-100'>
+            <div class='col-auto'>
+                <h1> <?= $thesis['thai_name'] ?> <br> <?= $thesis['english_name'] ?> </h1>
+            </div>
+            <?php if (isset($_SESSION['email'])) : ?>
                 <div class='col-auto d-flex gap-2'>
-                        <div><a href='file?id=$id&type=thesis' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์เล่ม</a></div>
-                        <div><a href='file?id=$id&type=poster' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์โพสเตอร์</a></div>
-                        <div><a href='file?id=$id&type=approval' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์อนุมัติ</a></div>
+                    <div><a href='file?id=$id&type=thesis' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์เล่ม</a></div>
+                    <div><a href='file?id=$id&type=poster' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์โพสเตอร์</a></div>
+                    <div><a href='file?id=$id&type=approval' class='btn btn-outline-danger' target='_blank'><i class='fa-regular fa-file-pdf mx-1'></i>ไฟล์อนุมัติ</a></div>
                     </ul>
                 </div>
-            </div>
-            <div class='row'>
-                <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
-                <div class='col-auto flex-column'>";
-    for ($i = 1; $i <= count($thesis['author_member_id']); $i++) {
-        echo "<div>";
-        echo $thesis['author_member_id']["member$i"] . " ";
-        echo $thesis['author_member_prefix']["member$i"] . "";
-        echo $thesis['author_member_name']["member$i"] .  "&nbsp;";
-        echo $thesis['author_member_surname']["member$i"];
-        echo "</div>";
-    }
-    echo "      </div>
+            <?php endif; ?>
+        </div>
+        <div class='row'>
+            <div class='fw-bold col-lg-2 col-md-16'>คณะผู้จัดทำ</div>
+            <div class='col-auto flex-column'>
+                <?php
+                for ($i = 1; $i <= count($thesis['author_member_id']); $i++) {
+                    echo "<div>";
+                    echo $thesis['author_member_id']["member$i"] . " ";
+                    echo $thesis['author_member_prefix']["member$i"] . "";
+                    echo $thesis['author_member_name']["member$i"] .  "&nbsp;";
+                    echo $thesis['author_member_surname']["member$i"];
+                    echo "</div>";
+                }
+                echo "</div>
             </div>";
 
-    echo "<div class='row'>
+                echo "<div class='row'>
         <div class='fw-bold col-lg-2 col-md-16'>อาจารย์ที่ปรึกษา</div>
         <div class='col-auto d-flex flex-column'>
             <a href='search?advisor=$thesis[prefix_advisor]_$thesis[name_advisor]_$thesis[surname_advisor]'>
             $thesis[prefix_advisor]$thesis[name_advisor] $thesis[surname_advisor] </a>
         </div>
         ";
-    if ($thesis['prefix_coAdvisor'] != '') {
-        echo ",&nbsp";
-        echo "<div class='col-auto d-flex flex-column'>";
-        echo "<a href='search?coAdvisor=$thesis[prefix_coAdvisor]_$thesis[name_coAdvisor]_$thesis[surname_coAdvisor]'>$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]</a>";
-        echo "</div>";
-    }
+                if ($thesis['prefix_coAdvisor'] != '') {
+                    echo ",&nbsp";
+                    echo "<div class='col-auto d-flex flex-column'>";
+                    echo "<a href='search?coAdvisor=$thesis[prefix_coAdvisor]_$thesis[name_coAdvisor]_$thesis[surname_coAdvisor]'>$thesis[prefix_coAdvisor]$thesis[name_coAdvisor] $thesis[surname_coAdvisor]</a>";
+                    echo "</div>";
+                }
 
-    echo "
+                echo "
     </div>";
 
-    echo "<div class='row'>
+                echo "<div class='row'>
         <div class='fw-bold col-md-16 col-lg-2'>ปีที่พิมพ์เล่ม</div>
         <a href='search?printed=$thesis[printed_year]' class='col-md-16 col-lg-auto'>$thesis[printed_year]</a>
         </div>";
 
 
-    echo "<div class='row'>
+                echo "<div class='row'>
             <div class='fw-bold col-md-16 col-lg-2'>ปีที่อนุมัติเล่ม</div>
             <a href='search?approval=$thesis[semester]/$thesis[approval_year]' class='link-primary col-md-16 col-lg-auto'>$thesis[semester]/$thesis[approval_year]</a>
         </div>";
 
-    echo "<div class='row'>";
-    echo "<div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>";
-    $keyword = explode(", ", $thesis['keyword']);
-    echo "<div class='col-auto d-flex flex-row'>";
-    for ($i = 0; $i < count($keyword); $i++) {
-        echo "<a href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
-        if (!($i == count($keyword) - 1)) {
-            echo ",&nbsp";
-        }
-    }
-    echo "</div>";
-    echo  "</div>";
+                echo "<div class='row'>";
+                echo "<div class='fw-bold col-md-16 col-lg-2'>คำสำคัญ</div>";
+                $keyword = explode(", ", $thesis['keyword']);
+                echo "<div class='col-auto d-flex flex-row'>";
+                for ($i = 0; $i < count($keyword); $i++) {
+                    echo "<a href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                    if (!($i == count($keyword) - 1)) {
+                        echo ",&nbsp";
+                    }
+                }
+                echo "</div>";
+                echo  "</div>";
 
-    echo "<div>
+                echo "<div>
             <span class='fw-bold'>บทคัดย่อ</span><br>
             <p style='word-wrap: break-word;'>$thesis[abstract]</p>
         </div>";
 
-    if (isset($_SESSION['role'])) {
-        if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
-            echo 
-            "<div class='container-fluid d-flex gap-3 justify-content-center'>
+                if (isset($_SESSION['role'])) {
+                    if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
+                        echo
+                        "<div class='container-fluid d-flex gap-3 justify-content-center'>
                 <a class='btn btn-warning' href='thesis_update?id=$id'>แก้ไข</a>
                 <a class='btn btn-danger' onclick=\"alertDelete($id)\">ลบ</a>
           </div>";
-        }
-    }
-
-
-    ?>
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        function alertDelete(id) {
-            Swal.fire({
-                title: "แน่ใจหรือไม่?",
-                text: "ต้องการลบข้อมูลปริญญานิพนธ์นี้ใช่ไหม",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "ลบข้อมูล"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "ลบสำเร็จ!",
-                        text: "คุณได้ลบรายการปริญญานิพนธ์เรียบร้อยแล้ว",
-                        icon: "success"
-                    }).then(() => {
-                        window.location = "thesis_delete?id=" + id;
-                    });
+                    }
                 }
-            });
-        }
-    </script>
-    <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
+
+
+                ?>
+                <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <script>
+                    function alertDelete(id) {
+                        Swal.fire({
+                            title: "แน่ใจหรือไม่?",
+                            text: "ต้องการลบข้อมูลปริญญานิพนธ์นี้ใช่ไหม",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "ลบข้อมูล"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "ลบสำเร็จ!",
+                                    text: "คุณได้ลบรายการปริญญานิพนธ์เรียบร้อยแล้ว",
+                                    icon: "success"
+                                }).then(() => {
+                                    window.location = "thesis_delete?id=" + id;
+                                });
+                            }
+                        });
+                    }
+                </script>
+                <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
