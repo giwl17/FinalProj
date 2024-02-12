@@ -1,6 +1,6 @@
 <?php
 
-if(!isset($_COOKIE['email'])) {
+if (!isset($_COOKIE['email'])) {
     header("Location: /FinalProj/login");
 }
 session_start();
@@ -33,10 +33,12 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์ : ดูไฟล์</title>
+    <title>จัดการเล่มปริญญานิพนธ์</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         body {
@@ -46,36 +48,50 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
 </head>
 
 <body>
-    <div class="d-flex flex-column justify-content-center align-items-center h-100 bg-body-light shadow-sm">
-        <?php if (isset($_SESSION['download_permissions'])) ?>
-
-
+    <div class="d-flex flex-column h-100 bg-body-light shadow-sm">
         <?php if ($type === 'thesis') : ?>
             <div class="p-2 w-100 text-center">
                 <h1 class="h3">ไฟล์เล่มปริญญานิพนธ์</h1>
-                <?php if ($_SESSION['download_permission'] == 1) : ?>
-                    <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
-                <? endif; ?>
+                <?php if ($_SESSION['download_permissions'] == 1) : ?>
+                    <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+                        <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
             </div>
-        <?php elseif ($type === 'poster') : ?>
-            <div class="p-2 w-100 text-center">
-                <h1 class="h3">ไฟล์โปสเตอร์</h1>
-                <?php if ($_SESSION['download_permission'] == 1) : ?>
-                    <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
-                <?php endif; ?>
-            </div>
-        <?php elseif ($type === 'approval') : ?>
-            <div class="p-2 w-100 text-center">
-                <h1 class="h3">ไฟล์อนุมัติ</h1>
-                <?php if ($_SESSION['download_permission'] == 1) : ?>
-                    <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
-                <?php endif; ?>
-            </div>
+            <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+            <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
+        <?php else : ?>
+            <h1>ไม่พบไฟล์</h1>
         <?php endif; ?>
-        <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
-        <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
-    </div>
+    <? endif; ?>
 
+<?php elseif ($type === 'poster') : ?>
+    <div class="p-2 w-100 text-center">
+        <h1 class="h3">ไฟล์โปสเตอร์</h1>
+        <?php if ($_SESSION['download_permissions'] == 1) : ?>
+            <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+                <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
+    </div>
+    <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+    <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
+<?php else : ?>
+    <h1>ไม่พบไฟล์</h1>
+<?php endif; ?>
+<? endif; ?>
+<?php elseif ($type === 'approval') : ?>
+    <div class="p-2 w-100 text-center">
+        <h1 class="h3">ไฟล์อนุมัติ</h1>
+        <?php if ($_SESSION['download_permissions'] == 1) : ?>
+            <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+                <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
+    </div>
+    <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+    <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
+<?php else : ?>
+    <h1>ไม่พบไฟล์</h1>
+<?php endif; ?>
+<? endif; ?>
+<?php endif; ?>
+
+    </div>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         function disableMouseClick(e) {
