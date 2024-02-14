@@ -4,12 +4,12 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; 
+require 'vendor/autoload.php';
 
 require_once 'dbconnect.php';
 
 date_default_timezone_set("Asia/Bangkok");
-$token = bin2hex(random_bytes(32)); 
+$token = bin2hex(random_bytes(32));
 // $hashed_token = hash("sha256", $token);
 // $expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
@@ -54,8 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo 'exists';
 
             // echo 'Email sent successfully. Check your inbox for the reset link.';
+        } catch (PDOException $e) {
+            echo "Database Error: " . $e->getMessage();
         } catch (Exception $e) {
-            echo "Error sending email: {$mail->ErrorInfo}";
+            echo "Error sending email: " . $e->getMessage();
         }
         // $_SESSION['email'] = $email;
         // header("Location: reset_password.php?token=$token"); // ส่งค่า token ไปด้วยใน URL
