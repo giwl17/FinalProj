@@ -26,8 +26,9 @@ $routes = [
     '/FinalProj/thesislistwaiting/thesis' =>  __DIR__ . '/thesis_check_detail.php',
     '/FinalProj/recycle_bin' =>  __DIR__ . '/recycle_bin.php',
     '/FinalProj/archive' =>  __DIR__ . '/archive.php',
+    '/FinalProj/manage_privilege' =>  __DIR__ . '/manage_privilege.php',
     '/FinalProj/thesisdelete' =>  __DIR__ . '/thesis_list_delete.php',
-
+    
 ];
 
 function routeTo($uri, $routes) {

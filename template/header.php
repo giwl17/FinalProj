@@ -100,6 +100,7 @@ if (isset($_SESSION['role'])) {
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesislistwaiting'>รายการที่รอตรวจสอบข้อมูล</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisadd'>เพิ่มข้อมูลปริญญานิพนธ์</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisdelete'>ลบปริญญานิพนธ์</a></li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/manage_privilege'>จัดการสิทธิ์บัญชีผู้ใช้งาน</a></li>
                 <li class='nav-item text-center dropdown'>
                     <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
                     <ul class='dropdown-menu dropdown-menu-end'>
