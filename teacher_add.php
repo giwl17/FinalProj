@@ -88,13 +88,9 @@
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
                             <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv">
                         </div>
-
                         <button type="submit" class="btn btn-primary ml-2">Upload</button>
                     </form>
                 </div>
-
-
-
             </div>
 
         </div>
