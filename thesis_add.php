@@ -408,7 +408,7 @@
                     <form action="/upload" method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
-                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv">
+                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
                         </div>
                         <button type="submit" class="btn btn-primary ml-2">Upload</button>
                     </form>
@@ -495,6 +495,14 @@
                 event.target.value = '';
             } else {
                 // console.log('pdf');
+            }
+        }
+
+        const checkCSV = (event) => {
+            let file = event.target.files;
+            console.log("File",file[0].type)
+            if (file[0].type != 'text/csv') {
+                event.target.value = '';
             }
         }
 
