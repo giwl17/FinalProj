@@ -51,7 +51,7 @@
                 <div>
                     <div class="form-group mb-3">
                         <label for="member1_id">รหัสนักศึกษา (มีขีด)</label>
-                        <input class="form-control members_id" type="text" name="member1_id" id="member1_id" maxlength="14" pattern="\d{12}-\d$" required>
+                        <input class="form-control members_id" type="text" name="member1_id" id="member1_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$" required>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
@@ -80,7 +80,7 @@
                 <label class="form-check-label" for="member2">สมาชิกคนที่ 2</label>
                 <div class="form-group mb-3 member-child">
                     <label for="member2_id">รหัสนักศึกษา (มีขีด)</label>
-                    <input class="form-control members_id" type="text" name="member2_id" id="member2_id" maxlength="14">
+                    <input class="form-control members_id" type="text" name="member2_id" id="member2_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$">
                 </div>
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                     <div class="col form-group">
@@ -109,7 +109,7 @@
                 <div>
                     <div class="form-group mb-3">
                         <label for="member3_id">รหัสนักศึกษา (มีขีด)</label>
-                        <input class="form-control members_id" type="text" name="member3_id" id="member3_id" maxlength="14">
+                        <input class="form-control members_id" type="text" name="member3_id" id="member3_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$">
                     </div>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
@@ -479,9 +479,9 @@
         let members_id = document.querySelectorAll('.members_id');
         members_id.forEach((member) => {
             member.addEventListener("keyup", () => {
-                if(member.value[11] !== undefined) {
-                    member.value[12] = "-";
-                }
+                const x = member.value.replace(/\D/g, '').match(/^(\d{12})(\d{1})$/)
+                member.value = (x[1] + '-' + x[2])
+
             });
         });
     </script>
