@@ -405,14 +405,21 @@
             <!-- tab csv -->
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="1">
                 <div class="container mt-5">
-                    <form action="/upload" method="post" enctype="multipart/form-data" class="form-inline">
+                    <form action="./csv_thesis_add.php" method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
                             <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
                         </div>
-                        <button type="submit" class="btn btn-primary ml-2">Upload</button>
+                        <!-- table show csv upload -->
+                        <div id="areaTable" style="overflow-x:auto; overflow-y:auto; max-height:500px; margin:1.5rem 0;">
+                            <table class="table table-bordered" id="tableCSV">
+
+                            </table>
+                        </div>
+                        <input type="submit" class="btn btn-primary mb-3 center" value="Upload" name="submitBtn" id="submitCsvBtn" style="visibility: hidden;">
                     </form>
                 </div>
+
             </div>
 
         </div>
@@ -500,9 +507,56 @@
 
         const checkCSV = (event) => {
             let file = event.target.files;
-            console.log("File",file[0].type)
             if (file[0].type != 'text/csv') {
                 event.target.value = '';
+            } else {
+                //have file csv
+                let areaTable = document.querySelector('#areaTable');
+                let tableCSV = document.querySelector('#tableCSV');
+                let submitCsvBtn = document.querySelector('#submitCsvBtn');
+                submitCsvBtn.style.visibility = "visible";
+
+                let reader = new FileReader();
+                reader.readAsText(file[0]);
+
+                reader.onload = function() {
+                    let csv = reader.result;
+                    let rows = csv.split("\n");
+                    let header = rows[0];
+                    let tableHTML = ""
+
+                    rows.forEach((row) => {
+                        console.log("row", row)
+                        let column = row.split(",");
+                        if (row === header) {
+                            console.log("header equal row")
+                            tableHTML += "<thead>"
+                            tableHTML += "<tr>";
+                            column.forEach((col) => {
+                                console.log("col", col)
+                                tableHTML += `<th>${col}</th>`;
+                            })
+                            tableHTML += "</tr>";
+                            tableHTML += "</thead>"
+                            return
+                        }
+                        if(row == '') {
+                            return
+                        }
+                        tableHTML += "<tr>";
+                        column.forEach((col) => {
+                            console.log("col", col)
+                            tableHTML += `<td>${col}</td>`;
+                        })
+                        tableHTML += "</tr>";
+                    })
+                    console.log(tableHTML)
+                    tableCSV.innerHTML = tableHTML;
+                };
+                reader.onerror = function() {
+                    console.log(reader.error);
+                };
+
             }
         }
 
@@ -526,6 +580,11 @@
 
             });
         });
+
+        //submit csv
+        $('#submitCsvBtn').on('click', () => {
+
+        })
     </script>
 
 
