@@ -1,121 +1,319 @@
+<?php
+include 'dbconnect.php';
+
+$stmt = $conn->query("SELECT * FROM account WHERE role = 4");
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// 1=ผู้ดูแลระบบ
+// 2=เจ้าหน้าที่
+// 3=เจ้าหน้าที่ชั่วคราว
+// 4=อาจารย์
+// 5=นักศึกษา
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์ - จัดการสิทธิ์บัญชีผู้ใช้งาน</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>จัดการสิทธิ์บัญชีผู้ใช้งาน</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/js/bootstrap.min.js">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <?php require "template/header.php"; ?>
-    <br>
-    <div class="container">
-        <h1 class="h4 text-primary text-center mb-4">จัดการสิทธิ์บัญชีผู้ใช้งาน</h1>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">นักศึกษา</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
-            </li>
-        </ul>
-
+    <?php require 'template/header.php'; ?>
+    <div class="container mt-5">
+        <h1 class="h3 text-center">จัดการสิทธิ์บัญชีผู้ใช้งาน</h1>
+        <div class="row">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">นักศึกษา</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
+                </li>
+            </ul>
+        </div>
         <div class="tab-content" id="myTabContent">
-            <!-- tab manual -->
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                <form class="container mt-4" method="post" action="sendMailCreateAccount" enctype="multipart/form-data">
-                    <div class="row g-3">
-                        <div class="col-md-2">
-                            <label for="prefix" class="form-label">คำนำหน้า</label>
-                            <select class="form-select" id="prefix" name="prefix" required>
-                                <option value="">กรุณาเลือกคำนำหน้า</option>
-                                <option value="นาย">นาย</option>
-                                <option value="นาง">นาง</option>
-                                <option value="นางสาว">นางสาว</option>
-                                <option value="other">อื่นๆ(ยังไม่ทำ)</option>
-                            </select>
-                        </div>
-                        <div class="col-md-5">
-                            <label for="name" class="form-label">ชื่อ</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="กรุณาใส่ชื่อ" required>
-                        </div>
-                        <div class="col-md-5">
-                            <label for="lastname" class="form-label">นามสกุล</label>
-                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="กรุณาใส่นามสกุล" required>
-                        </div>
+                <div class="row mt-5">
+                    <table id="example" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
+                                <th>รหัสนักศึกษา</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>สิทธิ์ในการดาว์นโหลดไฟล์</th>
+                                <th>สถานะการใช้งาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data as $row) : ?>
+                                <tr>
+                                    <td><input type="checkbox" name="select_<?= $row['account_id'] ?>" class="select"></td>
+                                    <td><?= $row['studentId'] ?></td>
+                                    <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
+                                    <td><?= $row['download_permissions'] ?></td>
+                                    <td><?= $row['status'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
                     </div>
-                    <br>
-                    <div class="row g-3">
-                        <div class="col">
-                            <label for="email" class="form-label">อีเมล์</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="กรุณาใส่อีเมล์" required>
-                        </div>
+                    <div>
+                        <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
                     </div>
-                    <div hidden>
-                        <input type="text" id="role" name="role" value="2">
-                        <input type="text" id="download_permissions" name="download_permissions" value="1">
-                        <input type="text" id="member_manage_permission" name="member_manage_permission" value="1">
-                        <input type="text" id="account_manage_permission" name="account_manage_permission" value="1">
-                        <input type="text" id="status" name="status" value="1">
-                        <input type="text" id="page" name="page" value="officer_add">
-
+                    <div>
+                        <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">ส่งอีเมล์เพื่อสร้างรหัสผ่าน</button>
-                </form>
+                </div>
             </div>
-            <!-- tab csv -->
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                <div class="container mt-5">
-                    <form action="csv_reader.php" method="post" enctype="multipart/form-data" class="form-inline">
-                        <div class="form-group">
-                            <label for="csvFile" class="mr-2">Choose a CSV file:</label>
-                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" required>
-                            <div id="tableContainer" class="mb-3"></div>
-                            <div hidden>
-                                <input type="text" id="role" name="role" value="2">
-                                <input type="text" id="download_permissions" name="download_permissions" value="1">
-                                <input type="text" id="member_manage_permission" name="member_manage_permission" value="1">
-                                <input type="text" id="account_manage_permission" name="account_manage_permission" value="1">
-                                <input type="text" id="status" name="status" value="1">
-                                <input type="text" id="page" name="page" value="officer_add">
 
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary ml-2">Upload</button>
-                    </form>
+            <div class="container mt-5"></div>
+            <!-- //tep อาจารย์ -->
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="row mt-5">
+                    <table id="example1" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
+                                <th>รหัสนักศึกษา</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>สิทธิ์ในการดาว์นโหลดไฟล์</th>
+                                <th>สถานะการใช้งาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data as $row) : ?>
+                                <tr>
+                                    <td><input type="checkbox" name="select_<?= $row['account_id'] ?>" class="select"></td>
+                                    <td><?= $row['studentId'] ?></td>
+                                    <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
+                                    <td><?= $row['download_permissions'] ?></td>
+                                    <td><?= $row['status'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
     </div>
 
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable();
+        });
+        $(document).ready(function() {
+            var table = $('#example1').DataTable();
+        });
+
+        function checkSelectAll(count) {
+            let selectAll = document.querySelector('#selectAll');
+            let selectItems = document.querySelectorAll('.select');
+            if (selectAll.checked) {
+                selectItems.forEach((item) => {
+                    item.checked = true;
+                })
+            } else {
+                selectItems.forEach((item) => {
+                    item.checked = false;
+                })
+            }
+        }
+
+        function submitPublish() {
+            let anyChecked = false;
+            console.log("clicked");
+            let selectItems = document.querySelectorAll('.select');
+            selectItems.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                })
+            } else {
+                let checkedList = [];
+                selectItems.forEach(item => {
+                    console.log(item.name);
+                    console.log(item.checked);
+                    if (item.checked)
+                        checkedList.push(item.name);
+                })
+
+                Swal.fire({
+                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                }).then((result) => {
+                    fetch("/FinalProj/thesis_publish_db.php", {
+                        method: "post",
+                        body: JSON.stringify(checkedList),
+                    }).then(res => {
+                        return res.text()
+                    }).then(data => {
+                        if (data == '1') {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "เผยแพร่สำเร็จ!",
+                                    icon: "success"
+                                }).then(result => {
+                                    window.location.replace("/FinalProj/recycle_bin")
+                                })
+                            }
+                        }
+                    })
+                });
+            }
+        }
+
+        function submitArchive() {
+            let anyChecked = false;
+            console.log("clicked");
+            let selectItems = document.querySelectorAll('.select');
+            selectItems.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการ Archive',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                })
+            } else {
+                let checkedList = [];
+                selectItems.forEach(item => {
+                    console.log(item.name);
+                    console.log(item.checked);
+                    if (item.checked)
+                        checkedList.push(item.name);
+                })
+
+                Swal.fire({
+                    title: "Archive รายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูก Archive",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Archive รายการที่เลือก"
+                }).then((result) => {
+                    fetch("/FinalProj/thesis_archive_db.php", {
+                        method: "post",
+                        body: JSON.stringify(checkedList),
+                    }).then(res => {
+                        return res.text()
+                    }).then(data => {
+                        if (data == '2') {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "Archive สำเร็จ!",
+                                    icon: "success"
+                                }).then(result => {
+                                    window.location.replace("/FinalProj/recycle_bin")
+                                })
+                            }
+                        }
+                    })
+                });
+            }
+        }
+
+        function submitDelete() {
+            let anyChecked = false;
+            console.log("clicked");
+            let selectItems = document.querySelectorAll('.select');
+            selectItems.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะลบ',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                })
+            } else {
+                let checkedList = [];
+                selectItems.forEach(item => {
+                    console.log(item.name);
+                    console.log(item.checked);
+                    if (item.checked)
+                        checkedList.push(item.name);
+                })
+
+                Swal.fire({
+                    title: "ลบรายการที่เลือกหรือไม่?",
+                    text: "รายการที่ลบจะถูกลบอย่างถาวร",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "ลบรายการที่เลือก"
+                }).then((result) => {
+                    fetch("/FinalProj/thesis_delete_db.php", {
+                        method: "post",
+                        body: JSON.stringify(checkedList),
+                    }).then(res => {
+                        return res.text()
+                    }).then(data => {
+                        if (data == '3') {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "ลบสำเร็จ!",
+                                    icon: "success"
+                                }).then(result => {
+                                    window.location.replace("/FinalProj/recycle_bin")
+                                })
+                            }
+                        }
+                    })
+                });
+            }
+        }
+    </script>
     <script>
         document.getElementById('csvFile').addEventListener('change', handleFile);
 
@@ -161,11 +359,6 @@
             tableContainer.innerHTML = tableHTML;
         }
     </script>
-
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
