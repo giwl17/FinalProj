@@ -407,7 +407,7 @@
                 <div class="container mt-5">
                     <form action="./csv_thesis_add.php" method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
-                            <label for="csvFile" class="mr-2">Choose a CSV file:</label>
+                            <label for="csvFile" class="mr-2">เลือกไฟล์ CSV</label>
                             <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
                         </div>
                         <!-- table show csv upload -->
@@ -415,6 +415,10 @@
                             <table class="table table-bordered" id="tableCSV">
 
                             </table>
+                        </div>
+                        <div>
+                            <labe for="fileDirectory">เลือกโฟลเดอร์ไฟล์ PDF</labe>
+                            <input class="btn mb-3" type="file" name="fileDirectory[]" id="fileDirectory" webkitdirectory multiple>
                         </div>
                         <input type="submit" class="btn btn-primary mb-3 center" value="Upload" name="submitBtn" id="submitCsvBtn" style="visibility: hidden;">
                     </form>
@@ -521,15 +525,15 @@
 
                 reader.onload = function() {
                     let csv = reader.result;
-                    console.log("csv",csv);
+                    console.log("csv", csv);
                     let rows = csv.split("\n");
                     let header = rows[0];
                     let tableHTML = ""
 
                     rows.forEach((row) => {
                         console.log("row", row)
-                        row  = row.replaceAll(", ", " ");
-                        row  = row.replaceAll("\"", " ");
+                        row = row.replaceAll(", ", " ");
+                        row = row.replaceAll("\"", " ");
                         // row  = row.replaceAll(/\t/g, " ");
                         console.log("row replace", row)
                         let column = row.split(",");
@@ -545,7 +549,7 @@
                             tableHTML += "</thead>"
                             return
                         }
-                        if(row == '') {
+                        if (row == '') {
                             return
                         }
                         tableHTML += "<tr>";
