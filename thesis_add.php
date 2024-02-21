@@ -521,12 +521,17 @@
 
                 reader.onload = function() {
                     let csv = reader.result;
+                    console.log("csv",csv);
                     let rows = csv.split("\n");
                     let header = rows[0];
                     let tableHTML = ""
 
                     rows.forEach((row) => {
                         console.log("row", row)
+                        row  = row.replaceAll(", ", " ");
+                        row  = row.replaceAll("\"", " ");
+                        // row  = row.replaceAll(/\t/g, " ");
+                        console.log("row replace", row)
                         let column = row.split(",");
                         if (row === header) {
                             console.log("header equal row")
@@ -546,7 +551,7 @@
                         tableHTML += "<tr>";
                         column.forEach((col) => {
                             console.log("col", col)
-                            tableHTML += `<td>${col}</td>`;
+                            tableHTML += `<td style='max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>${col}</td>`;
                         })
                         tableHTML += "</tr>";
                     })
