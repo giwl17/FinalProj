@@ -1,41 +1,69 @@
 <?php
-
-$token = $_GET["token"];
-
-$token_hash = hash("sha256", $token);
-
-
 require_once 'dbconnect.php';
+
+if(isset($_GET["token"])){
+     $token = $_GET["token"];
+
 try {
-$sql = "SELECT * FROM account
-        WHERE reset_token_hash = :token_hash";
-
+$sql = "SELECT * FROM account WHERE reset_token_hash = :token";
 $select = $conn->prepare($sql);
-
-$select->bindParam("token_hash", $token_hash,PDO::PARAM_STR);
-
-
+$select->bindParam("token", $token,PDO::PARAM_STR);
 $select->execute();
 
-// $result = $stmt->get_result();
 $user = $select->fetch(PDO::FETCH_ASSOC);
 
 if($user){
     $name = $user['name'];
     $lastname = $user['lastname'];
+    
+}else{
+    die("cant select");
 }
 
 if ($user === null) {
-    die("token not found");
+    die("token incorrect");
 }
 
-if (strtotime($user["reset_token_expires_at"]) <= time()) {
+if (strtotime($user['reset_token_expires_at']) <= time()) {
     die("token has expired");
 }
 } catch (PDOException $e) {
     echo''. $e->getMessage() .'';
     }
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $password = $_POST["password"];
+    $checkPassword = $_POST["checkPassword"];   
+    $token = $_GET["token"];
+$token_hash = password_hash($token, PASSWORD_DEFAULT);
+$password_hash= password_hash($password, PASSWORD_DEFAULT);
+
+
+if (strnatcmp($password,$checkPassword)==0) {
+    try {
+        $sql = "UPDATE account SET password = :password_hash , reset_token_hash =NULL,reset_token_expires_at =NULL
+                WHERE reset_token_hash = :token";
+        
+        $select = $conn->prepare($sql);
+        $select->bindParam("password_hash", $password_hash,PDO::PARAM_STR);
+        $select->bindParam("token", $token,PDO::PARAM_STR);
+        
+        
+        $select->execute();
+        
+        // echo"update password";
+        echo '<script>alert("update password complete");</script>';
+        echo '<script>window.location.href = "login.php";</script>';
+       
+        } catch (PDOException $e) {
+            echo''. $e->getMessage() .'';
+            }
+}else{
+    die('Your confirm is not correct');
+}
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +88,7 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
         };
     </script>
     <?php require 'template/header_login.php'; ?>
-        <form class="container mt-4" action="createAccount_db.php" method="POST">
+        <form class="container mt-4"  method="POST">
             <h1 class="h1 text-center">สร้างรหัสผ่าน</h1>
             <div class="form-group mb-3">
                 สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
@@ -68,11 +96,11 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
             </div>
             <div class="form-group mb-3">
                 <label for="password">รหัสผ่าน</label>
-                <input class="form-control" type="password" name="password" placeholder="กรุณาใส่รหัสผ่าน" required>
+                <input class="form-control" type="password" name="password" id="password" placeholder="กรุณาใส่รหัสผ่าน" required>
             </div>
             <div class="form-group mb-3">
                 <label for="pass">รหัสผ่านอีกครั้ง</label>
-                <input class="form-control" type="password" name="checkPassword" placeholder="ใส่รหัสผ่านอีกครั้ง" required>
+                <input class="form-control" type="password" name="checkPassword" id="checkPassword" placeholder="ใส่รหัสผ่านอีกครั้ง" required>
                 
             </div>
             <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">

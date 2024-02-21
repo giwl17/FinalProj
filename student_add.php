@@ -81,7 +81,7 @@
             <!-- tab csv -->
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="container mt-5">
-                    <form action="/upload" method="post" enctype="multipart/form-data" class="form-inline">
+                    <form action="csv_reader.php" method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
                             <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv">
@@ -98,6 +98,52 @@
         </div>
         <br>
     </div>
+    
+    <script>
+        document.getElementById('csvFile').addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const csvData = e.target.result;
+                    displayTable(csvData);
+                };
+
+                reader.readAsText(file);
+            }
+        }
+
+        function displayTable(csvData) {
+            const rows = csvData.split('\n');
+            const tableContainer = document.getElementById('tableContainer');
+
+            let tableHTML = '<table>';
+            let count = 0;
+            rows.forEach(row => {
+
+                const columns = row.split(',');
+                tableHTML += '<tr>';
+                columns.forEach(column => {
+                    if (count == 0) {
+                        if (column != "")
+                            tableHTML += `<th>${column}</th>`;
+                    } else {
+                        if (column != "")
+                            tableHTML += `<td>${column}</td>`;
+                    }
+                });
+                tableHTML += '</tr>';
+                count++;
+            });
+
+            tableHTML += '</table>';
+            tableContainer.innerHTML = tableHTML;
+        }
+    </script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

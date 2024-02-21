@@ -22,8 +22,8 @@ if (isset($_POST["studentID"])) {
 
 date_default_timezone_set("Asia/Bangkok");
 $token = bin2hex(random_bytes(16));
-$token_hash = hash("sha256", $token);
-$expiry = date("Y-m-d H:i:s", time() + 60 * 180);
+$token_hash = password_hash($token, PASSWORD_DEFAULT);
+$expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -52,7 +52,7 @@ try {
         $insert->bindParam("member_manage_permission", $member_manage_permission);
         $insert->bindParam("account_manage_permission", $account_manage_permission);
         $insert->bindParam("status", $status);
-        $insert->bindParam("reset_token_hash", $token_hash);
+        $insert->bindParam("reset_token_hash", $token);
         $insert->bindParam("reset_token_expires_at", $expiry);
         $insert->bindParam("studentID", $studentID);
 
