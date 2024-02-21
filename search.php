@@ -121,7 +121,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $dataInput; ?>">
                     <?php else : ?>
                         <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . $name_advisor . " " . $surname_advisor; ?>">
+                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . " " . $name_advisor . " " . $surname_advisor; ?>">
                         <?php elseif ($searchSelect === 'printed_year') : ?>
                             <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
                         <?php elseif ($searchSelect === 'semester') : ?>
@@ -149,7 +149,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     $db_con = new Database();
                     $result = $db_con->selectThesisFull();
                     $countFound = 0;
-                    
+
                     $thesisIdFound = 0;
                     if (count($result) > 0) {
                         foreach ($result as $row) {
@@ -281,6 +281,41 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $dataInput);
+                    } else if ($searchSelect === 'advisor') {
+                        if (strpos($dataInput, " ") !== false) {
+                            $advisor = explode(" ", $dataInput);
+                            switch (count($advisor)) {
+                                case 2: {
+                                        $sql = "SELECT * FROM thesis_document 
+                                    WHERE name_advisor LIKE :input1 AND surname_advisor LIKE :input2";
+                                        $likeInput1 = "%" . $advisor[0] . "%";
+                                        $likeInput2 = "%" . $advisor[1] . "%";
+                                        $insert_thesis = $conn->prepare($sql);
+                                        $insert_thesis->bindParam(":input1", $likeInput1);
+                                        $insert_thesis->bindParam(":input2", $likeInput2);
+                                    }
+                                    break;
+                                case 3: {
+                                        $sql = "SELECT * FROM thesis_document 
+                                    WHERE prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3";
+                                        $likeInput1 = "%" . $advisor[0] . "%";
+                                        $likeInput2 = "%" . $advisor[1] . "%";
+                                        $likeInput3 = "%" . $advisor[2] . "%";
+                                        $insert_thesis = $conn->prepare($sql);
+                                        $insert_thesis->bindParam(":input1", $likeInput1);
+                                        $insert_thesis->bindParam(":input2", $likeInput2);
+                                        $insert_thesis->bindParam(":input3", $likeInput3);
+                                    }
+                                    break;
+                            }
+                        } else {
+                            $sql = "SELECT * FROM thesis_document 
+                        WHERE prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
+                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor";
+                            $likeInput = "%" . $dataInput . "%";
+                            $insert_thesis = $conn->prepare($sql);
+                            $insert_thesis->bindParam(":input", $likeInput);
+                        }
                     }
                     $insert_thesis->execute();
                     $result = $insert_thesis->fetchAll(PDO::FETCH_ASSOC);

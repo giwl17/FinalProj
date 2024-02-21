@@ -96,15 +96,16 @@ $approval_year = $_POST['approval_year'];
 $printed_year = $_POST['printed_year'];
 
 
-$keywordTxt = '';
-if (isset($_POST['keywords'])) {
-    $keywords = $_POST['keywords'];
-    foreach ($keywords as $index => $keyword) {
-        $keywordTxt .= $keyword;
-        if ($index == count($keywords) - 1) {
-        } else {
-            $keywordTxt .=  ", ";
-        }
+$keyword = '';
+$i = 1;
+while (true) {
+    if (isset($_POST['keyword_' . $i])) {
+        ${"keyword_" . $i} = $_POST['keyword_' . $i];
+        // echo ${"keyword_" . $i};
+        $keyword .= ${"keyword_" . $i} . ', ';
+        $i++;
+    } else {
+        break;
     }
 }
 
@@ -129,9 +130,6 @@ if ($_FILES['poster_file']['size'] !== 0) {
     move_uploaded_file($poster_temp, $poster_upload_path);
 }
 
-
-
-
 $thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
 $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
 
@@ -145,7 +143,8 @@ try {
         prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
         prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
         prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor,
-        thesis_file = :thesis_file, approval_file = :approval_file, poster_file = :poster_file
+        thesis_file = :thesis_file, approval_file = :approval_file, poster_file = :poster_file,
+        approval_status = :approval_status,
         WHERE thesis_id = :id");
         $update->bindParam(":id", $id);
         $update->bindParam(":thai_name", $thesis_name_th, PDO::PARAM_STR);
@@ -176,6 +175,7 @@ try {
         $update->bindParam(":thesis_file", $thesis_upload_path, PDO::PARAM_STR);
         $update->bindParam(":approval_file", $approval_upload_path, PDO::PARAM_STR);
         $update->bindParam(":poster_file", $poster_upload_path, PDO::PARAM_STR);
+        $update->bindParam(":approval_status", $approval_status, PDO::PARAM_STR);
         // $result = $update->execute([$thesis_name_th, $thesis_name_en, $abstract, $printed_year, $semester, $approval_year, $thesis_upload_path, $approval_upload_path, $poster_upload_path, $keyword, ]);
     } else {
         $sql = "UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
@@ -184,7 +184,8 @@ try {
         prefix_director1 = :prefix_director1, name_director1 = :name_director1, surname_director1 = :surname_director1, 
         prefix_director2 = :prefix_director2, name_director2 = :name_director2, surname_director2 = :surname_director2,
         prefix_advisor = :prefix_advisor, name_advisor = :name_advisor, surname_advisor = :surname_advisor, 
-        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor
+        prefix_coAdvisor = :prefix_coAdvisor, name_coAdvisor = :name_coAdvisor, surname_coAdvisor = :surname_coAdvisor,
+        approval_status = :approval_status
         ";
         if ($_FILES['approval_file']['size'] !== 0) {
             $sql .= ", approval_file = \"$approval_upload_path\"";
@@ -205,7 +206,7 @@ try {
         $update->bindParam(":printed_year", $printed_year, PDO::PARAM_STR);
         $update->bindParam(":semester", $semester, PDO::PARAM_STR);
         $update->bindParam(":approval_year", $approval_year, PDO::PARAM_STR);
-        $update->bindParam(":keyword", $keywordTxt, PDO::PARAM_STR);
+        $update->bindParam(":keyword", $keyword, PDO::PARAM_STR);
         $update->bindParam(":prefix_chairman", $chairman_prefix, PDO::PARAM_STR);
         $update->bindParam(":name_chairman", $chairman_firstname, PDO::PARAM_STR);
         $update->bindParam(":surname_chairman", $chairman_lastname, PDO::PARAM_STR);
@@ -221,6 +222,7 @@ try {
         $update->bindParam(":prefix_coAdvisor", $coAdvisor_prefix, PDO::PARAM_STR);
         $update->bindParam(":name_coAdvisor", $coAdvisor_firstname, PDO::PARAM_STR);
         $update->bindParam(":surname_coAdvisor", $coAdvisor_lastname, PDO::PARAM_STR);
+        $update->bindParam(":approval_status", $approval_status, PDO::PARAM_STR);
     }
     $result = $update->execute();
     if ($result) {
@@ -275,8 +277,8 @@ try {
                 // echo "เพิ่มสมาชิก 3 สำเร็จ";
             }
         }
-        $urlLocation = '/FinalProj/thesis?id=' . $id;
-        header("location: $urlLocation");
+
+        header('location: /FinalProj/thesislistwaiting');
     }
 } catch (PDOException $e) {
     echo $e;

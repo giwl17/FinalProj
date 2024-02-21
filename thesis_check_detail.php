@@ -64,7 +64,7 @@ function checkPrefixMembers($members)
 <body>
     <?php require "template/header.php" ?>
 
-    <form class="container mt-4" method="post" action="thesis_update_db.php" enctype="multipart/form-data">
+    <form class="container mt-4" method="post" action="../thesis_check_detail_db.php" enctype="multipart/form-data" id="form" name="submitUpdateThesis">
         <h1 class="h3 text-primary text-center mb-4">ตรวจสอบข้อมูล</h1>
         <div class="form-group mb-3">
             <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
@@ -500,7 +500,10 @@ function checkPrefixMembers($members)
         </div>
 
         <input type="hidden" name="id" value="<?php echo $id; ?>">
-        <input class="btn btn-primary container-fluid mb-4" type="submit" value="นำเข้าข้อมูล" name="submitUpdateThesis">
+        <div class="d-flex gap-2 my-5 justify-content-center">
+            <div class="btn btn-danger" onclick="deleteThesis()">ลบข้อมูล</div>
+            <div class="btn btn-primary" onclick="submitForm()">นำเข้าข้อมูล</div>
+        </div>
     </form>
 
     <script>
@@ -588,9 +591,46 @@ function checkPrefixMembers($members)
             document.getElementById(member_firstname).toggleAttribute('required');
             document.getElementById(member_lastname).toggleAttribute('required');
         }
+
+        function deleteThesis() {
+            var formData = new FormData();
+            formData.append('id', <?= $id ?>);
+            Swal.fire({
+                    title: 'ลบรายการ',
+                    text: 'คุณต้องการลบรายการนี้หรือไม่',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'ยกเลิก',
+                    confirmButtonText: 'ลบข้อมูล',
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+
+                        fetch("../deleteThesis.php", {
+                            body: formData,
+                            method: "POST"
+                        }).then((res) => {
+                            return res.text()
+                        }).then(res => {
+                            console.log(res)
+                            Swal.fire('ลบรายการนี้สำเร็จ!', '', 'success')
+                                .then(
+                                    () => {
+                                        location.replace("/FinalProj/thesislistwaiting");
+                                    }
+                                )
+                        })
+                    }
+                })
+        }
+
+        function submitForm() {
+            document.getElementById("form").submit();
+        }
     </script>
 
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

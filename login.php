@@ -32,17 +32,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['email'] = $user['email'];
         $_SESSION['name'] = $user['name'];
+        $_SESSION['lastname'] = $user['lastname'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['download_permissions'] = $user['download_permissions'];
+        $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
+        $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
+        $_SESSION['status'] = $user['status'];
         setcookie('email', $email, time() + (86400 * 30), "/");
-        header("Location: dashboard.php");
+        // header("Location: dashboard.php");
+        // header("Location: /FinalProj");
+        header("Location: ". $_SESSION['current_page']);
         exit();
     } else {
         echo '<script>
             Swal.fire({
                 icon: "error",
-                title: "Login Failed",
-                text: "Invalid email or password!"
+                title: "Login ไม่สำเร็จ",
+                text: "email หรือ password ไม่ถูกต้อง!"
             }).then(function() {
-                window.location = "login.php";
+                window.location = "/FinalProj/login";
             });
         </script>';
     }
@@ -50,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
   <?php require 'template/header_login.php'; ?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="container mt-4">
+  <form method="post" class="container mt-4">
     <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
     <!-- Email: <input type="text" name="email"><br>
         Password: <input type="password" name="password"><br> -->
@@ -62,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <label for="pass">Password</label>
       <input class="form-control" type="password" name="password" placeholder="Password" required>
       <div class="form-text">
-        หากลืมรหัสผ่าน <span><a href="/FinalProj/pass.php">คลิกที่นี่</a></span>
+        หากลืมรหัสผ่าน <span><a href="/FinalProj/pass">คลิกที่นี่</a></span>
       </div>
     </div>
     <input type="submit" class="btn btn-primary container-fluid mb-3" value="เข้าสู่ระบบ" />

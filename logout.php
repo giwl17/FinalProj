@@ -3,7 +3,7 @@ session_start();
 session_unset();
 session_destroy();
 setcookie('email', '', time() - 3600, '/'); // ทำลาย Cookie
-header("Location: login.php"); // Redirect ไปที่หน้า login
+header("Location: /FinalProj/"); // Redirect ไปที่หน้า login
 ?>
 <!-- <!DOCTYPE html>
 <html lang="en">
