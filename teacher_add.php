@@ -8,32 +8,56 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/js/bootstrap.min.js">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
 
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
 </head>
 
 <body>
+    <?php
+    $tab = 'active';
+    $tabshow = 'show active';
+    $tabcsv = '';
+    $tabcsvshow = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_once 'sendMailCreateAccount.php';
+    }
+    ?>
     <?php require "template/header.php"; ?>
     <br>
     <div class="container">
         <h1 class="h4 text-primary text-center mb-4">เพิ่มข้อมูลอาจารย์</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">กรอกข้อมูล</button>
+                <button class="nav-link <?php echo $tab; ?>" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">กรอกข้อมูล</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อัปโหลดไฟล์ CSV</button>
+                <button class="nav-link <?php echo $tabcsv; ?>" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อัปโหลดไฟล์ CSV</button>
             </li>
 
         </ul>
 
         <div class="tab-content" id="myTabContent">
             <!-- tab manual -->
- 
 
-            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                <form class="container mt-4" method="post" action="sendMailCreateAccount" enctype="multipart/form-data">
+
+            <div class="tab-pane fade <?php echo $tabshow; ?>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <form class="container mt-4" method="post" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-2">
                             <label for="prefix" class="form-label">คำนำหน้า</label>
@@ -81,14 +105,53 @@
 
 
             <!-- tab csv -->
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="tab-pane fade <?php echo $tabcsvshow; ?>" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <?php
+                if (count($error_msg["name"]) > 0 && count($error_msg["lastname"]) > 0 && count($error_msg["email"]) > 0) {
+                    echo '<div class="container mt-5">';
+                    echo "<div>รายการที่ไม่สามารถเพิ่มผู้ใช้ได้</div>";
+                    echo "<table>";
+                    echo "<tr>";
+                    echo "<th>คำนำหน้า</th>";
+                    echo "<th>ชื่อ</th>";
+                    echo "<th>นามสกุล</th>";
+                    echo "<th>อีเมล์</th>";
+                    echo "</tr>";
+                    $count = count($error_msg["name"]);
+                    for ($i = 0; $i < $count; $i++) {
+                        echo "<tr>";
+                        echo "<td>" . $error_msg['prefix'][$i] . "</td>";
+                        echo "<td>" . $error_msg['name'][$i] . "</td>";
+                        echo "<td>" . $error_msg['lastname'][$i] . "</td>";
+                        echo "<td>" . $error_msg['email'][$i] . "</td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</table>";
+                    echo '</div>';
+                }
+                ?>
                 <div class="container mt-5">
-                    <form action="csv_reader.php" method="post" enctype="multipart/form-data" class="form-inline">
+                    <form method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
                             <label for="csvFile" class="mr-2">Choose a CSV file:</label>
                             <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv">
+                            <div id="tableContainer" class="mb-3"></div>
                         </div>
+                        <div hidden>
+                            <input type="text" id="role" name="role" value="4">
+                            <input type="text" id="download_permissions" name="download_permissions" value="1">
+                            <input type="text" id="member_manage_permission" name="member_manage_permission" value="0">
+                            <input type="text" id="account_manage_permission" name="account_manage_permission" value="0">
+                            <input type="text" id="status" name="status" value="1">
+                            <input type="text" id="page" name="page" value="teacher_add">
 
+                        </div>
+                        <label for="tem">Template สำหรับ CSV</label>
+                        <a href="/FinalProj/template/templateTeacher.csv" id="tem" download>
+                            <img src="/FinalProj/img/csvlogo.jpg" alt="csv" width="50" height="50">
+                        </a>
+                        <br>
                         <button type="submit" class="btn btn-primary ml-2">Upload</button>
                     </form>
                 </div>
@@ -127,18 +190,20 @@
             rows.forEach(row => {
 
                 const columns = row.split(',');
-                tableHTML += '<tr>';
-                columns.forEach(column => {
-                    if (count == 0) {
-                        if (column != "")
-                            tableHTML += `<th>${column}</th>`;
-                    } else {
-                        if (column != "")
-                            tableHTML += `<td>${column}</td>`;
-                    }
-                });
-                tableHTML += '</tr>';
-                count++;
+                if (columns.some(column => column.trim() !== '')) { // Check if any column is not empty
+                    tableHTML += '<tr>';
+                    columns.forEach(column => {
+                        if (count === 0) {
+                            if (column.trim() !== "")
+                                tableHTML += `<th>${column}</th>`;
+                        } else {
+                            if (column.trim() !== "")
+                                tableHTML += `<td>${column}</td>`;
+                        }
+                    });
+                    tableHTML += '</tr>';
+                    count++;
+                }
             });
 
             tableHTML += '</table>';
