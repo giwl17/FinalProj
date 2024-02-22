@@ -419,8 +419,11 @@
                         $semester,
                         $approval_year,
                         $thesis_file_all[0],
+                        $thesis_temp,
                         $approval_upload_path,
+                        $approval_temp,
                         $poster_file_all[0],
+                        $poster_temp,
                         $keywords,
                         $prefix_chairman,
                         $name_chairman[0],
@@ -488,8 +491,11 @@
         $semester,
         $approval_year,
         $thesis_upload_path,
+        $thesis_temp,
         $approval_upload_path,
+        $approval_temp,
         $poster_upload_path,
+        $poster_temp,
         $keywords,
         $prefix_chairman,
         $name_chairman,
@@ -595,6 +601,10 @@
                     $insertMem->bindParam(":order_member", $order);
                     $result = $insertMem->execute();
                 }
+
+                move_uploaded_file($poster_temp, $poster_upload_path);
+                move_uploaded_file($thesis_temp, $thesis_upload_path);
+                move_uploaded_file($approval_temp, $approval_upload_path);
 
                 $_SESSION['countInsertSuccess']++;
                 $_SESSION['InsertCsvSuccess'] = true;
