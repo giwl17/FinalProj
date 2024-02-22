@@ -52,7 +52,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
         <?php if ($type === 'thesis') : ?>
             <div class="p-2 w-100 text-center">
                 <h1 class="h3">ไฟล์เล่มปริญญานิพนธ์</h1>
-                <?php if ($fileSelect !== 'FileStorage/thesis/') :  ?>
+                <?php if ($fileSelect !== 'FileStorage/thesis/' AND $fileSelect !== NULL) :  ?>
                     <?php if ($_SESSION['download_permissions'] == 1) : ?>
                         <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
                     <?php endif; ?>
@@ -66,7 +66,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
     <?php elseif ($type === 'poster') : ?>
         <div class="p-2 w-100 text-center">
             <h1 class="h3">ไฟล์โปสเตอร์</h1>
-            <?php if ($fileSelect !== 'FileStorage/poster/') :  ?>
+            <?php if ($fileSelect !== 'FileStorage/poster/' AND $fileSelect !== NULL) :  ?>
                 <?php if ($_SESSION['download_permissions'] == 1) : ?>
                     <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
                 <?php endif; ?>
@@ -79,7 +79,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
 <?php elseif ($type === 'approval') : ?>
     <div class="p-2 w-100 text-center">
         <h1 class="h3">ไฟล์อนุมัติ</h1>
-        <?php if ($fileSelect !== 'FileStorage/approval/') :  ?>
+        <?php if ($fileSelect !== 'FileStorage/approval/' AND $fileSelect !== NULL) :  ?>
             <?php if ($_SESSION['download_permissions'] == 1) : ?>
                 <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
             <?php endif; ?>
