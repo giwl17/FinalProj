@@ -406,9 +406,14 @@
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="1">
                 <div class="container mt-5">
                     <form action="./csv_thesis_add.php" method="post" enctype="multipart/form-data" class="form-inline">
-                        <div class="form-group">
-                            <label for="csvFile" class="mr-2">เลือกไฟล์ CSV</label>
-                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="form-group">
+                                <label for="csvFile" class="mr-2">เลือกไฟล์ CSV</label>
+                                <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
+                            </div>
+                            <div>
+                                <a class="btn btn-outline-warning" href="./src/thesis_templete.csv" download>Templete CSV</a>
+                            </div>
                         </div>
                         <!-- table show csv upload -->
                         <div id="areaTable" style="overflow-x:auto; overflow-y:auto; max-height:500px; margin:1.5rem 0;">
