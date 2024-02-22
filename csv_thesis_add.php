@@ -617,7 +617,7 @@
 
                 $_SESSION['countInsertSuccess']++;
                 $_SESSION['InsertCsvSuccess'] = true;
-                // header('location: ./thesisadd');
+                header('location: ./thesisadd');
             }
         } catch (PDOException $e) {
             echo $e;
