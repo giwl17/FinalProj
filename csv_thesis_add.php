@@ -19,7 +19,7 @@
                 $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
             }
         }
-        
+
 
         if (isset($_FILES['fileDirectory'])) {
             $file_ary = reArrayFiles($_FILES['fileDirectory']);
@@ -75,18 +75,19 @@
                     }
 
                     //สมาชิก
-                    $member1_student_id = '';
-                    $member1_prefix = '';
-                    $member1_name = '';
-                    $member1_lastname = '';
-                    $member2_student_id = '';
-                    $member2_prefix = '';
-                    $member2_name = '';
-                    $member2_lastname = '';
-                    $member3_student_id = '';
+                    // $member1_student_id = '';
+                    // $member1_prefix = '';
+                    // $member1_name = '';
+                    // $member1_lastname = '';
+                    // $member2_student_id = '';
+                    // $member2_prefix = '';
+                    // $member2_name = '';
+                    // $member2_lastname = '';
+                    // $member3_student_id = '';
                     $member3_prefix = '';
-                    $member3_name = '';
-                    $member3_lastname = '';
+                    // $member3_name = '';
+                    // $member3_lastname = '';
+
                     for ($i = 1; $i <= 3; $i++) {
                         if (${"member" . $i . "_name"} !== '') {
                             if (strpos(${"member" . $i . "_name"}, "นาย") !== false) {
@@ -104,9 +105,10 @@
                             }
                         }
                     }
+
                     // echo "$member1_prefix $member1_name $member1_lastname";
                     // echo "$member2_prefix $member2_name $member2_lastname";
-                    // echo $member3_name . $member3_lastname;
+                    // echo "ชื่อ" . $member3_prefix . $member3_name . $member3_lastname;
                     // echo "<br>";
 
                     //อาจารย์ที่ปรึกษาหลัก
@@ -395,6 +397,7 @@
                                 array_push($approval_file_all, $approval_upload_path);
                             } else {
                                 $approval_upload_path = '';
+                                $approval_temp = '';
                             }
                         }
                     } else {
@@ -528,7 +531,7 @@
         $member3_lastname
     ) {
         require "dbconnect.php";
-        
+
         try {
             $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor, thesis_status, approval_status)
         VALUES(:thai_name, :english_name, :abstract, :printed_year, :semester, :approval_year, :thesis_file, :approval_file, :poster_file, :keyword, :prefix_chairman, :name_chairman, :surname_chairman, :prefix_director1, :name_director1, :surname_director1, :prefix_director2, :name_director2, :surname_director2, :prefix_advisor, :name_advisor, :surname_advisor, :prefix_coAdvisor, :name_coAdvisor, :surname_coAdvisor, :thesis_status, :approval_status) ");
@@ -562,44 +565,50 @@
 
             $result = $insert->execute();
             if ($result) {
-                // echo "เพิ่มข้อมูลเล่มสำเร็จ";
+                // echo "เพิ่มข้อมูลเล่มสำเร็จ";'
                 $lastId = $conn->lastInsertId();
                 $thesisId = $lastId;
-                if ($member1_student_id != "") {
-                    $order = 1;
-                    $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
-                    VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
-                    $insertMem->bindParam(":student_id", $member1_student_id);
-                    $insertMem->bindParam(":prefix", $member1_prefix);
-                    $insertMem->bindParam(":name", $member1_name);
-                    $insertMem->bindParam(":lastname", $member1_lastname);
-                    $insertMem->bindParam(":thesis_id", $thesisId);
-                    $insertMem->bindParam(":order_member", $order);
-                    $result = $insertMem->execute();
-                }
-                if ($member2_student_id != "") {
-                    $order = 2;
-                    $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
-                    VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
-                    $insertMem->bindParam(":student_id", $member2_student_id);
-                    $insertMem->bindParam(":prefix", $member2_prefix);
-                    $insertMem->bindParam(":name", $member2_name);
-                    $insertMem->bindParam(":lastname", $member2_lastname);
-                    $insertMem->bindParam(":thesis_id", $thesisId);
-                    $insertMem->bindParam(":order_member", $order);
-                    $result = $insertMem->execute();
-                }
-                if ($member3_student_id != "") {
-                    $order = 3;
-                    $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
-                    VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
-                    $insertMem->bindParam(":student_id", $member3_student_id);
-                    $insertMem->bindParam(":prefix", $member3_prefix);
-                    $insertMem->bindParam(":name", $member3_name);
-                    $insertMem->bindParam(":lastname", $member3_lastname);
-                    $insertMem->bindParam(":thesis_id", $thesisId);
-                    $insertMem->bindParam(":order_member", $order);
-                    $result = $insertMem->execute();
+                try {
+                    // echo "members";
+                    if ($member1_student_id !== '') {
+                        // echo "member 1";
+                        $order = 1;
+                        $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                        VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
+                        $insertMem->bindParam(":student_id", $member1_student_id);
+                        $insertMem->bindParam(":prefix", $member1_prefix);
+                        $insertMem->bindParam(":name", $member1_name);
+                        $insertMem->bindParam(":lastname", $member1_lastname);
+                        $insertMem->bindParam(":thesis_id", $thesisId);
+                        $insertMem->bindParam(":order_member", $order);
+                        $result = $insertMem->execute();
+                    }
+                    if ($member2_student_id != "") {
+                        $order = 2;
+                        $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                        VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
+                        $insertMem->bindParam(":student_id", $member2_student_id);
+                        $insertMem->bindParam(":prefix", $member2_prefix);
+                        $insertMem->bindParam(":name", $member2_name);
+                        $insertMem->bindParam(":lastname", $member2_lastname);
+                        $insertMem->bindParam(":thesis_id", $thesisId);
+                        $insertMem->bindParam(":order_member", $order);
+                        $result = $insertMem->execute();
+                    }
+                    if ($member3_student_id != "") {
+                        $order = 3;
+                        $insertMem = $conn->prepare("INSERT INTO author_thesis(student_id, prefix, name, lastname, thesis_id, order_member)
+                        VALUES(:student_id, :prefix, :name, :lastname, :thesis_id, :order_member)");
+                        $insertMem->bindParam(":student_id", $member3_student_id);
+                        $insertMem->bindParam(":prefix", $member3_prefix);
+                        $insertMem->bindParam(":name", $member3_name);
+                        $insertMem->bindParam(":lastname", $member3_lastname);
+                        $insertMem->bindParam(":thesis_id", $thesisId);
+                        $insertMem->bindParam(":order_member", $order);
+                        $result = $insertMem->execute();
+                    }
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
                 }
 
                 move_uploaded_file($poster_temp, $poster_upload_path);
@@ -608,7 +617,7 @@
 
                 $_SESSION['countInsertSuccess']++;
                 $_SESSION['InsertCsvSuccess'] = true;
-                header('location: ./thesisadd');
+                // header('location: ./thesisadd');
             }
         } catch (PDOException $e) {
             echo $e;
