@@ -9,6 +9,8 @@
 
     if (isset($_POST['submitBtn'])) {
         //1 = ผู้ดูแลระบบ 2 = เจ้าหน้าที่ 3 = เจ้าหน้าที่ชั่วคราว 4 = อาจารย์ 5 = นักศึกษา 
+        $thesis_status = 1;
+        $approval_status = 1;
         if (isset($_SESSION['role'])) {
             $thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
             if ($_SESSION['role'] == 3) { //ถ้าเป็นเจ้าหน้าที่
@@ -17,8 +19,7 @@
                 $approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
             }
         }
-        $thesis_status = 1;
-        $approval_status = 1;
+        
 
         if (isset($_FILES['fileDirectory'])) {
             $file_ary = reArrayFiles($_FILES['fileDirectory']);
