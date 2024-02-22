@@ -1,6 +1,7 @@
  
  <?php
     session_start();
+    $_SESSION['countInsertSuccess'] = 0;
     require 'vendor/autoload.php';
     require_once 'dbconnect.php';
 
@@ -520,6 +521,7 @@
         $member3_lastname
     ) {
         require "dbconnect.php";
+        
         try {
             $insert =  $conn->prepare("INSERT INTO thesis_document(thai_name, english_name, abstract, printed_year, semester, approval_year, thesis_file, approval_file, poster_file, keyword, prefix_chairman, name_chairman, surname_chairman, prefix_director1, name_director1, surname_director1, prefix_director2, name_director2, surname_director2, prefix_advisor, name_advisor, surname_advisor, prefix_coAdvisor, name_coAdvisor, surname_coAdvisor, thesis_status, approval_status)
         VALUES(:thai_name, :english_name, :abstract, :printed_year, :semester, :approval_year, :thesis_file, :approval_file, :poster_file, :keyword, :prefix_chairman, :name_chairman, :surname_chairman, :prefix_director1, :name_director1, :surname_director1, :prefix_director2, :name_director2, :surname_director2, :prefix_advisor, :name_advisor, :surname_advisor, :prefix_coAdvisor, :name_coAdvisor, :surname_coAdvisor, :thesis_status, :approval_status) ");
@@ -553,7 +555,7 @@
 
             $result = $insert->execute();
             if ($result) {
-                echo "เพิ่มข้อมูลเล่มสำเร็จ";
+                // echo "เพิ่มข้อมูลเล่มสำเร็จ";
                 $lastId = $conn->lastInsertId();
                 $thesisId = $lastId;
                 if ($member1_student_id != "") {
@@ -593,8 +595,9 @@
                     $result = $insertMem->execute();
                 }
 
-                $_SESSION['insertDataSuccess'] = true;
-                // header('location: ./thesisadd');
+                $_SESSION['countInsertSuccess']++;
+                $_SESSION['InsertCsvSuccess'] = true;
+                header('location: ./thesisadd');
             }
         } catch (PDOException $e) {
             echo $e;

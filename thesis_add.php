@@ -18,7 +18,7 @@
     <?php
     ob_start();
     if (isset($_SESSION['insertDataSuccess'])) {
-        echo "<script>
+        echo "<script type='text/javascript'>
         Swal.fire({
             title: 'เพิ่มข้อมูลสำเร็จ',
             icon: 'success',
@@ -26,6 +26,19 @@
             timer: 1800
           });
         </script>";
+        unset($_SESSION['insertDataSuccess']);
+    }
+    if (isset($_SESSION['InsertCsvSuccess'])) {
+        if ($_SESSION['InsertCsvSuccess']) {
+            echo "<script type='text/javascript'>
+            Swal.fire({
+                title: 'เพิ่มข้อมูล CSV สำเร็จ',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1800
+              });
+            </script>";
+        }
         unset($_SESSION['insertDataSuccess']);
     }
     ?>
