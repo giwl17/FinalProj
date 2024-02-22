@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
     <style>
         table {
             border-collapse: collapse;
@@ -29,6 +30,7 @@
 </head>
 
 <body>
+    
     <?php
     $tab = 'active';
     $tabshow = 'show active';
@@ -59,19 +61,23 @@
                     <div class="row g-3">
                         <div class="col-md-2">
                             <label for="prefix" class="form-label">คำนำหน้า</label>
-                            <select class="form-select" id="prefix" name="prefix" required>
+                            <select class="form-select" id="prefix" name="prefix" onchange="otherShow()" required>
                                 <option value="">กรุณาเลือกคำนำหน้า</option>
                                 <option value="นาย">นาย</option>
                                 <option value="นาง">นาง</option>
                                 <option value="นางสาว">นางสาว</option>
-                                <option value="other">อื่นๆ(ยังไม่ทำ)</option>
+                                <option value="other">อื่นๆ</option>
                             </select>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-2" id="other" name="other" style="display: none;" required>
+                            <label for="name" class="form-label">คำนำหน้า</label>
+                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า" required>
+                        </div>
+                        <div class="col-md-4">
                             <label for="name" class="form-label">ชื่อ</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="กรุณาใส่ชื่อ" required>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="lastname" class="form-label">นามสกุล</label>
                             <input type="text" class="form-control" id="lastname" name="lastname" placeholder="กรุณาใส่นามสกุล" required>
                         </div>
@@ -206,6 +212,18 @@
             tableHTML += '</table>';
             tableContainer.innerHTML = tableHTML;
         }
+        function otherShow() {
+        var prefixSelect = document.getElementById("prefix");
+        var otherDiv = document.getElementById("other");
+
+        if (prefixSelect.value === "other") {
+            otherDiv.style.display = "block";
+            otherDiv.setAttribute("required", "required");
+        } else {
+            otherDiv.style.display = "none";
+            otherDiv.removeAttribute("required");
+        }
+    }
     </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
