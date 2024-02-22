@@ -18,7 +18,7 @@
     <?php
     ob_start();
     if (isset($_SESSION['insertDataSuccess'])) {
-        echo "<script>
+        echo "<script type='text/javascript'>
         Swal.fire({
             title: 'เพิ่มข้อมูลสำเร็จ',
             icon: 'success',
@@ -26,6 +26,19 @@
             timer: 1800
           });
         </script>";
+        unset($_SESSION['insertDataSuccess']);
+    }
+    if (isset($_SESSION['InsertCsvSuccess'])) {
+        if ($_SESSION['InsertCsvSuccess']) {
+            echo "<script type='text/javascript'>
+            Swal.fire({
+                title: 'เพิ่มข้อมูล CSV สำเร็จ',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1800
+              });
+            </script>";
+        }
         unset($_SESSION['insertDataSuccess']);
     }
     ?>
@@ -406,15 +419,24 @@
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="1">
                 <div class="container mt-5">
                     <form action="./csv_thesis_add.php" method="post" enctype="multipart/form-data" class="form-inline">
-                        <div class="form-group">
-                            <label for="csvFile" class="mr-2">Choose a CSV file:</label>
-                            <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="form-group">
+                                <label for="csvFile" class="mr-2">เลือกไฟล์ CSV</label>
+                                <input type="file" id="csvFile" name="csvFile" class="form-control-file" accept=".csv" onchange="checkCSV(event)">
+                            </div>
+                            <div>
+                                <a class="btn btn-outline-warning" href="./src/thesis_templete.csv" download>Templete CSV</a>
+                            </div>
                         </div>
                         <!-- table show csv upload -->
                         <div id="areaTable" style="overflow-x:auto; overflow-y:auto; max-height:500px; margin:1.5rem 0;">
                             <table class="table table-bordered" id="tableCSV">
 
                             </table>
+                        </div>
+                        <div>
+                            <labe for="fileDirectory">เลือกโฟลเดอร์ไฟล์ PDF</labe>
+                            <input class="btn mb-3" type="file" name="fileDirectory[]" id="fileDirectory" webkitdirectory multiple>
                         </div>
                         <input type="submit" class="btn btn-primary mb-3 center" value="Upload" name="submitBtn" id="submitCsvBtn" style="visibility: hidden;">
                     </form>
@@ -521,15 +543,15 @@
 
                 reader.onload = function() {
                     let csv = reader.result;
-                    console.log("csv",csv);
+                    console.log("csv", csv);
                     let rows = csv.split("\n");
                     let header = rows[0];
                     let tableHTML = ""
 
                     rows.forEach((row) => {
                         console.log("row", row)
-                        row  = row.replaceAll(", ", " ");
-                        row  = row.replaceAll("\"", " ");
+                        row = row.replaceAll(", ", " ");
+                        row = row.replaceAll("\"", " ");
                         // row  = row.replaceAll(/\t/g, " ");
                         console.log("row replace", row)
                         let column = row.split(",");
@@ -545,7 +567,7 @@
                             tableHTML += "</thead>"
                             return
                         }
-                        if(row == '') {
+                        if (row == '') {
                             return
                         }
                         tableHTML += "<tr>";
