@@ -1,8 +1,6 @@
 <?php
 include 'dbconnect.php';
 
-$stmt = $conn->query("SELECT * FROM account WHERE role = 4");
-$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // 1=ผู้ดูแลระบบ
 // 2=เจ้าหน้าที่
 // 3=เจ้าหน้าที่ชั่วคราว
@@ -38,143 +36,263 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">นักศึกษา</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
+                    <button class="nav-link" id="profile-teacher" data-bs-toggle="tab" data-bs-target="#profile-tab-teacher" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
+                    <button class="nav-link" id="profile-officer" data-bs-toggle="tab" data-bs-target="#profile-tab-officer" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
+                    <button class="nav-link" id="profile-temporary" data-bs-toggle="tab" data-bs-target="#profile-tab-temporary" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
                 </li>
             </ul>
         </div>
         <div class="tab-content" id="myTabContent">
+            <!-- tap student -->
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <div class="row mt-5">
+                    <?php
+                    $stu = $conn->query("SELECT * FROM account WHERE role = 5");
+                    $data = $stu->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
                     <table id="example" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
                                 <th>รหัสนักศึกษา</th>
                                 <th>ชื่อ-นามสกุล</th>
-                                <th>สิทธิ์ในการดาว์นโหลดไฟล์</th>
-                                <th>สถานะการใช้งาน</th>
+                                <th>E-mail</th>
+                                <th><input type="checkbox" name="selectAll" id="selectPermissions" onchange="checkPermissionsAll(<?= $stu->rowCount(); ?>)"> สิทธิ์ในการดาว์นโหลดไฟล์</th>
+                                <th><input type="checkbox" name="selectAll" id="selectStatus" onchange="checkStatusAll(<?= $stu->rowCount(); ?>)"> สถานะการใช้งาน</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data as $row) : ?>
                                 <tr>
-                                    <td><input type="checkbox" name="select_<?= $row['account_id'] ?>" class="select"></td>
                                     <td><?= $row['studentId'] ?></td>
                                     <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
-                                    <td><?= $row['download_permissions'] ?></td>
-                                    <td><?= $row['status'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"><?= $row['download_permissions'] ?></td>
+                                    <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"><?= $row['status'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <div>
-                        <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
-                    </div>
+                    <button class="btn btn-outline-success" onclick="submitStudent()">ตกลง</button>
                 </div>
             </div>
-
-            <div class="container mt-5"></div>
-            <!-- //tep อาจารย์ -->
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <!-- tap อาจารย์ -->
+            <div class="tab-pane fade" id="profile-tab-teacher" role="tabpanel" aria-labelledby="profile-teacher" tabindex="0">
                 <div class="row mt-5">
+                    <?php
+                    $teacher = $conn->query("SELECT * FROM account WHERE role = 4");
+                    $dataTeacher = $teacher->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
                     <table id="example1" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
-                                <th>รหัสนักศึกษา</th>
                                 <th>ชื่อ-นามสกุล</th>
-                                <th>สิทธิ์ในการดาว์นโหลดไฟล์</th>
-                                <th>สถานะการใช้งาน</th>
+                                <th>E-mail</th>
+                                <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิก</th>
+                                <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
+                                <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data as $row) : ?>
+                            <?php foreach ($dataTeacher as $row) : ?>
                                 <tr>
-                                    <td><input type="checkbox" name="select_<?= $row['account_id'] ?>" class="select"></td>
-                                    <td><?= $row['studentId'] ?></td>
                                     <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
-                                    <td><?= $row['download_permissions'] ?></td>
-                                    <td><?= $row['status'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="membersTeacher"><?= $row['member_manage_permission'] ?></td>
+                                    <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['account_manage_permission'] ?></td>
+                                    <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <div>
-                        <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
-                    </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <button class="btn btn-outline-success" onclick="submitTeacher()">ตกลง</button>
+                </div>
+            </div>
+            <!-- tap เจ้าหน้าที่ -->
+            <div class="tab-pane fade" id="profile-tab-officer" role="tabpanel" aria-labelledby="profile-officer" tabindex="0">
+                <div class="row mt-5">
+                    <?php
+                    $officer = $conn->query("SELECT * FROM account WHERE role = 2");
+                    $dataOfficer = $officer->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <table id="example2" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>E-mail</th>
+                                <th><input type="checkbox" name="selectAll" id="officerMembers" onchange="officerMembersAll(<?= $officer->rowCount(); ?>)"> จัดการสมาชิก</th>
+                                <th><input type="checkbox" name="selectAll" id="officerDocument" onchange="officerDocumentAll(<?= $officer->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
+                                <th><input type="checkbox" name="selectAll" id="officerStatus" onchange="officerStatusAll(<?= $officer->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dataOfficer as $row) : ?>
+                                <tr>
+                                    <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="MembersOfficer"><?= $row['member_manage_permission'] ?></td>
+                                    <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?= $row['account_manage_permission'] ?></td>
+                                    <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="StatusOfficer"><?= $row['status'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <button class="btn btn-outline-success" onclick="submitOfficer()">ตกลง</button>
+                </div>
+            </div>
+            <!-- tap เจ้าหน้าที่ชั่วคราว -->
+            <div class="tab-pane fade" id="profile-tab-temporary" role="tabpanel" aria-labelledby="profile-temporary" tabindex="0">
+                <div class="row mt-5">
+                    <?php
+                    $teacher = $conn->query("SELECT * FROM account WHERE role = 3");
+                    $dataTeacher = $teacher->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <table id="example3" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>E-mail</th>
+                                <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dataTeacher as $row) : ?>
+                                <tr>
+                                    <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <button class="btn btn-outline-success" id="publishButton" onclick="submitTeacher()">Publish</button>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script>
         $(document).ready(function() {
-            var table = $('#example').DataTable();
+            // var table = $('#example').DataTable();
+            $('#example').DataTable({
+                "aLengthMenu": [
+                    [25, 50, 100, -1],
+                    [25, 50, 100, "All"]
+                ],
+                "iDisplayLength": 25
+            });
+            $('#example1').DataTable({
+                "aLengthMenu": [
+                    [25, 50, 100, -1],
+                    [25, 50, 100, "All"]
+                ],
+                "iDisplayLength": 25
+            });
+            $('#example2').DataTable({
+                "aLengthMenu": [
+                    [25, 50, 100, -1],
+                    [25, 50, 100, "All"]
+                ],
+                "iDisplayLength": 25
+            });
+            $('#example3').DataTable({
+                "aLengthMenu": [
+                    [25, 50, 100, -1],
+                    [25, 50, 100, "All"]
+                ],
+                "iDisplayLength": 25
+            });
         });
-        $(document).ready(function() {
-            var table = $('#example1').DataTable();
-        });
+        /*  $(document).ready(function() {
+             var table = $('#example1').DataTable();
+         }); */
+    </script>
+    <!-- tap student -->
+    <script>
+        function checkPermissionsAll(count) {
+            let selectPermissions = document.querySelector('#selectPermissions');
+            let permissions = document.querySelectorAll('.permissions');
 
-        function checkSelectAll(count) {
-            let selectAll = document.querySelector('#selectAll');
-            let selectItems = document.querySelectorAll('.select');
-            if (selectAll.checked) {
-                selectItems.forEach((item) => {
+            if (selectPermissions.checked) {
+                permissions.forEach((item) => {
                     item.checked = true;
-                })
+                });
             } else {
-                selectItems.forEach((item) => {
+                permissions.forEach((item) => {
                     item.checked = false;
-                })
+                });
             }
         }
 
-        function submitPublish() {
+        function checkStatusAll(count) {
+            let selectStatus = document.querySelector('#selectStatus');
+            let status = document.querySelectorAll('.status');
+
+            if (selectStatus.checked) {
+                status.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                status.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function submitStudent() {
             let anyChecked = false;
-            console.log("clicked");
-            let selectItems = document.querySelectorAll('.select');
-            selectItems.forEach((item) => {
+            // console.log("clicked");
+            let permissions = document.querySelectorAll('.permissions');
+            let status = document.querySelectorAll('.status');
+
+            permissions.forEach((item) => {
                 if (item.checked) {
                     anyChecked = true;
                 }
             });
+
+            status.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
             if (!anyChecked) {
                 Swal.fire({
                     text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
                     icon: 'error',
                     confirmButtonText: 'เข้าใจแล้ว'
-                })
+                });
             } else {
-                let checkedList = [];
-                selectItems.forEach(item => {
-                    console.log(item.name);
-                    console.log(item.checked);
-                    if (item.checked)
-                        checkedList.push(item.name);
-                })
+                let checkedListPermissions = [];
+                let checkedListStatus = [];
+
+                permissions.forEach(item => {
+                    checkedListPermissions.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListPermissions);
+
+                status.forEach(item => {
+                    checkedListStatus.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListStatus);
+
 
                 Swal.fire({
                     title: "เผยแพร่รายการที่เลือกหรือไม่?",
@@ -185,180 +303,311 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     cancelButtonColor: "#d33",
                     confirmButtonText: "เผยแพร่รายการที่เลือก"
                 }).then((result) => {
-                    fetch("/FinalProj/thesis_publish_db.php", {
-                        method: "post",
-                        body: JSON.stringify(checkedList),
-                    }).then(res => {
-                        return res.text()
-                    }).then(data => {
-                        if (data == '1') {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: "เผยแพร่สำเร็จ!",
-                                    icon: "success"
-                                }).then(result => {
-                                    window.location.replace("/FinalProj/recycle_bin")
-                                })
-                            }
-                        }
-                    })
-                });
-            }
-        }
-
-        function submitArchive() {
-            let anyChecked = false;
-            console.log("clicked");
-            let selectItems = document.querySelectorAll('.select');
-            selectItems.forEach((item) => {
-                if (item.checked) {
-                    anyChecked = true;
-                }
-            });
-            if (!anyChecked) {
-                Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการ Archive',
-                    icon: 'error',
-                    confirmButtonText: 'เข้าใจแล้ว'
-                })
-            } else {
-                let checkedList = [];
-                selectItems.forEach(item => {
-                    console.log(item.name);
-                    console.log(item.checked);
-                    if (item.checked)
-                        checkedList.push(item.name);
-                })
-
-                Swal.fire({
-                    title: "Archive รายการที่เลือกหรือไม่?",
-                    text: "รายการที่เลือกจะถูก Archive",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Archive รายการที่เลือก"
-                }).then((result) => {
-                    fetch("/FinalProj/thesis_archive_db.php", {
-                        method: "post",
-                        body: JSON.stringify(checkedList),
-                    }).then(res => {
-                        return res.text()
-                    }).then(data => {
-                        if (data == '2') {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: "Archive สำเร็จ!",
-                                    icon: "success"
-                                }).then(result => {
-                                    window.location.replace("/FinalProj/recycle_bin")
-                                })
-                            }
-                        }
-                    })
-                });
-            }
-        }
-
-        function submitDelete() {
-            let anyChecked = false;
-            console.log("clicked");
-            let selectItems = document.querySelectorAll('.select');
-            selectItems.forEach((item) => {
-                if (item.checked) {
-                    anyChecked = true;
-                }
-            });
-            if (!anyChecked) {
-                Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะลบ',
-                    icon: 'error',
-                    confirmButtonText: 'เข้าใจแล้ว'
-                })
-            } else {
-                let checkedList = [];
-                selectItems.forEach(item => {
-                    console.log(item.name);
-                    console.log(item.checked);
-                    if (item.checked)
-                        checkedList.push(item.name);
-                })
-
-                Swal.fire({
-                    title: "ลบรายการที่เลือกหรือไม่?",
-                    text: "รายการที่ลบจะถูกลบอย่างถาวร",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "ลบรายการที่เลือก"
-                }).then((result) => {
-                    fetch("/FinalProj/thesis_delete_db.php", {
-                        method: "post",
-                        body: JSON.stringify(checkedList),
-                    }).then(res => {
-                        return res.text()
-                    }).then(data => {
-                        if (data == '3') {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: "ลบสำเร็จ!",
-                                    icon: "success"
-                                }).then(result => {
-                                    window.location.replace("/FinalProj/recycle_bin")
-                                })
-                            }
-                        }
-                    })
-                });
-            }
-        }
-    </script>
-    <script>
-        document.getElementById('csvFile').addEventListener('change', handleFile);
-
-        function handleFile(event) {
-            const file = event.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const csvData = e.target.result;
-                    displayTable(csvData);
-                };
-
-                reader.readAsText(file);
-            }
-        }
-
-        function displayTable(csvData) {
-            const rows = csvData.split('\n');
-            const tableContainer = document.getElementById('tableContainer');
-
-            let tableHTML = '<table>';
-            let count = 0;
-            rows.forEach(row => {
-
-                const columns = row.split(',');
-                tableHTML += '<tr>';
-                columns.forEach(column => {
-                    if (count == 0) {
-                        if (column != "")
-                            tableHTML += `<th>${column}</th>`;
-                    } else {
-                        if (column != "")
-                            tableHTML += `<td>${column}</td>`;
+                    if (result.isConfirmed) {
+                        fetch("/FinalProj/permissions_student_db.php", {
+                                method: "post",
+                                body: JSON.stringify({
+                                    permissions: checkedListPermissions,
+                                    status: checkedListStatus
+                                }),
+                            }).then(res => res.text())
+                            .then(data => {
+                                if (data == '1') {
+                                    Swal.fire({
+                                        title: "เผยแพร่สำเร็จ!",
+                                        icon: "success"
+                                    }).then(() => {
+                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                    });
+                                }
+                            });
                     }
                 });
-                tableHTML += '</tr>';
-                count++;
-            });
-
-            tableHTML += '</table>';
-            tableContainer.innerHTML = tableHTML;
+            }
         }
     </script>
-</body>
+    <!-- tap อาจารย์ -->
+    <script>
+        function teacherMembersAll(count) {
+            let teacherMember = document.querySelector('#teacherMembers');
+            let membersTeacher = document.querySelectorAll('.membersTeacher');
 
-</html>
+            if (teacherMember.checked) {
+                membersTeacher.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                membersTeacher.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function teacherDocumentAll(count) {
+            let teacherDoc = document.querySelector('#teacherDocument');
+            let docTeacher = document.querySelectorAll('.documentTeacher');
+
+            if (teacherDoc.checked) {
+                docTeacher.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                docTeacher.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function teacherStatusAll(count) {
+            let teacherSta = document.querySelector('#teacherStatus');
+            let status = document.querySelectorAll('.statusTeacher');
+
+            if (teacherSta.checked) {
+                status.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                status.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function submitTeacher() {
+            let anyChecked = false;
+            // console.log("clicked");
+            let membersTeacher = document.querySelectorAll('.membersTeacher');
+            let documentTeacher = document.querySelectorAll('.documentTeacher');
+            let statusTeacher = document.querySelectorAll('.statusTeacher');
+
+            membersTeacher.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            documentTeacher.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            statusTeacher.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                });
+            } else {
+                let checkedListMembersTeacher = [];
+                let checkedListDocumentTeacher = [];
+                let checkedListStatusTeacher = [];
+
+                membersTeacher.forEach(item => {
+                    checkedListMembersTeacher.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListMembersTeacher);
+
+                documentTeacher.forEach(item => {
+                    checkedListDocumentTeacher.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListDocumentTeacher);
+
+                statusTeacher.forEach(item => {
+                    checkedListStatusTeacher.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListStatusTeacher);
+
+
+                Swal.fire({
+                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/FinalProj/permissions_teacher_db.php", {
+                                method: "post",
+                                body: JSON.stringify({
+                                    members: checkedListMembersTeacher,
+                                    document: checkedListDocumentTeacher,
+                                    status: checkedListStatusTeacher
+                                }),
+                            }).then(res => res.text())
+                            .then(data => {
+                                if (data == '1') {
+                                    Swal.fire({
+                                        title: "เผยแพร่สำเร็จ!",
+                                        icon: "success"
+                                    }).then(() => {
+                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                    });
+                                }
+                            });
+                    }
+                });
+            }
+        }
+    </script>
+    <!-- tap เจ้าหน้าที่ -->
+    <script>
+        function officerMembersAll(count) {
+            let officerMember = document.querySelector('#officerMembers');
+            let membersOfficer = document.querySelectorAll('.MembersOfficer');
+
+            if (officerMember.checked) {
+                membersOfficer.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                membersOfficer.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function officerDocumentAll(count) {
+            let Doc = document.querySelector('#officerDocument');
+            let officerDoc = document.querySelectorAll('.DocumentOfficer');
+
+            if (Doc.checked) {
+                officerDoc.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                officerDoc.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function officerStatusAll(count) {
+            let teacherSta = document.querySelector('#officerStatus');
+            let status = document.querySelectorAll('.StatusOfficer');
+
+            if (teacherSta.checked) {
+                status.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                status.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function submitOfficer() {
+            let anyChecked = false;
+            // console.log("clicked");
+            let members = document.querySelectorAll('.MembersOfficer');
+            let documentOff = document.querySelectorAll('.DocumentOfficer');
+            let status = document.querySelectorAll('.StatusOfficer');
+
+            members.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            documentOff.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            status.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                });
+            } else {
+                let checkedListMembers= [];
+                let checkedListDocument = [];
+                let checkedListStatus = [];
+
+                members.forEach(item => {
+                    checkedListMembers.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListMembers);
+
+                documentOff.forEach(item => {
+                    checkedListDocument.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListDocument);
+
+                status.forEach(item => {
+                    checkedListStatus.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListStatus);
+
+
+                Swal.fire({
+                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/FinalProj/permissions_officer_db.php", {
+                                method: "post",
+                                body: JSON.stringify({
+                                    members: checkedListMembers,
+                                    document: checkedListDocument,
+                                    status: checkedListStatus
+                                }),
+                            }).then(res => res.text())
+                            .then(data => {
+                                if (data == '1') {
+                                    Swal.fire({
+                                        title: "เผยแพร่สำเร็จ!",
+                                        icon: "success"
+                                    }).then(() => {
+                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                    });
+                                }
+                            });
+                    }
+                });
+            }
+        }
+    </script>
+    <!-- tap เจ้าหน้าที่ชั่วคราว -->
+
+</body>
