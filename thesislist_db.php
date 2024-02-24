@@ -6,7 +6,7 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 $html =
     <<<HTML
-    <div class='row gap-3'> 
+    <div class='d-flex flex-column gap-3'> 
  HTML;
 if ($stmt->rowCount() > 0) {
     foreach ($result as $row) {
