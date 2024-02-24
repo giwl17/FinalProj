@@ -5,14 +5,14 @@ $stmt = $conn->prepare($select);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 $html =
-<<<HTML
-    <div class='d-flex gap-3 flex-wrap'> 
+    <<<HTML
+    <div class='row gap-3'> 
  HTML;
 if ($stmt->rowCount() > 0) {
     foreach ($result as $row) {
         $html .=
             <<<HTML
-                    <div class='w-100 border border-secondary-subtle p-3 d-flex flex-column rounded-3'>
+                    <div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>
                         <a class='text-dark' id='thesisName' href='thesis?id=$row->thesis_id'>
                         <div class='fw-bold'>$row->thai_name</div>
                         <div class='fw-bold'>$row->english_name</div>
