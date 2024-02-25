@@ -153,15 +153,15 @@ include 'dbconnect.php';
             <div class="tab-pane fade" id="profile-tab-temporary" role="tabpanel" aria-labelledby="profile-temporary" tabindex="0">
                 <div class="row mt-5">
                     <?php
-                    $teacher = $conn->query("SELECT * FROM account WHERE role = 3");
-                    $dataTeacher = $teacher->fetchAll(PDO::FETCH_ASSOC);
+                    $temporary = $conn->query("SELECT * FROM account WHERE role = 3");
+                    $dataTemporary = $temporary->fetchAll(PDO::FETCH_ASSOC);
                     ?>
                     <table id="example3" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>ชื่อ-นามสกุล</th>
                                 <th>E-mail</th>
-                                <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                                <th><input type="checkbox" name="selectAll" id="temporaryStatus" onchange="temporaryStatusAll(<?= $temporary->rowCount(); ?>)"> สถานะการใช้งาน</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -169,14 +169,14 @@ include 'dbconnect.php';
                                 <tr>
                                     <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                     <td><?= $row['email'] ?></td>
-                                    <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
+                                    <td><input type="checkbox" name="temporary_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTemporary"><?= $row['status'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
-                    <button class="btn btn-outline-success" id="publishButton" onclick="submitTeacher()">Publish</button>
+                    <button class="btn btn-outline-success" onclick="submitTemporary()">Publish</button>
                 </div>
             </div>
         </div>
@@ -546,7 +546,7 @@ include 'dbconnect.php';
                     confirmButtonText: 'เข้าใจแล้ว'
                 });
             } else {
-                let checkedListMembers= [];
+                let checkedListMembers = [];
                 let checkedListDocument = [];
                 let checkedListStatus = [];
 
@@ -609,5 +609,91 @@ include 'dbconnect.php';
         }
     </script>
     <!-- tap เจ้าหน้าที่ชั่วคราว -->
+    <script>
+        function temporaryStatusAll(count) {
+            let temporaryCheckbox = document.querySelector('#temporaryStatus');
+            let temporaryCheckboxes = document.querySelectorAll('.statusTemporary');
+
+            if (temporaryCheckbox.checked) {
+                temporaryCheckboxes.forEach((checkbox) => {
+                    checkbox.checked = true;
+                });
+            } else {
+                temporaryCheckboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+            }
+        }
+
+        function submitTemporary() {
+            let anyChecked = false;
+            let temporaryCheckboxes = document.querySelectorAll('.statusTemporary');
+
+            temporaryCheckboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                });
+            } else {
+                let checkedListTemporary = [];
+                temporaryCheckboxes.forEach((checkbox) => {
+                    checkedListTemporary.push({
+                        account_id: checkbox.name.split('_')[1], // Extract account_id from name attribute
+                        value: checkbox.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListTemporary);
+                Swal.fire({
+                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/FinalProj/permissions_temporary_db.php", {
+                            method: "post",
+                            body: JSON.stringify({
+                                temporary: checkedListTemporary
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then((res) => {
+                            if (!res.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return res.text();
+                        }).then((data) => {
+                            if (data === '1') {
+                                Swal.fire({
+                                    title: "เผยแพร่สำเร็จ!",
+                                    icon: "success"
+                                }).then(() => {
+                                    window.location.replace("/FinalProj/manage_privilege.php");
+                                });
+                            }
+                        }).catch((error) => {
+                            console.error('There was a problem with the fetch operation:', error);
+                            Swal.fire({
+                                text: 'มีปัญหาในการส่งข้อมูล',
+                                icon: 'error',
+                                confirmButtonText: 'ตกลง'
+                            });
+                        });
+                    }
+                });
+            }
+        }
+    </script>
 
 </body>
