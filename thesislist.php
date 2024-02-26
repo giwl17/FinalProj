@@ -1,10 +1,3 @@
-<?php
-// session_start();
-// if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
-//     header("Location: login.php"); // ถ้าไม่มี session หรือ cookie ให้ redirect ไปที่หน้า login
-//     exit();
-// }
-?>
 <!DOCTYPE html>
 <html lang="en">
 
