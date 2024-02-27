@@ -72,7 +72,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์</title>
+    <title>จัดการเล่มปริญญานิพนธ์ - รายการ</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -89,7 +89,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
         <div class="d-flex flex-column">
             <form class="d-flex position-relative" action="search.php">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
-                <select name="selected" id="selectSearch" class="form-select rounded-0 w-25">
+                <select name="selected" id="selectSearch" class="form-select rounded-start-3 rounded-0 w-auto">
                     <option value="all" <?php if ($searchSelect == 'all') {
                                             echo "selected";
                                         } ?>>ทั้งหมด</option>
@@ -118,25 +118,25 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 
                 <div class="flex-grow-1 position-relative">
                     <?php if (isset($_GET['selected'])) : ?>
-                        <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $dataInput; ?>">
+                        <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $dataInput; ?>">
                     <?php else : ?>
                         <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . " " . $name_advisor . " " . $surname_advisor; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $prefix_advisor . " " . $name_advisor . " " . $surname_advisor; ?>">
                         <?php elseif ($searchSelect === 'printed_year') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $printed; ?>">
                         <?php elseif ($searchSelect === 'semester') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $approval; ?>">
                         <?php elseif ($searchSelect === 'keyword') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $keyword; ?>">
                         <?php elseif ($searchSelect === 'abstract') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $abstract; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $abstract; ?>">
                         <?php endif; ?>
                     <?php endif; ?>
 
 
                     <div class="w-100 position-absolute d-none" id="searching"></div>
                 </div>
-                <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+                <button class="btn rounded-0 col-auto position-absolute end-0"><i class="bi bi-search px-1"></i></button>
             </form>
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
