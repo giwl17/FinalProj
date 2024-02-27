@@ -290,7 +290,7 @@ if (count($rows) == 0) {
         if ($selectSearch1 === 'ชื่อหรือนามสกุลคณะผู้จัดทำ' OR $selectSearch2 === 'ชื่อหรือนามสกุลคณะผู้จัดทำ') {
             foreach ($rows[$i]['author_member'] as $key => $value) {
                 if ((strpos($rows[$i]['author_member'][$key]['prefix'], $inputSearch1) !== false || strpos($rows[$i]['author_member'][$key]['name'], $inputSearch1) !== false)) {
-                    echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>";
+                    echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>";
                     echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
                     echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
                     echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
@@ -328,7 +328,7 @@ if (count($rows) == 0) {
                 }
             }
         } else {
-            echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>";
+            echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>";
             echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
             echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
             echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
