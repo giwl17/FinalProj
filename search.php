@@ -159,7 +159,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     if ($thesisIdFound != $row['thesis_id']) {
                                         $thesisIdFound = $row['thesis_id'];
                                         //show list
-                                        echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                                        echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                                             <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                                             <div class='fw-bold'>$row[thai_name]</div>
                                             <div class='fw-bold'>$row[english_name]</div>
@@ -321,7 +321,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     $result = $insert_thesis->fetchAll(PDO::FETCH_ASSOC);
                     if ($insert_thesis->rowCount() > 0) {
                         foreach ($result as $row) {
-                            echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                            echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                         <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                         <div class='fw-bold'>$row[thai_name]</div>
                         <div class='fw-bold'>$row[english_name]</div>
@@ -415,7 +415,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                 $result = $insert_thesis->fetchAll(PDO::FETCH_ASSOC);
                 if ($insert_thesis->rowCount() > 0) {
                     foreach ($result as $row) {
-                        echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                        echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                     <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                     <div class='fw-bold'>$row[thai_name]</div>
                     <div class='fw-bold'>$row[english_name]</div>
