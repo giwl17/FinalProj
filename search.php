@@ -230,26 +230,38 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         OR surname_advisor LIKE :input
                         OR prefix_coAdvisor LIKE :input
                         OR name_coAdvisor LIKE :input
-                        OR surname_coAdvisor LIKE :input";
+                        OR surname_coAdvisor LIKE :input
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'thesis_name') {
                         $sql = "SELECT * FROM thesis_document
                         WHERE thai_name LIKE :input
-                        OR english_name LIKE :input";
+                        OR english_name LIKE :input
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'keyword') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE keyword LIKE :input";
+                        WHERE keyword LIKE :input
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'printed_year') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE printed_year LIKE :input";
+                        WHERE printed_year LIKE :input
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
@@ -261,7 +273,10 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 
                             $sql = "SELECT * FROM thesis_document
                             WHERE semester LIKE :semester
-                            AND approval_year LIKE :years";
+                            AND approval_year LIKE :years
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                             $likeSemester = "%" . $semester . "%";
                             $likeYears = "%" . $years . "%";
                             $insert_thesis = $conn->prepare($sql);
@@ -270,14 +285,20 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         } else {
                             $sql = "SELECT * FROM thesis_document
                             WHERE semester LIKE :input
-                            OR approval_year LIKE :input";
+                            OR approval_year LIKE :input
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                             $likeInput = "%" . $dataInput . "%";
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":input", $dataInput);
                         }
                     } else if ($searchSelect === 'abstract') {
                         $sql = "SELECT * FROM thesis_document
-                            WHERE abstract LIKE :input";
+                            WHERE abstract LIKE :input
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $dataInput);
@@ -287,7 +308,9 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             switch (count($advisor)) {
                                 case 2: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE name_advisor LIKE :input1 AND surname_advisor LIKE :input2";
+                                    WHERE name_advisor LIKE :input1 AND surname_advisor LIKE :input2
+                                    AND (thesis_status = 1 AND approval_status = 1)
+                                    ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
                                         $likeInput2 = "%" . $advisor[1] . "%";
                                         $insert_thesis = $conn->prepare($sql);
@@ -297,7 +320,9 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     break;
                                 case 3: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3";
+                                    WHERE prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3
+                                    AND (thesis_status = 1 AND approval_status = 1)
+                                    ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
                                         $likeInput2 = "%" . $advisor[1] . "%";
                                         $likeInput3 = "%" . $advisor[2] . "%";
@@ -311,7 +336,10 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         } else {
                             $sql = "SELECT * FROM thesis_document 
                         WHERE prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
-                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor";
+                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor
+                                AND (thesis_status = 1 AND approval_status = 1)
+                                ORDER BY thesis_id DESC
+                                ";
                             $likeInput = "%" . $dataInput . "%";
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":input", $likeInput);
@@ -379,7 +407,10 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                 AND surname_advisor = :surname) 
                 OR (prefix_coAdvisor = :prefix 
                 AND name_coAdvisor = :name 
-                AND surname_coAdvisor = :surname)";
+                AND surname_coAdvisor = :surname)
+                AND (thesis_status = 1 AND approval_status = 1)
+                ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":prefix", $prefix_advisor);
@@ -387,26 +418,34 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     $insert_thesis->bindParam(":surname", $surname_advisor);
                 } else if ($searchSelect === 'printed_year') {
                     $sql = "SELECT * FROM thesis_document
-                WHERE printed_year = :printed";
+                WHERE printed_year = :printed
+                AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":printed", $printed);
                 } else if ($searchSelect === 'semester') {
                     $sql = "SELECT * FROM thesis_document
-                WHERE semester = :semester AND approval_year = :approval_year";
+                WHERE semester = :semester AND approval_year = :approval_year
+                AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":semester", $semester);
                     $insert_thesis->bindParam(":approval_year", $approval_year);
                 } else if ($searchSelect === "keyword") {
                     $sql = "SELECT * FROM thesis_document
-                    WHERE keyword LIKE :keyword";
+                    WHERE keyword LIKE :keyword
+                    AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                    ";
                     $keywordLike = "%" . $keyword . "%";
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":keyword", $keywordLike);
                 } else if ($searchSelect === "abstract") {
                     $sql = "SELECT * FROM thesis_document
-                    WHERE abstract LIKE :input";
+                    WHERE abstract LIKE :input
+                    AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                    ";
                     $abstractLike = "%" . $abstract . "%";
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":input", $abstractLike);
