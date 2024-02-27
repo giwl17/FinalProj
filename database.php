@@ -40,7 +40,7 @@ class Database
 
     public function selectThesisFull()
     {
-        $select_thesis = $this->conn->prepare("SELECT * FROM thesis_document");
+        $select_thesis = $this->conn->prepare("SELECT * FROM thesis_document WHERE (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC");
         $select_thesis->execute();
         $result = $select_thesis->fetchAll(PDO::FETCH_OBJ);
         $thesis = [];
