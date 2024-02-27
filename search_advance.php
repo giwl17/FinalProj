@@ -21,11 +21,11 @@
 
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหาขั้นสูง</label>
                 <div class="flex-grow-1 position-relative">
-                    <input type="search" name="inputSearch1" id="inputSearch1" class="form-control rounded-0" placeholder="คำที่ต้องการค้นหา">
+                    <input type="search" name="inputSearch1" id="inputSearch1" class="form-control rounded-start-3 rounded-0" placeholder="คำที่ต้องการค้นหา">
                     <div class="w-100 position-absolute d-none" id="searching">
                     </div>
                 </div>
-                <select name="selectSearch1" id="selectSearch1" class="form-select rounded-0 w-25">
+                <select name="selectSearch1" id="selectSearch1" class="form-select rounded-end-3 rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="d-flex">
-                <select name="selectCondition1" id="selectCondition1" class="form-select rounded-0 w-25">
+                <select name="selectCondition1" id="selectCondition1" class="form-select rounded-start-3 rounded-0 w-25">
                     <option value="AND" selected>AND</option>
                     <option value="OR">OR</option>
                     <option value="AND NOT">NOT</option>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <select name="selectSearch2" id="selectSearch2" class="form-select rounded-0 w-25">
+                <select name="selectSearch2" id="selectSearch2" class="form-select rounded-end-3 rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -62,7 +62,7 @@
             </div>
 
             <div class="d-flex">
-                <select name="selectCondition2" id="selectCondition2" class="form-select rounded-0 w-25">
+                <select name="selectCondition2" id="selectCondition2" class="form-select rounded-start-3 rounded-0 w-25">
                     <option value="AND" selected>AND</option>
                     <option value="OR">OR</option>
                     <option value="AND NOT">NOT</option>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <select name="selectSearch3" id="" class="form-select rounded-0 w-25">
+                <select name="selectSearch3" id="" class="form-select rounded-end-3 rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="d-flex">
-                <select name="selectCondition3" id="selectCondition3" class="form-select rounded-0 w-25">
+                <select name="selectCondition3" id="selectCondition3" class="form-select rounded-start-3 rounded-0 w-25">
                     <option value="AND" selected>AND</option>
                     <option value="OR">OR</option>
                     <option value="AND NOT">NOT</option>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <select name="selectSearch4" id="" class="form-select rounded-0 w-25">
+                <select name="selectSearch4" id="" class="form-select rounded-end-3 rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -110,7 +110,7 @@
             </div>
 
             <div class="d-flex">
-                <select name="selectCondition4" id="selectCondition4" class="form-select rounded-0 w-25">
+                <select name="selectCondition4" id="selectCondition4" class="form-select rounded-start-3 rounded-0 w-25">
                     <option value="AND" selected>AND</option>
                     <option value="OR">OR</option>
                     <option value="AND NOT">NOT</option>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <select name="selectSearch5" id="" class="form-select rounded-0 w-25">
+                <select name="selectSearch5" id="" class="form-select rounded-end-3 rounded-0 w-25">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -134,7 +134,7 @@
             </div>
 
             <div class="justify-content-center d-flex gap-3">
-                <button class="btn btn-warning" onclick="reset()">ล้างค่า</button>
+                <button type="button" id="btnReset" class="btn btn-warning" onclick="reset()">ล้างค่า</button>
                 <button class="btn btn-success">ค้นหา</button>
             </div>
 
@@ -148,20 +148,19 @@
     </div>
 
     <script>
-        function reset() {
-
+        //Reset Button
+        const btnReset = document.querySelector("#btnReset")
+        btnReset.addEventListener('click', () => {
             document.querySelector('#formSearch').reset();
-            document.querySelector('#inputSearch1').focus();
-        }
+            const showData = document.querySelector('#showData');
+            showData.innerHTML = "";
+        })
 
         const form = document.querySelector('#formSearch');
         form.addEventListener('submit', () => {
             const showData = document.querySelector('#showData');
             event.preventDefault();
             const formData = new FormData(form);
-
-            console.log(formData);
-
 
             fetch("/FinalProj/search_advance_db.php", {
                     method: 'POST',
@@ -174,7 +173,7 @@
         });
     </script>
 
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
