@@ -40,15 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Port = 25;
 
             //Recipients
-            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "Admin");
+            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "ผู้ดูแลระบบ");
             $mail->addAddress($email);
 
             //Content
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset';
-            $mail->Body = "To reset your password, <br>
-            token : $token <br>
-            click on the following link: <a href='$reset_link'>reset_link</a>";
+            $mail->Body = "รหัสผ่าน, <br>
+            คลิกที่ลิงค์เพื่อทำการเพปลี่ยนรหัสผ่าน : <a href='$reset_link'>เปลี่ยนรหัสผ่าน</a>";
 
             $mail->send();
             echo 'exists';

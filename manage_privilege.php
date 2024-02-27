@@ -78,8 +78,9 @@ include 'dbconnect.php';
                     </table>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-outline-success" onclick="submitStudent()">ตกลง</button>
+                    <button class="btn btn-outline-success" onclick="submitStudent()">ยืนยัน</button>
                 </div>
+                <div class="d-flex justify-content-center mt-5"></div>
             </div>
             <!-- tap อาจารย์ -->
             <div class="tab-pane fade" id="profile-tab-teacher" role="tabpanel" aria-labelledby="profile-teacher" tabindex="0">
@@ -112,8 +113,9 @@ include 'dbconnect.php';
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
-                    <button class="btn btn-outline-success" onclick="submitTeacher()">ตกลง</button>
+                    <button class="btn btn-outline-success" onclick="submitTeacher()">ยืนยัน</button>
                 </div>
+                <div class="d-flex justify-content-center mt-5"></div>
             </div>
             <!-- tap เจ้าหน้าที่ -->
             <div class="tab-pane fade" id="profile-tab-officer" role="tabpanel" aria-labelledby="profile-officer" tabindex="0">
@@ -146,8 +148,9 @@ include 'dbconnect.php';
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
-                    <button class="btn btn-outline-success" onclick="submitOfficer()">ตกลง</button>
+                    <button class="btn btn-outline-success" onclick="submitOfficer()">ยืนยัน</button>
                 </div>
+                <div class="d-flex justify-content-center mt-5"></div>
             </div>
             <!-- tap เจ้าหน้าที่ชั่วคราว -->
             <div class="tab-pane fade" id="profile-tab-temporary" role="tabpanel" aria-labelledby="profile-temporary" tabindex="0">
@@ -176,11 +179,13 @@ include 'dbconnect.php';
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
-                    <button class="btn btn-outline-success" onclick="submitTemporary()">Publish</button>
+                    <button class="btn btn-outline-success" onclick="submitTemporary()">ยืนยัน</button>
                 </div>
+                <div class="d-flex justify-content-center mt-5"></div>
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
             // var table = $('#example').DataTable();
@@ -269,7 +274,7 @@ include 'dbconnect.php';
 
             if (!anyChecked) {
                 Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะปรับเปลี่ยน',
                     icon: 'error',
                     confirmButtonText: 'เข้าใจแล้ว'
                 });
@@ -295,13 +300,13 @@ include 'dbconnect.php';
 
 
                 Swal.fire({
-                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
-                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    title: "ปรับเปลี่ยนรายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะปรับเปลี่ยน",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                    confirmButtonText: "ปรับเปลี่ยนรายการที่เลือก"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch("/FinalProj/permissions_student_db.php", {
@@ -314,12 +319,19 @@ include 'dbconnect.php';
                             .then(data => {
                                 if (data == '1') {
                                     Swal.fire({
-                                        title: "เผยแพร่สำเร็จ!",
+                                        title: "ปรับเปลี่ยนสำเร็จ!",
                                         icon: "success"
                                     }).then(() => {
-                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                        window.location.replace("/FinalProj/manage_privilege");
                                     });
                                 }
+                            }).catch((error) => {
+                                console.error('There was a problem with the fetch operation:', error);
+                                Swal.fire({
+                                    text: 'มีปัญหาในการส่งข้อมูล',
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง'
+                                });
                             });
                     }
                 });
@@ -400,7 +412,7 @@ include 'dbconnect.php';
 
             if (!anyChecked) {
                 Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะปรับเปลี่ยน',
                     icon: 'error',
                     confirmButtonText: 'เข้าใจแล้ว'
                 });
@@ -435,13 +447,13 @@ include 'dbconnect.php';
 
 
                 Swal.fire({
-                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
-                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    title: "ปรับเปลี่ยนรายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกปรับเปลี่ยน",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                    confirmButtonText: "ปรับเปลี่ยนรายการที่เลือก"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch("/FinalProj/permissions_teacher_db.php", {
@@ -455,12 +467,19 @@ include 'dbconnect.php';
                             .then(data => {
                                 if (data == '1') {
                                     Swal.fire({
-                                        title: "เผยแพร่สำเร็จ!",
+                                        title: "ปรับเปลี่ยนสำเร็จ!",
                                         icon: "success"
                                     }).then(() => {
-                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                        window.location.replace("/FinalProj/manage_privilege");
                                     });
                                 }
+                            }).catch((error) => {
+                                console.error('There was a problem with the fetch operation:', error);
+                                Swal.fire({
+                                    text: 'มีปัญหาในการส่งข้อมูล',
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง'
+                                });
                             });
                     }
                 });
@@ -541,7 +560,7 @@ include 'dbconnect.php';
 
             if (!anyChecked) {
                 Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะปรับเปลี่ยน',
                     icon: 'error',
                     confirmButtonText: 'เข้าใจแล้ว'
                 });
@@ -576,13 +595,13 @@ include 'dbconnect.php';
 
 
                 Swal.fire({
-                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
-                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    title: "ปรับเปลี่ยนรายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกปรับเปลี่ยน",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                    confirmButtonText: "ปรับเปลี่ยนรายการที่เลือก"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch("/FinalProj/permissions_officer_db.php", {
@@ -596,12 +615,19 @@ include 'dbconnect.php';
                             .then(data => {
                                 if (data == '1') {
                                     Swal.fire({
-                                        title: "เผยแพร่สำเร็จ!",
+                                        title: "ปรับเปลี่ยนสำเร็จ!",
                                         icon: "success"
                                     }).then(() => {
-                                        window.location.replace("/FinalProj/manage_privilege.php");
+                                        window.location.replace("/FinalProj/manage_privilege");
                                     });
                                 }
+                            }).catch((error) => {
+                                console.error('There was a problem with the fetch operation:', error);
+                                Swal.fire({
+                                    text: 'มีปัญหาในการส่งข้อมูล',
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง'
+                                });
                             });
                     }
                 });
@@ -637,7 +663,7 @@ include 'dbconnect.php';
 
             if (!anyChecked) {
                 Swal.fire({
-                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะเผยแพร่',
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะปรับเปลี่ยน',
                     icon: 'error',
                     confirmButtonText: 'เข้าใจแล้ว'
                 });
@@ -651,13 +677,13 @@ include 'dbconnect.php';
                 });
                 console.log(checkedListTemporary);
                 Swal.fire({
-                    title: "เผยแพร่รายการที่เลือกหรือไม่?",
-                    text: "รายการที่เลือกจะถูกเผยแพร่",
+                    title: "ปรับเปลี่ยนรายการที่เลือกหรือไม่?",
+                    text: "รายการที่เลือกจะถูกปรับเปลี่ยน",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "เผยแพร่รายการที่เลือก"
+                    confirmButtonText: "ปรับเปลี่ยนรายการที่เลือก"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch("/FinalProj/permissions_temporary_db.php", {
@@ -676,10 +702,10 @@ include 'dbconnect.php';
                         }).then((data) => {
                             if (data === '1') {
                                 Swal.fire({
-                                    title: "เผยแพร่สำเร็จ!",
+                                    title: "ปรับเปลี่ยนสำเร็จ!",
                                     icon: "success"
                                 }).then(() => {
-                                    window.location.replace("/FinalProj/manage_privilege.php");
+                                    window.location.replace("/FinalProj/manage_privilege");
                                 });
                             }
                         }).catch((error) => {
