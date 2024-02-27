@@ -20,6 +20,20 @@ if ($result) {
     $year = $stmt->fetch();
     $minYear = $year['min'];
 }
+
+//get count collect thesis
+$stmt = $conn->prepare("SELECT COUNT(approval_year) as count, approval_year FROM thesis_document  WHERE approval_status = 1 GROUP BY approval_year");
+$result = $stmt->execute();
+$dataPoints_count = array();
+if ($result) {
+    $rows = $stmt->fetchAll();
+    foreach ($rows as $row) {
+        $count_thesis = $row['count'];
+        $approval_year = $row['approval_year'];
+        $dataPoints_count[] = array("x" => $approval_year, "y" => $count_thesis);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +42,7 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สถิติการกำกับเล่ม</title>
+    <title>สถิติข้อมูล</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -65,6 +79,29 @@ if ($result) {
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
 
+            var chart_count = new CanvasJS.Chart("chartContainer_count", {
+                animationEnabled: true,
+                axisY: {
+                    title: "จำนวน",
+                    interval: 1,
+                    includeZero: true,
+                },
+                axisX: {
+                    title: "ปีการศึกษา",
+                    interval: 1,
+                    includeZero: true,
+                },
+                data: [{
+                    type: "column",
+                    indexLabel: "{y}",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontWeight: "bolder",
+                    indexLabelFontColor: "white",
+                    dataPoints: <?php echo json_encode($dataPoints_count, JSON_NUMERIC_CHECK); ?>
+                }]
+            })
+            chart_count.render();
+
             function onClick(e) {
                 // alert(e.dataSeries.type + ", dataPoint { label:" + e.dataPoint.label + ", y: " + e.dataPoint.y + " }");
                 location.href = `search?advisor=${e.dataPoint.label}`;
@@ -76,7 +113,6 @@ if ($result) {
 <body>
     <?php require_once('./template/header.php') ?>
     <div class="container my-4 d-flex flex-column gap-3">
-        <h1 class="h1 text-center">สถิติกำกับปริญญานิพนธ์</h1>
         <div class="d-flex gap-2 align-items-end">
             <div class="form-group col-2">
                 <label class="">ปีการศึกษา</label>
@@ -100,6 +136,9 @@ if ($result) {
                 <button class="btn btn-primary" onclick="ButtonSubmit()">ค้นหา</button>
             </div>
         </div>
+        <h1 class="h3 text-center">สถิติการจัดเก็บเล่มปริญญานิพนธ์</h1>
+        <div id="chartContainer_count" class="w-100" style="height: 370px;"></div>
+        <h1 class="h3 text-center">สถิติกำกับปริญญานิพนธ์</h1>
         <div id="chartContainer" class="w-100" style="height: 370px;"></div>
     </div>
 
@@ -117,6 +156,7 @@ if ($result) {
                     includeZero: true,
                     interval: 1,
                 },
+
                 data: [{
                     click: onClick,
                     type: "bar",
@@ -129,6 +169,29 @@ if ($result) {
             });
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
+
+            var chart_count = new CanvasJS.Chart("chartContainer_count", {
+                animationEnabled: true,
+                axisY: {
+                    title: "จำนวน",
+                    interval: 1,
+                    includeZero: true,
+                },
+                axisX: {
+                    title: "ปีการศึกษา",
+                    interval: 1,
+                    includeZero: true,
+                },
+                data: [{
+                    type: "column",
+                    indexLabel: "{y}",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontWeight: "bolder",
+                    indexLabelFontColor: "white",
+                    dataPoints: <?php echo json_encode($dataPoints_count, JSON_NUMERIC_CHECK); ?>
+                }]
+            })
+            chart_count.render();
         }
 
         function ButtonSubmit() {
@@ -141,31 +204,66 @@ if ($result) {
                     return res.json()
                 })
                 .then(data => {
-                    if (data.isFound != undefined) {
-                        console.log('found')
-                        document.getElementById("chartContainer").innerHTML = "<div>ไม่พบข้อมูล</div>";
-                    } else {
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            axisY: {
-                                title: "จำนวนปริญญานิพนธ์",
-                                includeZero: true,
-                                interval: 1,
-                            },
-                            data: [{
-                                click: onClick,
-                                type: "bar",
-                                indexLabel: "{y}",
-                                indexLabelPlacement: "inside",
-                                indexLabelFontWeight: "bolder",
-                                indexLabelFontColor: "white",
-                                dataPoints: data
-                            }]
-                        });
-                        chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
-                        chart.render();
-                    }
+                    console.log(data)
+                    data1 = []
+                    data2 = []
+                    data.forEach(element => {
+                        // console.log(element.data2)
+                        if (element.data1 !== undefined) {
+                            data1.push({
+                                label: element.data1.label,
+                                y: element.data1.y
+                            })
+                        }
+                        if (element.data2 !== undefined) {
+                            data2.push({
+                                x: element.data2.x,
+                                y: element.data2.y
+                            })
+                        }
+                    });
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        animationEnabled: true,
+                        axisY: {
+                            title: "จำนวนปริญญานิพนธ์",
+                            includeZero: true,
+                            interval: 1,
+                        },
+                        data: [{
+                            click: onClick,
+                            type: "bar",
+                            indexLabel: "{y}",
+                            indexLabelPlacement: "inside",
+                            indexLabelFontWeight: "bolder",
+                            indexLabelFontColor: "white",
+                            dataPoints: data1
+                        }]
+                    });
+                    chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
+                    chart.render();
 
+                    var chart_count = new CanvasJS.Chart("chartContainer_count", {
+                        animationEnabled: true,
+                        axisY: {
+                            title: "จำนวน",
+                            interval: 1,
+                            includeZero: true,
+                        },
+                        axisX: {
+                            title: "ปีการศึกษา",
+                            interval: 1,
+                            includeZero: true,
+                        },
+                        data: [{
+                            type: "column",
+                            indexLabel: "{y}",
+                            indexLabelPlacement: "inside",
+                            indexLabelFontWeight: "bolder",
+                            indexLabelFontColor: "white",
+                            dataPoints: data2
+                        }]
+                    })
+                    chart_count.render();
                 })
                 .catch(error => console.error(error))
         }
