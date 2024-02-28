@@ -28,6 +28,7 @@ $routes = [
     '/FinalProj/archive' =>  __DIR__ . '/archive.php',
     '/FinalProj/manage_privilege' =>  __DIR__ . '/manage_privilege.php',
     '/FinalProj/thesisdelete' =>  __DIR__ . '/thesis_list_delete.php',
+    '/FinalProj/change_password' =>  __DIR__ . '/change_password.php',
     
 ];
 

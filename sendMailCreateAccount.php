@@ -127,16 +127,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $mail->Port = 25;
 
                             //Recipients
-                            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "Admin");
+                            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "rmuttcpethesis.com");
                             $mail->addAddress($email);
 
                             //Content
                             $mail->isHTML(true);
-                            $mail->Subject = 'Create New Account';
-                            $mail->Body = "To create your account, <br>
-                            token : $token <br>
-                            click on the following link: <a href='$create_link'>to create your account</a>";
-
+                            $mail->Subject = 'Create New Password';
+                           /*  $mail->Body = "สร้างรหัสผ่านของคุณ, <br>
+                            click on the following link: <a href='$create_link'>to create your account</a>"; */
+                            $mail->Body = "คลิกที่ลิงค์เพื่อทำการสร้างรหัสผ่านของคุณ : <a href='" . $create_link . "'>สร้างรหัสผ่าน</a>";
                             $mail->send();
                         } catch (Exception $e) {
                         }

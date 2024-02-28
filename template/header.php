@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 $role = "";
-if (isset($_SESSION['role'])) { 
+if (isset($_SESSION['role'])) {
     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
     if ($_SESSION['role'] == 1) {
         $role = "ผู้ดูแลระบบ";
@@ -36,6 +36,7 @@ if (isset($_SESSION['role'])) {
                     <?= $name ?> || <?= $role ?>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li><a href="/FinalProj/change_password" class="dropdown-item" type="button">เปลี่ยนรหัสผ่าน</a></li>
                     <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
                 </ul>
             </div>
@@ -121,7 +122,7 @@ if (isset($_SESSION['role'])) {
                 </li>
             </ul>";
             } else {
-                 echo "<ul class='navbar-nav'>
+                echo "<ul class='navbar-nav'>
                  <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
                  <li class='nav-item text-center dropdown'>
                      <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
