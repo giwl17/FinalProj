@@ -1,9 +1,8 @@
 <?php
-include "dbconnect.php";
+require "dbconnect.php";
 if (isset($_GET['data']) && $_GET['selected']) {
     $input = $_GET['data'];
     $selected = $_GET['selected'];
-
 
     if ($selected == 'all') {
         $inputLike = "" . $input . "%";
@@ -128,7 +127,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
             echo "</div>";
         } else {
-            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+            // echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
     } else if ($selected == 'thesis_name') {
         $inputLike = "" . $input . "%";
@@ -163,7 +162,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
             echo "</div>";
         } else {
-            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+            // echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
     } else if ($selected == 'keyword') {
         $inputLike = "%" . $input . "%";
@@ -190,7 +189,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
             echo "</div>";
         } else {
-            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+            // echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
     } else if ($selected == 'abstract') {
         $inputLike = "%" . $input . "%";
@@ -216,7 +215,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
             echo "</div>";
         } else {
-            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+            // echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
     } else if ($selected == 'author') {
         require "database.php";
@@ -233,7 +232,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
         }
         if ($countFound == 0) {
-            echo "<a href='#' class='list-group-item list-group-item-action text-truncate'>ไม่พบข้อมูล</a>";
+            // echo "<a href='#' class='list-group-item list-group-item-action text-truncate'>ไม่พบข้อมูล</a>";
         }
         echo "</div>";
     } else if ($selected == 'advisor') {
@@ -270,8 +269,7 @@ if (isset($_GET['data']) && $_GET['selected']) {
             }
             echo "</div>";
         } else {
-            echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
+            // echo "<div class='list-group'><a class='list-group-item'>ไม่พบข้อมูล</a></div>";
         }
     }
 }
-// echo "hello";
