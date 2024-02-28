@@ -60,29 +60,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             OR prefix_coAdvisor LIKe $like1
             OR name_coAdvisor LIKE $like1
             OR surname_coAdvisor LIKE $like1
-            )";
+            ) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'thesis_name') {
             $selectSearch1 = "ชื่อปริญญานิพนธ์";
-            $sql = "SELECT * FROM thesis_document WHERE (thai_name LIKE $like1 OR english_name LIKE $like1)";
+            $sql = "SELECT * FROM thesis_document WHERE (thai_name LIKE $like1 OR english_name LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'keyword') {
             $selectSearch1 = "คำสำคัญ";
-            $sql = "SELECT * FROM thesis_document WHERE (keyword LIKE $like1)";
+            $sql = "SELECT * FROM thesis_document WHERE (keyword LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'printed_year') {
             $selectSearch1 = "ปีตีพิมพ์เล่ม";
-            $sql = "SELECT * FROM thesis_document WHERE (printed_year LIKE $like1)";
+            $sql = "SELECT * FROM thesis_document WHERE (printed_year LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'semester') {
             $selectSearch1 = "ภาคการศึกษา/ปี ที่อนุมัติเล่ม";
-            $sql = "SELECT * FROM thesis_document WHERE (semester LIKE $like1)";
+            $sql = "SELECT * FROM thesis_document WHERE (semester LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'abstract') {
             $selectSearch1 = "บทคัดย่อ";
-            $sql = "SELECT * FROM thesis_document WHERE (abstract LIKE $like1)";
+            $sql = "SELECT * FROM thesis_document WHERE (abstract LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'author') {
             $selectSearch1 = "ชื่อหรือนามสกุลคณะผู้จัดทำ";
-            $sql = "SELECT * FROM thesis_document";
+            $sql = "SELECT * FROM thesis_document WHERE (thesis_status = 1 AND approval_status = 1)";
         } else if ($selectSearch1 === 'advisor') {
             $selectSearch1 = "ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา";
             $sql = "SELECT * FROM thesis_document WHERE (prefix_advisor LIKE $like1 OR name_advisor LIKE $like1 OR surname_advisor LIKE $like1
-            OR prefix_coAdvisor LIKE $like1 OR name_coAdvisor LIKE $like1 OR surname_coAdvisor LIKE $like1)";
+            OR prefix_coAdvisor LIKE $like1 OR name_coAdvisor LIKE $like1 OR surname_coAdvisor LIKE $like1) AND (thesis_status = 1 AND approval_status = 1)";
         }
         if ($inputSearch2 !== '') {
             $like2 = "'%" . $inputSearch2 . "%'";
@@ -100,29 +100,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 OR surname_advisor LIKE $like2
                 OR prefix_coAdvisor LIKe $like2
                 OR name_coAdvisor LIKE $like2
-                OR surname_coAdvisor LIKE $like2)";
+                OR surname_coAdvisor LIKE $like2)
+                AND (thesis_status = 1 AND approval_status = 1)";
             } else if ($selectSearch2 === 'thesis_name') {
                 $selectSearch2 = "ชื่อปริญญานิพนธ์";
-                $sql .= " " . $selectCondition1 . " (thai_name LIKE $like2 OR english_name LIKE $like2)";
+                $sql .= " " . $selectCondition1 . " (thai_name LIKE $like2 OR english_name LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
                 // echo $sql;
             } else if ($selectSearch2 === 'keyword') {
                 $selectSearch2 = "คำสำคัญ";
-                $sql .= " " . $selectCondition1 . " (keyword LIKE $like2)";
+                $sql .= " " . $selectCondition1 . " (keyword LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
             } else if ($selectSearch2 === 'printed_year') {
                 $selectSearch2 = "ปีตีพิมพ์เล่ม";
-                $sql .= " " . $selectCondition1 . " (printed_year LIKE $like2)";
+                $sql .= " " . $selectCondition1 . " (printed_year LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
             } else if ($selectSearch2 === 'semester') {
                 $selectSearch2 = "ภาคการศึกษา/ปี ที่อนุมัติเล่ม";
-                $sql .= " " . $selectCondition1 . " (semester LIKE $like2)";
+                $sql .= " " . $selectCondition1 . " (semester LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
             } else if ($selectSearch2 === 'abstract') {
                 $selectSearch2 = "บทคัดย่อ";
-                $sql .= " " . $selectCondition1 . " (abstract LIKE $like2)";
+                $sql .= " " . $selectCondition1 . " (abstract LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
             } else if ($selectSearch2 === 'author') {
                 $selectSearch2 = "ชื่อหรือนามสกุลคณะผู้จัดทำ";
             } else if ($selectSearch2 === 'advisor') {
                 $selectSearch2 = "ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา";
                 $sql .= " " . $selectCondition1 . " (prefix_advisor LIKE $like2 OR name_advisor LIKE $like2 OR surname_advisor LIKE $like2
-            OR prefix_coAdvisor LIKE $like2 OR name_coAdvisor LIKE $like2 OR surname_coAdvisor LIKE $like2)";
+            OR prefix_coAdvisor LIKE $like2 OR name_coAdvisor LIKE $like2 OR surname_coAdvisor LIKE $like2) AND (thesis_status = 1 AND approval_status = 1)";
             }
 
             if ($inputSearch3 !== '') {
@@ -141,29 +142,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     OR surname_advisor LIKE $like3
                     OR prefix_coAdvisor LIKe $like3
                     OR name_coAdvisor LIKE $like3
-                    OR surname_coAdvisor LIKE $like3)";
+                    OR surname_coAdvisor LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch3 === 'thesis_name') {
                     $selectSearch3 = "ชื่อปริญญานิพนธ์";
-                    $sql .= " " . $selectCondition2 . " (thai_name LIKE $like3 OR english_name LIKE $like3)";
+                    $sql .= " " . $selectCondition2 . " (thai_name LIKE $like3 OR english_name LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                     // echo $sql;
                 } else if ($selectSearch3 === 'keyword') {
                     $selectSearch3 = "คำสำคัญ";
-                    $sql .= " " . $selectCondition2 . " (keyword LIKE $like3)";
+                    $sql .= " " . $selectCondition2 . " (keyword LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch3 === 'printed_year') {
                     $selectSearch3 = "ปีตีพิมพ์เล่ม";
-                    $sql .= " " . $selectCondition2 . " (printed_year LIKE $like3)";
+                    $sql .= " " . $selectCondition2 . " (printed_year LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch3 === 'semester') {
                     $selectSearch3 = "ภาคการศึกษา/ปี ที่อนุมัติเล่ม";
-                    $sql .= " " . $selectCondition2 . " (semester LIKE $like3)";
+                    $sql .= " " . $selectCondition2 . " (semester LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch3 === 'abstract') {
                     $selectSearch3 = "บทคัดย่อ";
-                    $sql .= " " . $selectCondition2 . " (abstract LIKE $like3)";
+                    $sql .= " " . $selectCondition2 . " (abstract LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch3 === 'author') {
                     $selectSearch3 = "ชื่อหรือนามสกุลคณะผู้จัดทำ";
                 } else if ($selectSearch3 === 'advisor') {
                     $selectSearch3 = "ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา";
                     $sql .= " " . $selectCondition2 . " (prefix_advisor LIKE $like3 OR name_advisor LIKE $like3 OR surname_advisor LIKE $like3
-            OR prefix_coAdvisor LIKE $like3 OR name_coAdvisor LIKE $like3 OR surname_coAdvisor LIKE $like3)";
+            OR prefix_coAdvisor LIKE $like3 OR name_coAdvisor LIKE $like3 OR surname_coAdvisor LIKE $like3) AND (thesis_status = 1 AND approval_status = 1)";
                 }
             }
 
@@ -183,29 +184,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     OR surname_advisor LIKE $like4
                     OR prefix_coAdvisor LIKe $like4
                     OR name_coAdvisor LIKE $like4
-                    OR surname_coAdvisor LIKE $like4)";
+                    OR surname_coAdvisor LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch4 === 'thesis_name') {
                     $selectSearch4 = "ชื่อปริญญานิพนธ์";
-                    $sql .= " " . $selectCondition3 . " (thai_name LIKE $like4 OR english_name LIKE $like4)";
+                    $sql .= " " . $selectCondition3 . " (thai_name LIKE $like4 OR english_name LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                     echo $sql;
                 } else if ($selectSearch4 === 'keyword') {
                     $selectSearch4 = "คำสำคัญ";
-                    $sql .= " " . $selectCondition3 . " (keyword LIKE $like4)";
+                    $sql .= " " . $selectCondition3 . " (keyword LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch4 === 'printed_year') {
                     $selectSearch4 = "ปีตีพิมพ์เล่ม";
-                    $sql .= " " . $selectCondition3 . " (printed_year LIKE $like4)";
+                    $sql .= " " . $selectCondition3 . " (printed_year LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch4 === 'semester') {
                     $selectSearch4 = "ภาคการศึกษา/ปี ที่อนุมัติเล่ม";
-                    $sql .= " " . $selectCondition3 . " (semester LIKE $like4)";
+                    $sql .= " " . $selectCondition3 . " (semester LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch4 === 'abstract') {
                     $selectSearch4 = "บทคัดย่อ";
-                    $sql .= " " . $selectCondition3 . " (abstract LIKE $like4)";
+                    $sql .= " " . $selectCondition3 . " (abstract LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 } else if ($selectSearch4 === 'author') {
                     $selectSearch4 = "ชื่อหรือนามสกุลคณะผู้จัดทำ";
                 } else if ($selectSearch4 === 'advisor') {
                     $selectSearch4 = "ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา";
                     $sql .= " " . $selectCondition3 . " (prefix_advisor LIKE $like4 OR name_advisor LIKE $like4 OR surname_advisor LIKE $like4
-            OR prefix_coAdvisor LIKE $like4 OR name_coAdvisor LIKE $like4 OR surname_coAdvisor LIKE $like4)";
+            OR prefix_coAdvisor LIKE $like4 OR name_coAdvisor LIKE $like4 OR surname_coAdvisor LIKE $like4) AND (thesis_status = 1 AND approval_status = 1)";
                 }
 
                 if ($inputSearch5 !== '') {
@@ -224,29 +225,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         OR surname_advisor LIKE $like5
                         OR prefix_coAdvisor LIKe $like5
                         OR name_coAdvisor LIKE $like5
-                        OR surname_coAdvisor LIKE $like5)";
+                        OR surname_coAdvisor LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     } else if ($selectSearch5 === 'thesis_name') {
                         $selectSearch5 = "ชื่อปริญญานิพนธ์";
-                        $sql .= " " . $selectCondition4 . " (thai_name LIKE $like5 OR english_name LIKE $like5)";
+                        $sql .= " " . $selectCondition4 . " (thai_name LIKE $like5 OR english_name LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                         echo $sql;
                     } else if ($selectSearch5 === 'keyword') {
                         $selectSearch5 = "คำสำคัญ";
-                        $sql .= " " . $selectCondition4 . " (keyword LIKE $like5)";
+                        $sql .= " " . $selectCondition4 . " (keyword LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     } else if ($selectSearch5 === 'printed_year') {
                         $selectSearch5 = "ปีตีพิมพ์เล่ม";
-                        $sql .= " " . $selectCondition4 . " (printed_year LIKE $like5)";
+                        $sql .= " " . $selectCondition4 . " (printed_year LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     } else if ($selectSearch5 === 'semester') {
                         $selectSearch5 = "ภาคการศึกษา/ปี ที่อนุมัติเล่ม";
-                        $sql .= " " . $selectCondition4 . " (semester LIKE $like5)";
+                        $sql .= " " . $selectCondition4 . " (semester LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     } else if ($selectSearch5 === 'abstract') {
                         $selectSearch5 = "บทคัดย่อ";
-                        $sql .= " " . $selectCondition4 . " (abstract LIKE $like5)";
+                        $sql .= " " . $selectCondition4 . " (abstract LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     } else if ($selectSearch5 === 'author') {
                         $selectSearch5 = "ชื่อหรือนามสกุลคณะผู้จัดทำ";
                     } else if ($selectSearch5 === 'advisor') {
                         $selectSearch5 = "ชื่อหรือนามสกุลอาจารย์ที่ปรึกษา";
                         $sql .= " " . $selectCondition4 . " (prefix_advisor LIKE $like5 OR name_advisor LIKE $like5 OR surname_advisor LIKE $like5
-                OR prefix_coAdvisor LIKE $like5 OR name_coAdvisor LIKE $like5 OR surname_coAdvisor LIKE $like5)";
+                OR prefix_coAdvisor LIKE $like5 OR name_coAdvisor LIKE $like5 OR surname_coAdvisor LIKE $like5) AND (thesis_status = 1 AND approval_status = 1)";
                     }
                 }
             }
