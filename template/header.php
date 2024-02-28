@@ -54,25 +54,13 @@ if (isset($_SESSION['role'])) {
                 // $role = "นักศึกษา";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } elseif ($role == "อาจารย์") {
                 // $role = "อาจารย์";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } elseif ($role == "เจ้าหน้าที่ชั่วคราว") {
                 // $role = "เจ้าหน้าที่ชั่วคราว";
@@ -86,13 +74,7 @@ if (isset($_SESSION['role'])) {
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesislistwaiting'>รายการที่รอตรวจสอบข้อมูล</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } elseif ($role == "ผู้ดูแลระบบ") {
                 // $role = "ผู้ดูแลระบบ";
@@ -113,24 +95,12 @@ if (isset($_SESSION['role'])) {
                 </li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/recycle_bin'>ถังขยะ</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/archive'>Archive</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } else {
                 echo "<ul class='navbar-nav'>
                  <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                 <li class='nav-item text-center dropdown'>
-                     <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                     <ul class='dropdown-menu dropdown-menu-end'>
-                         <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                         <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                     </ul>
-                 </li>
+                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
              </ul>";
             }
             ?>
