@@ -1,5 +1,4 @@
 <?php
-require(__DIR__ . '/template/header.php');
 include "dbconnect.php";
 $select = $conn->prepare("SELECT prefix_advisor, name_advisor, surname_advisor, COUNT(*) as count FROM thesis_document GROUP BY prefix_advisor, name_advisor, surname_advisor");
 $select->execute();
@@ -44,11 +43,10 @@ if ($result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>สถิติข้อมูล</title>
-    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
+    <link rel="icon" type="image/x-icon" href="img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
-    <script src="https://cdn.canvasjs.com/ga/canvasjs.stock.min.js"></script>
     <script>
         function compareDataPointYAscend(dataPoint1, dataPoint2) {
             return dataPoint1.y - dataPoint2.y;
@@ -110,7 +108,7 @@ if ($result) {
 </head>
 
 <body>
-    
+    <?php require(__DIR__ . '/template/header.php'); ?>
     <div class="container my-4 d-flex flex-column gap-3">
         <div class="d-flex gap-2 align-items-end">
             <div class="form-group col-2">
@@ -147,14 +145,13 @@ if ($result) {
         </div>
     </div>
 
-    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script>
         function ButtonReset() {
             document.getElementById("selectYear").value = "all";
 
-            var chart = new CanvasJS.Chart("chartContainer", {
+            let chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 axisY: {
                     title: "จำนวนปริญญานิพนธ์",
@@ -175,7 +172,7 @@ if ($result) {
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
 
-            var chart_count = new CanvasJS.Chart("chartContainer_count", {
+            let chart_count = new CanvasJS.Chart("chartContainer_count", {
                 animationEnabled: true,
                 axisY: {
                     title: "จำนวน",
