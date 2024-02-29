@@ -98,26 +98,60 @@
         }
     }
     ?>
-    <?php require 'template/header_login.php'; ?>
-    <form class="container mt-4" method="POST">
-        <h1 class="h1 text-center">สร้างรหัสผ่าน</h1>
-        <div class="form-group mb-3">
-            สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
+   <?php require 'template/header_login.php'; ?>
+<form class="container mt-4" method="POST" id="resetForm">
+    <h1 class="h1 text-center">สร้างรหัสผ่าน</h1>
+    <div class="form-group mb-3">
+        สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
+    </div>
+    <div class="form-group mb-3">
+        <label for="password">รหัสผ่าน</label>
+        <input class="form-control" type="password" name="password" id="password" placeholder="กรุณาใส่รหัสผ่าน" required>
+    </div>
+    <div class="form-group mb-3">
+        <label for="pass">รหัสผ่านอีกครั้ง</label>
+        <input class="form-control" type="password" name="checkPassword" id="checkPassword" placeholder="ใส่รหัสผ่านอีกครั้ง" required>
+    </div>
+    <input type="submit" class="btn btn-primary container-fluid mb-3" value="สร้างบัญชีผู้ใช้งาน" />
+</form>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $(document).ready(function () {
+        $("#resetForm").submit(function (event) {
+            event.preventDefault(); // Prevent the form from submitting
 
-        </div>
-        <div class="form-group mb-3">
-            <label for="password">รหัสผ่าน</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="กรุณาใส่รหัสผ่าน" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="pass">รหัสผ่านอีกครั้ง</label>
-            <input class="form-control" type="password" name="checkPassword" id="checkPassword" placeholder="ใส่รหัสผ่านอีกครั้ง" required>
+            // Your validation code
+            var password = $("#password").val();
+            var checkPassword = $("#checkPassword").val();
+            var isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{10,}$/;
 
-        </div>
-        <input type="submit" class="btn btn-primary container-fluid mb-3" value="สร้างบัญชีผู้ใช้งาน" />
-    </form>
-    <script></script>
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+            if (!isValidPassword.test(password)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ถูกต้อง',
+                    text: 'รหัสผ่านต้องประกอบด้วย ตัวพิมพ์เล็ก ตัวพิมพ์ใหญ่ และตัวเลข และมีความยาวอย่างน้อย 10 ตัวอักษร'
+                });
+                return false;
+            }
+
+            if (password !== checkPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ตรงกัน',
+                    text: 'กรุณากรอกรหัสผ่านให้ตรงกัน'
+                });
+                return false;
+            }
+
+            // If validation passes, you can submit the form
+            // Uncomment the following line if you want to submit the form after validation
+            // $("#resetForm").unbind('submit').submit();
+        });
+    });
+</script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
