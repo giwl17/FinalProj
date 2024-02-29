@@ -1,10 +1,19 @@
 <?php
 require "dbconnect.php";
+if (isset($_POST['selectShow'])) {
+    $per_page_record = $_POST['selectShow'];
+} else {
+    $per_page_record = 10;
+}
+if (isset($_GET["page"])) {
+    $page  = $_GET["page"];
+} else {
+    $page = 1;
+}
 
 if (isset($_GET['selected']) && isset($_GET['data'])) {
     $searchSelect = $_GET['selected'];
     $dataInput = $_GET['data'];
-    // echo $searchSelect . ' ' . $dataInput;
 } else {
     if (isset($_GET['advisor'])) {
         $advisor = $_GET['advisor'];

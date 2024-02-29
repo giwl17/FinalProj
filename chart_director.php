@@ -1,4 +1,5 @@
 <?php
+require(__DIR__ . '/template/header.php');
 include "dbconnect.php";
 $select = $conn->prepare("SELECT prefix_advisor, name_advisor, surname_advisor, COUNT(*) as count FROM thesis_document GROUP BY prefix_advisor, name_advisor, surname_advisor");
 $select->execute();
@@ -57,9 +58,8 @@ if ($result) {
             return dataPoint2.y - dataPoint1.y;
         }
 
-
         window.onload = function() {
-            var chart = new CanvasJS.Chart("chartContainer", {
+            let chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 axisY: {
                     title: "จำนวนปริญญานิพนธ์",
@@ -79,7 +79,7 @@ if ($result) {
             chart.options.data[0].dataPoints.sort(compareDataPointYAscend);
             chart.render();
 
-            var chart_count = new CanvasJS.Chart("chartContainer_count", {
+            let chart_count = new CanvasJS.Chart("chartContainer_count", {
                 animationEnabled: true,
                 axisY: {
                     title: "จำนวน",
@@ -103,7 +103,6 @@ if ($result) {
             chart_count.render();
 
             function onClick(e) {
-                // alert(e.dataSeries.type + ", dataPoint { label:" + e.dataPoint.label + ", y: " + e.dataPoint.y + " }");
                 location.href = `search?advisor=${e.dataPoint.label}`;
             }
         }
@@ -111,7 +110,7 @@ if ($result) {
 </head>
 
 <body>
-    <?php require_once('./template/header.php') ?>
+    
     <div class="container my-4 d-flex flex-column gap-3">
         <div class="d-flex gap-2 align-items-end">
             <div class="form-group col-2">
@@ -136,10 +135,16 @@ if ($result) {
                 <button class="btn btn-primary" onclick="ButtonSubmit()">ค้นหา</button>
             </div>
         </div>
-        <h1 class="h3 text-center">สถิติการจัดเก็บเล่มปริญญานิพนธ์</h1>
-        <div id="chartContainer_count" class="w-100" style="height: 370px;"></div>
-        <h1 class="h3 text-center">สถิติกำกับปริญญานิพนธ์</h1>
-        <div id="chartContainer" class="w-100" style="height: 370px;"></div>
+        <div class="d-flex flex-wrap gap-3">
+            <div class="p-3 border rounded-4 w-100">
+                <h1 class="h5 text-center">สถิติการจัดเก็บเล่มปริญญานิพนธ์</h1>
+                <div id="chartContainer_count" class="" style="height: 370px;"></div>
+            </div>
+            <div class="p-3 border rounded-4 w-100">
+                <h1 class="h5 text-center">สถิติกำกับปริญญานิพนธ์</h1>
+                <div id="chartContainer" class="" style="height: 370px;"></div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
