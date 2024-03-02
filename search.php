@@ -218,7 +218,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     if ($searchSelect === 'all') {
                         $sql = "SELECT * 
                         FROM thesis_document 
-                        WHERE thai_name LIKE :input
+                        WHERE (thai_name LIKE :input
                         OR english_name LIKE :input
                         OR abstract LIKE :input
                         OR printed_year LIKE :input
@@ -239,7 +239,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         OR surname_advisor LIKE :input
                         OR prefix_coAdvisor LIKE :input
                         OR name_coAdvisor LIKE :input
-                        OR surname_coAdvisor LIKE :input
+                        OR surname_coAdvisor LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
                         ORDER BY thesis_id DESC
                         ";
@@ -248,8 +248,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'thesis_name') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE thai_name LIKE :input
-                        OR english_name LIKE :input
+                        WHERE (thai_name LIKE :input
+                        OR english_name LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
                         ORDER BY thesis_id DESC
                         ";
@@ -258,7 +258,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'keyword') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE keyword LIKE :input
+                        WHERE (keyword LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
                         ORDER BY thesis_id DESC
                         ";
@@ -267,7 +267,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'printed_year') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE printed_year LIKE :input
+                        WHERE (printed_year LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
                         ORDER BY thesis_id DESC
                         ";
@@ -281,8 +281,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             $years = $semesterYear[1];
 
                             $sql = "SELECT * FROM thesis_document
-                            WHERE semester LIKE :semester
-                            AND approval_year LIKE :years
+                            WHERE (semester LIKE :semester
+                            AND approval_year LIKE :years)
                             AND (thesis_status = 1 AND approval_status = 1)
                             ORDER BY thesis_id DESC
                             ";
@@ -293,8 +293,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             $insert_thesis->bindParam(":years", $likeYears);
                         } else {
                             $sql = "SELECT * FROM thesis_document
-                            WHERE semester LIKE :input
-                            OR approval_year LIKE :input
+                            WHERE (semester LIKE :input
+                            OR approval_year LIKE :input)
                             AND (thesis_status = 1 AND approval_status = 1)
                             ORDER BY thesis_id DESC
                             ";
@@ -304,7 +304,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         }
                     } else if ($searchSelect === 'abstract') {
                         $sql = "SELECT * FROM thesis_document
-                            WHERE abstract LIKE :input
+                            WHERE (abstract LIKE :input)
                             AND (thesis_status = 1 AND approval_status = 1)
                             ORDER BY thesis_id DESC
                             ";
@@ -317,7 +317,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             switch (count($advisor)) {
                                 case 2: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE name_advisor LIKE :input1 AND surname_advisor LIKE :input2
+                                    WHERE (name_advisor LIKE :input1 AND surname_advisor LIKE :input2)
                                     AND (thesis_status = 1 AND approval_status = 1)
                                     ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
@@ -329,7 +329,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     break;
                                 case 3: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3
+                                    WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
                                     AND (thesis_status = 1 AND approval_status = 1)
                                     ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
@@ -344,8 +344,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             }
                         } else {
                             $sql = "SELECT * FROM thesis_document 
-                        WHERE prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
-                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor
+                        WHERE (prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
+                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor)
                                 AND (thesis_status = 1 AND approval_status = 1)
                                 ORDER BY thesis_id DESC
                                 ";
