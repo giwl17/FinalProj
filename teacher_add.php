@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-2" id="other" name="other" style="display: none;" required>
                             <label for="name" class="form-label">คำนำหน้า</label>
-                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า" required>
+                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า" >
                         </div>
                         <div class="col-md-4">
                             <label for="name" class="form-label">ชื่อ</label>
