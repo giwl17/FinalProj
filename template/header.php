@@ -60,10 +60,13 @@ if (isset($_SESSION['role'])) {
             </ul>";
             } elseif ($role == "อาจารย์") {
                 // $role = "อาจารย์";
-                echo "<ul class='navbar-nav'>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
-             </ul>";
+                echo "<ul class='navbar-nav'>";
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>";
+                if ($_SESSION['member_manage_permission'] == 1)
+                    menu_member_manage($role);
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>";
+
+                echo "</ul>";
             } elseif ($role == "เจ้าหน้าที่ชั่วคราว") {
                 // $role = "เจ้าหน้าที่ชั่วคราว";
                 echo "<ul class='navbar-nav'>
@@ -79,7 +82,7 @@ if (isset($_SESSION['role'])) {
                 if ($_SESSION['thesis_manage_permission'] == 1)
                     menu_thesis();
                 if ($_SESSION['member_manage_permission'] == 1)
-                    menu_member_manage();
+                    menu_member_manage($role);
                 if ($_SESSION['account_manage_permission'] == 1)
                     menu_account_manage();
                 echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>";
@@ -124,18 +127,30 @@ function menu_thesis()
     <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisdelete'>ลบปริญญานิพนธ์</a></li>
     ";
 }
-function menu_member_manage()
+function menu_member_manage($role)
 {
-    echo "
-    <li class='nav-item text-center dropdown'>
-    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
-    <ul class='dropdown-menu dropdown-menu-end'>
-        <li><a class='dropdown-item' href='/FinalProj/officeradd'>เพิ่มข้อมูลเจ้าหน้าที่</a></li>
-        <li><a class='dropdown-item' href='/FinalProj/temporaryadd'>เพิ่มข้อมูลเจ้าหน้าที่ชั่วคราว</a></li>
-        <li><a class='dropdown-item' href='/FinalProj/teacheradd'>เพิ่มข้อมูลอาจารย์</a></li>
-        <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
-    </ul>
-    </li>";
+    if ($role == 'เจ้าหน้าที่') {
+        echo <<<HTML
+        <li class='nav-item text-center dropdown'>
+        <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
+        <ul class='dropdown-menu dropdown-menu-end'>
+            <li><a class='dropdown-item' href='/FinalProj/officeradd'>เพิ่มข้อมูลเจ้าหน้าที่</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/temporaryadd'>เพิ่มข้อมูลเจ้าหน้าที่ชั่วคราว</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/teacheradd'>เพิ่มข้อมูลอาจารย์</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
+        </ul>
+        </li>
+        HTML;
+    } else if ($role == 'อาจารย์') {
+        echo <<<HTML
+        <li class='nav-item text-center dropdown'>
+        <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
+        <ul class='dropdown-menu dropdown-menu-end'>
+            <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
+        </ul>
+        </li>
+        HTML;
+    }
 }
 function menu_account_manage()
 {
