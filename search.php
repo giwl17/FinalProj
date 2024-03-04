@@ -1,10 +1,19 @@
 <?php
 require "dbconnect.php";
+if (isset($_POST['selectShow'])) {
+    $per_page_record = $_POST['selectShow'];
+} else {
+    $per_page_record = 10;
+}
+if (isset($_GET["page"])) {
+    $page  = $_GET["page"];
+} else {
+    $page = 1;
+}
 
 if (isset($_GET['selected']) && isset($_GET['data'])) {
     $searchSelect = $_GET['selected'];
     $dataInput = $_GET['data'];
-    // echo $searchSelect . ' ' . $dataInput;
 } else {
     if (isset($_GET['advisor'])) {
         $advisor = $_GET['advisor'];
@@ -72,7 +81,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์</title>
+    <title>จัดการเล่มปริญญานิพนธ์ - รายการ</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -89,7 +98,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
         <div class="d-flex flex-column">
             <form class="d-flex position-relative" action="search.php">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
-                <select name="selected" id="selectSearch" class="form-select rounded-0 w-25">
+                <select name="selected" id="selectSearch" class="form-select rounded-start-3 rounded-0 w-auto">
                     <option value="all" <?php if ($searchSelect == 'all') {
                                             echo "selected";
                                         } ?>>ทั้งหมด</option>
@@ -118,25 +127,25 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 
                 <div class="flex-grow-1 position-relative">
                     <?php if (isset($_GET['selected'])) : ?>
-                        <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $dataInput; ?>">
+                        <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $dataInput; ?>">
                     <?php else : ?>
                         <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $prefix_advisor . " " . $name_advisor . " " . $surname_advisor; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $prefix_advisor . " " . $name_advisor . " " . $surname_advisor; ?>">
                         <?php elseif ($searchSelect === 'printed_year') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $printed; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $printed; ?>">
                         <?php elseif ($searchSelect === 'semester') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $approval; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $approval; ?>">
                         <?php elseif ($searchSelect === 'keyword') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $keyword; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $keyword; ?>">
                         <?php elseif ($searchSelect === 'abstract') : ?>
-                            <input type="search" name="data" id="inputSearch" class="form-control rounded-0 flex-grow-1" value="<?php echo $abstract; ?>">
+                            <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $abstract; ?>">
                         <?php endif; ?>
                     <?php endif; ?>
 
 
                     <div class="w-100 position-absolute d-none" id="searching"></div>
                 </div>
-                <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+                <button class="btn rounded-0 col-auto position-absolute end-0"><i class="bi bi-search px-1"></i></button>
             </form>
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
@@ -159,7 +168,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     if ($thesisIdFound != $row['thesis_id']) {
                                         $thesisIdFound = $row['thesis_id'];
                                         //show list
-                                        echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                                        echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                                             <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                                             <div class='fw-bold'>$row[thai_name]</div>
                                             <div class='fw-bold'>$row[english_name]</div>
@@ -209,7 +218,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     if ($searchSelect === 'all') {
                         $sql = "SELECT * 
                         FROM thesis_document 
-                        WHERE thai_name LIKE :input
+                        WHERE (thai_name LIKE :input
                         OR english_name LIKE :input
                         OR abstract LIKE :input
                         OR printed_year LIKE :input
@@ -230,26 +239,38 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         OR surname_advisor LIKE :input
                         OR prefix_coAdvisor LIKE :input
                         OR name_coAdvisor LIKE :input
-                        OR surname_coAdvisor LIKE :input";
+                        OR surname_coAdvisor LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'thesis_name') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE thai_name LIKE :input
-                        OR english_name LIKE :input";
+                        WHERE (thai_name LIKE :input
+                        OR english_name LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'keyword') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE keyword LIKE :input";
+                        WHERE (keyword LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'printed_year') {
                         $sql = "SELECT * FROM thesis_document
-                        WHERE printed_year LIKE :input";
+                        WHERE (printed_year LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)
+                        ORDER BY thesis_id DESC
+                        ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
@@ -260,8 +281,11 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             $years = $semesterYear[1];
 
                             $sql = "SELECT * FROM thesis_document
-                            WHERE semester LIKE :semester
-                            AND approval_year LIKE :years";
+                            WHERE (semester LIKE :semester
+                            AND approval_year LIKE :years)
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                             $likeSemester = "%" . $semester . "%";
                             $likeYears = "%" . $years . "%";
                             $insert_thesis = $conn->prepare($sql);
@@ -269,15 +293,21 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             $insert_thesis->bindParam(":years", $likeYears);
                         } else {
                             $sql = "SELECT * FROM thesis_document
-                            WHERE semester LIKE :input
-                            OR approval_year LIKE :input";
+                            WHERE (semester LIKE :input
+                            OR approval_year LIKE :input)
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                             $likeInput = "%" . $dataInput . "%";
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":input", $dataInput);
                         }
                     } else if ($searchSelect === 'abstract') {
                         $sql = "SELECT * FROM thesis_document
-                            WHERE abstract LIKE :input";
+                            WHERE (abstract LIKE :input)
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ORDER BY thesis_id DESC
+                            ";
                         $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $dataInput);
@@ -287,7 +317,9 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             switch (count($advisor)) {
                                 case 2: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE name_advisor LIKE :input1 AND surname_advisor LIKE :input2";
+                                    WHERE (name_advisor LIKE :input1 AND surname_advisor LIKE :input2)
+                                    AND (thesis_status = 1 AND approval_status = 1)
+                                    ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
                                         $likeInput2 = "%" . $advisor[1] . "%";
                                         $insert_thesis = $conn->prepare($sql);
@@ -297,7 +329,9 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     break;
                                 case 3: {
                                         $sql = "SELECT * FROM thesis_document 
-                                    WHERE prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3";
+                                    WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
+                                    AND (thesis_status = 1 AND approval_status = 1)
+                                    ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
                                         $likeInput2 = "%" . $advisor[1] . "%";
                                         $likeInput3 = "%" . $advisor[2] . "%";
@@ -310,8 +344,11 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             }
                         } else {
                             $sql = "SELECT * FROM thesis_document 
-                        WHERE prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
-                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor";
+                        WHERE (prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
+                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor)
+                                AND (thesis_status = 1 AND approval_status = 1)
+                                ORDER BY thesis_id DESC
+                                ";
                             $likeInput = "%" . $dataInput . "%";
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":input", $likeInput);
@@ -321,7 +358,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     $result = $insert_thesis->fetchAll(PDO::FETCH_ASSOC);
                     if ($insert_thesis->rowCount() > 0) {
                         foreach ($result as $row) {
-                            echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                            echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                         <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                         <div class='fw-bold'>$row[thai_name]</div>
                         <div class='fw-bold'>$row[english_name]</div>
@@ -379,7 +416,10 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                 AND surname_advisor = :surname) 
                 OR (prefix_coAdvisor = :prefix 
                 AND name_coAdvisor = :name 
-                AND surname_coAdvisor = :surname)";
+                AND surname_coAdvisor = :surname)
+                AND (thesis_status = 1 AND approval_status = 1)
+                ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":prefix", $prefix_advisor);
@@ -387,26 +427,34 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                     $insert_thesis->bindParam(":surname", $surname_advisor);
                 } else if ($searchSelect === 'printed_year') {
                     $sql = "SELECT * FROM thesis_document
-                WHERE printed_year = :printed";
+                WHERE printed_year = :printed
+                AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":printed", $printed);
                 } else if ($searchSelect === 'semester') {
                     $sql = "SELECT * FROM thesis_document
-                WHERE semester = :semester AND approval_year = :approval_year";
+                WHERE semester = :semester AND approval_year = :approval_year
+                AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                ";
 
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":semester", $semester);
                     $insert_thesis->bindParam(":approval_year", $approval_year);
                 } else if ($searchSelect === "keyword") {
                     $sql = "SELECT * FROM thesis_document
-                    WHERE keyword LIKE :keyword";
+                    WHERE keyword LIKE :keyword
+                    AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                    ";
                     $keywordLike = "%" . $keyword . "%";
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":keyword", $keywordLike);
                 } else if ($searchSelect === "abstract") {
                     $sql = "SELECT * FROM thesis_document
-                    WHERE abstract LIKE :input";
+                    WHERE abstract LIKE :input
+                    AND (thesis_status = 1 AND approval_status = 1) ORDER BY thesis_id DESC
+                    ";
                     $abstractLike = "%" . $abstract . "%";
                     $insert_thesis = $conn->prepare($sql);
                     $insert_thesis->bindParam(":input", $abstractLike);
@@ -415,7 +463,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                 $result = $insert_thesis->fetchAll(PDO::FETCH_ASSOC);
                 if ($insert_thesis->rowCount() > 0) {
                     foreach ($result as $row) {
-                        echo "<div class='border border-dark w-100 p-3 d-flex flex-column'>
+                        echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>
                     <a class='text-dark' id='thesisName' href='thesis?id=$row[thesis_id]'>
                     <div class='fw-bold'>$row[thai_name]</div>
                     <div class='fw-bold'>$row[english_name]</div>

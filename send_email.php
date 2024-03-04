@@ -18,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt = $conn->prepare("SELECT * FROM account WHERE email = ?");
     $stmt->execute([$email]);
-    $user = $stmt->fetch();
+    // $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    $name = $user['name'] . " " . $user['lastname'];
     if ($user) {
         /* $stmt = $conn->prepare("INSERT INTO account (email, reset_token_hash, reset_token_expires_at) VALUES (?, ?, ?) ");
         $stmt->execute([$email, $token, $expiry]); */
@@ -40,15 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Port = 25;
 
             //Recipients
-            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "Admin");
+            $mail->setFrom("rmuttcp@rmuttcpethesis.com", "rmuttcpethesis.com");
             $mail->addAddress($email);
 
             //Content
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset';
-            $mail->Body = "To reset your password, <br>
-            token : $token <br>
-            click on the following link: <a href='$reset_link'>reset_link</a>";
+            // Assuming $name and $reset_link are variables containing the user's name and reset link
+            $mail->Body = "คุณ " . $name . "  <br>คลิกที่ลิงค์เพื่อทำการเปลี่ยนรหัสผ่าน : <a href='" . $reset_link . "'>เปลี่ยนรหัสผ่าน</a>";
+
 
             $mail->send();
             echo 'exists';

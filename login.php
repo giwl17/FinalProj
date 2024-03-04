@@ -30,20 +30,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['lastname'] = $user['lastname'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['download_permissions'] = $user['download_permissions'];
-        $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
-        $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
-        $_SESSION['status'] = $user['status'];
-        setcookie('email', $email, time() + (86400 * 30), "/");
-        // header("Location: dashboard.php");
-        // header("Location: /FinalProj");
-        header("Location: ". $_SESSION['current_page']);
-        exit();
+        if ($user['status'] == 1) {
+            // User has status 1, proceed with login
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['lastname'] = $user['lastname'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['thesis_manage_permission'] = $user['thesis_manage_permission'];
+            $_SESSION['download_permissions'] = $user['download_permissions'];
+            $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
+            $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
+            $_SESSION['status'] = $user['status'];
+            setcookie('email', $email, time() + (86400 * 30), "/");
+            header("Location: ". $_SESSION['current_page']);
+            exit();
+        } else {
+            // User has status other than 1, show SweetAlert error
+            echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Login ไม่สำเร็จ",
+                    text: "บัญชีนี้ไม่ได้รับการอนุมัติหรือถูกระงับ!"
+                }).then(function() {
+                    window.location = "/FinalProj/login";
+                });
+            </script>';
+        }
     } else {
+        // Incorrect email or password, show SweetAlert error
         echo '<script>
             Swal.fire({
                 icon: "error",
@@ -56,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
   <?php require 'template/header_login.php'; ?>
   <form method="post" class="container mt-4">
     <h1 class="h1 text-center">เข้าสู่ระบบ</h1>
@@ -74,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
     <input type="submit" class="btn btn-primary container-fluid mb-3" value="เข้าสู่ระบบ" />
-    <!-- <input type="submit" value="Login"> -->
   </form>
   <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

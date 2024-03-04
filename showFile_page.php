@@ -52,21 +52,22 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
         <?php if ($type === 'thesis') : ?>
             <div class="p-2 w-100 text-center">
                 <h1 class="h3">ไฟล์เล่มปริญญานิพนธ์</h1>
-                <?php if ($fileSelect !== 'FileStorage/thesis/' AND $fileSelect !== NULL) :  ?>
+                <?php if ($fileSelect !== 'FileStorage/thesis/' and $fileSelect !== NULL and $fileSelect !== '') :  ?>
                     <?php if ($_SESSION['download_permissions'] == 1) : ?>
                         <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
                     <?php endif; ?>
             </div>
-            <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+            <iframe src="<?= $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
             <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
         <?php else : ?>
             <h1>ไม่พบไฟล์</h1>
         <? endif; ?>
+    <? endif; ?>
 
-    <?php elseif ($type === 'poster') : ?>
+    <?php if ($type === 'poster') : ?>
         <div class="p-2 w-100 text-center">
             <h1 class="h3">ไฟล์โปสเตอร์</h1>
-            <?php if ($fileSelect !== 'FileStorage/poster/' AND $fileSelect !== NULL) :  ?>
+            <?php if ($fileSelect !== 'FileStorage/poster/' and $fileSelect !== NULL and $fileSelect !== '') :  ?>
                 <?php if ($_SESSION['download_permissions'] == 1) : ?>
                     <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
                 <?php endif; ?>
@@ -76,16 +77,17 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
     <?php else : ?>
         <h1>ไม่พบไฟล์</h1>
     <? endif; ?>
-<?php elseif ($type === 'approval') : ?>
+<? endif; ?>
+<?php if ($type === 'approval') : ?>
     <div class="p-2 w-100 text-center">
         <h1 class="h3">ไฟล์อนุมัติ</h1>
-        <?php if ($fileSelect !== 'FileStorage/approval/' AND $fileSelect !== NULL) :  ?>
+        <?php if ($fileSelect !== 'FileStorage/approval/' and $fileSelect !== NULL and $fileSelect !== '') :  ?>
             <?php if ($_SESSION['download_permissions'] == 1) : ?>
                 <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
             <?php endif; ?>
+            <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+            <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
     </div>
-    <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
-    <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
 <?php else : ?>
     <h1>ไม่พบไฟล์</h1>
 <? endif; ?>

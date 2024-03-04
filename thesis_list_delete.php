@@ -30,7 +30,7 @@
             $page = 1;
         }
         $start_from = ($page - 1) * $per_page_record;
-        $stmt = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_status = 1 ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record} ");
+        $stmt = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record} ");
         $result = $stmt->execute();
         ?>
         <form method="POST" id="formSelectPage" action="/FinalProj/thesisdelete">

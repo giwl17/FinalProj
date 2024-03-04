@@ -1,10 +1,3 @@
-<?php
-// session_start();
-// if (!isset($_SESSION['email']) && !isset($_COOKIE['email'])) {
-//     header("Location: login.php"); // ถ้าไม่มี session หรือ cookie ให้ redirect ไปที่หน้า login
-//     exit();
-// }
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +19,7 @@
         <div class="d-flex flex-column">
             <form class="d-flex position-relative" action="search.php">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
-                <select name="selected" id="selectSearch" class="form-select rounded-0 w-25">
+                <select name="selected" id="selectSearch" class="form-select rounded-start-3 rounded-end-0 w-auto">
                     <option value="all" selected>ทั้งหมด</option>
                     <option value="thesis_name">ชื่อปริญญานิพนธ์</option>
                     <option value="keyword">คำสำคัญ</option>
@@ -38,11 +31,11 @@
                 </select>
 
                 <div class="flex-grow-1 position-relative">
-                    <input type="search" name="data" id="inputSearch" class="form-control rounded-0" placeholder="">
+                    <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-start-0" placeholder="">
                     <div class="w-100 position-absolute d-none" id="searching">
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary rounded-0 col-auto"><i class="bi bi-search px-1"></i>ค้นหา</button>
+                <button class="btn rounded-0 col-auto position-absolute end-0"><i class="bi bi-search px-1"></i></button>
             </form>
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>

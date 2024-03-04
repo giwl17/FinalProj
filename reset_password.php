@@ -24,7 +24,7 @@ if (isset($_GET['token'])) {
 
             $response = [
                 'status' => 'success',
-                'message' => 'Password updated successfully. You can now login with your new password.'
+                'message' => 'อัปเดตรหัสผ่านเรียบร้อยแล้ว ตอนนี้คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ'
             ];
             echo json_encode($response);
             exit();
@@ -33,7 +33,7 @@ if (isset($_GET['token'])) {
         header('Location: 404.php');
         $response = [
             'status' => 'error',
-            'message' => 'Invalid or expired token.'
+            'message' => 'โทเค็นไม่ถูกต้องหรือหมดอายุ'
         ];
         echo json_encode($response);
         exit();
@@ -63,6 +63,11 @@ if (isset($_GET['token'])) {
     <form class="container mt-4" id="resetForm" method="post" onsubmit="return validateForm()">
         <h1 class="h1 text-center">เปลี่ยนรหัสผ่าน</h1>
         <div class="form-group mb-3">
+            <span>
+                สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
+            </span>
+        </div>
+        <div class="form-group mb-3">
             <label for="pass">New Password</label>
             <input type="password" id="pass" name="pass" class="form-control" required>
         </div>
@@ -79,7 +84,7 @@ if (isset($_GET['token'])) {
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
             $('#resetForm').on('submit', function(e) {
                 var password = $('#pass').val();
@@ -120,6 +125,64 @@ if (isset($_GET['token'])) {
                             Swal.fire({
                                 title: 'Error!',
                                 text: 'An error occurred while processing your request.',
+                                icon: 'error'
+                            });
+                        });
+                    e.preventDefault(); // Prevent default form submission
+                }
+            });
+        });
+    </script> -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#resetForm').on('submit', function(e) {
+                var password = $('#pass').val();
+                var new_password = $('#new_password').val();
+
+                var isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{10,}$/;
+
+                if (password !== new_password) {
+                    Swal.fire({
+                        title: "รหัสผ่านไม่ตรงกัน",
+                        text: "กรุณาตรวจสอบว่ารหัสผ่านทั้งสองตัวที่คุณป้อนเป็นตัวเลขและตัวอักษรที่ผสมผสานกันอย่างถูกต้องและมีความยาวไม่น้อยกว่า 10 ตัวอักษร และให้แน่ใจว่าไม่มีการพิมพ์ผิดหรือเว้นวรรค",
+                        icon: "error"
+                    });
+                    e.preventDefault(); // Prevent form submission
+                } else if (!isValidPassword.test(password)) {
+                    Swal.fire({
+                        title: "รหัสผ่านไม่ตรงตามข้อกำหนด",
+                        text: "กรุณากำหนดรหัสผ่านที่มีการผสมผสานระหว่างตัวอักษรใหญ่, ตัวอักษรเล็ก, และตัวเลข โดยมีความยาวไม่น้อยกว่า 10 ตัวอักษร",
+                        icon: "error"
+                    });
+                    e.preventDefault(); // Prevent form submission
+                } else {
+                    var formData = new FormData(this);
+                    fetch("reset_password.php?token=<?php echo $token; ?>", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                Swal.fire({
+                                    title: 'เสร็จสิ้น',
+                                    text: data.message,
+                                    icon: 'success'
+                                }).then(() => {
+                                    window.location.href = "/FinalProj/login"; // Redirect to login page
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'เกิดข้อผิดพลาด',
+                                    text: data.message,
+                                    icon: 'error'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'เกิดข้อผิดพลาดขณะประมวลผลคำขอของคุณ',
                                 icon: 'error'
                             });
                         });

@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 $role = "";
-if (isset($_SESSION['role'])) { 
+if (isset($_SESSION['role'])) {
     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
     if ($_SESSION['role'] == 1) {
         $role = "ผู้ดูแลระบบ";
@@ -18,6 +18,8 @@ if (isset($_SESSION['role'])) {
         // header("Location: login.php");
         // exit();
     }
+} else {
+    header("Location: login");
 }
 ?>
 
@@ -36,6 +38,7 @@ if (isset($_SESSION['role'])) {
                     <?= $name ?> || <?= $role ?>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li><a href="/FinalProj/change_password" class="dropdown-item" type="button">เปลี่ยนรหัสผ่าน</a></li>
                     <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
                 </ul>
             </div>
@@ -53,26 +56,17 @@ if (isset($_SESSION['role'])) {
                 // $role = "นักศึกษา";
                 echo "<ul class='navbar-nav'>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } elseif ($role == "อาจารย์") {
                 // $role = "อาจารย์";
-                echo "<ul class='navbar-nav'>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
-            </ul>";
+                echo "<ul class='navbar-nav'>";
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>";
+                if ($_SESSION['member_manage_permission'] == 1)
+                    menu_member_manage($role);
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>";
+
+                echo "</ul>";
             } elseif ($role == "เจ้าหน้าที่ชั่วคราว") {
                 // $role = "เจ้าหน้าที่ชั่วคราว";
                 echo "<ul class='navbar-nav'>
@@ -82,17 +76,17 @@ if (isset($_SESSION['role'])) {
             </ul>";
             } elseif ($role == "เจ้าหน้าที่") {
                 // $role = "เจ้าหน้าที่";
-                echo "<ul class='navbar-nav'>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesislistwaiting'>รายการที่รอตรวจสอบข้อมูล</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
-            </ul>";
+                echo "<ul class='navbar-nav'>";
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>";
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesislistwaiting'>รายการที่รอตรวจสอบข้อมูล</a></li>";
+                if ($_SESSION['thesis_manage_permission'] == 1)
+                    menu_thesis();
+                if ($_SESSION['member_manage_permission'] == 1)
+                    menu_member_manage($role);
+                if ($_SESSION['account_manage_permission'] == 1)
+                    menu_account_manage();
+                echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>";
+                echo "</ul>";
             } elseif ($role == "ผู้ดูแลระบบ") {
                 // $role = "ผู้ดูแลระบบ";
                 echo "<ul class='navbar-nav'>
@@ -112,24 +106,12 @@ if (isset($_SESSION['role'])) {
                 </li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/recycle_bin'>ถังขยะ</a></li>
                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/archive'>Archive</a></li>
-                <li class='nav-item text-center dropdown'>
-                    <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
-                        <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                        <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                    </ul>
-                </li>
+                <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
             </ul>";
             } else {
-                 echo "<ul class='navbar-nav'>
+                echo "<ul class='navbar-nav'>
                  <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>
-                 <li class='nav-item text-center dropdown'>
-                     <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>สถิติข้อมูล</a>
-                     <ul class='dropdown-menu dropdown-menu-end'>
-                         <li><a class='dropdown-item' href='#'>สถิติการจัดเก็บเล่ม</a></li>
-                         <li><a class='dropdown-item' href='/FinalProj/chart_director'>สถิติการกำกับเล่ม</a></li>
-                     </ul>
-                 </li>
+                 <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>
              </ul>";
             }
             ?>
@@ -137,42 +119,43 @@ if (isset($_SESSION['role'])) {
     </nav>
 </div>
 
-<!-- <nav class="navbar navbar-expand-sm justify-content-center bg-light px-5 py-3">
-        <div class="container-fluid p-0 justify-content-sm-end justify-content-center">
-            <ul class="navbar-nav">
-                <?php if (isset($_SESSION['role'])) : ?>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/">รายการปริญญานิพนธ์</a></li>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesislistwaiting">รายการที่รอตรวจสอบข้อมูล</a></li>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisadd">เพิ่มข้อมูลปริญญานิพนธ์</a></li>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/thesisdelete">ลบปริญญานิพนธ์</a></li>
-                    <li class="nav-item text-center dropdown">
-                        <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">จัดการสมาชิก</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/FinalProj/officeradd">เพิ่มข้อมูลเจ้าหน้าที่</a></li>
-                            <li><a class="dropdown-item" href="/FinalProj/temporaryadd">เพิ่มข้อมูลเจ้าหน้าที่ชั่วคราว</a></li>
-                            <li><a class="dropdown-item" href="/FinalProj/teacheradd">เพิ่มข้อมูลอาจารย์</a></li>
-                            <li><a class="dropdown-item" href="/FinalProj/studentadd">เพิ่มข้อมูลนักศึกษา</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item text-center dropdown">
-                        <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">สถิติการจัดเก็บเล่ม</a></li>
-                            <li><a class="dropdown-item" href="/FinalProj/chart_director">สถิติการกำกับเล่ม</a></li>
-                        </ul>
-                    </li>
-                <?php else : ?>
-                    <li class="nav-item text-center"><a class="nav-link" href="/FinalProj/">รายการปริญญานิพนธ์</a></li>
-                    <li class="nav-item text-center dropdown">
-                        <a class="nav-link dropdown-toggle pe-0" href="#" data-bs-toggle="dropdown">สถิติข้อมูล</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">สถิติการจัดเก็บเล่ม</a></li>
-                            <li><a class="dropdown-item" href="/FinalProj/chart_director">สถิติการกำกับเล่ม</a></li>
-                        </ul>
-                    </li>
-                <?php endif; ?>
-
-
-            </ul>
-        </div>
-    </nav> -->
+<?php
+function menu_thesis()
+{
+    echo "
+    <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisadd'>เพิ่มข้อมูลปริญญานิพนธ์</a></li>
+    <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/thesisdelete'>ลบปริญญานิพนธ์</a></li>
+    ";
+}
+function menu_member_manage($role)
+{
+    if ($role == 'เจ้าหน้าที่') {
+        echo <<<HTML
+        <li class='nav-item text-center dropdown'>
+        <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
+        <ul class='dropdown-menu dropdown-menu-end'>
+            <li><a class='dropdown-item' href='/FinalProj/officeradd'>เพิ่มข้อมูลเจ้าหน้าที่</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/temporaryadd'>เพิ่มข้อมูลเจ้าหน้าที่ชั่วคราว</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/teacheradd'>เพิ่มข้อมูลอาจารย์</a></li>
+            <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
+        </ul>
+        </li>
+        HTML;
+    } else if ($role == 'อาจารย์') {
+        echo <<<HTML
+        <li class='nav-item text-center dropdown'>
+        <a class='nav-link dropdown-toggle pe-0' href='#' data-bs-toggle='dropdown'>จัดการสมาชิก</a>
+        <ul class='dropdown-menu dropdown-menu-end'>
+            <li><a class='dropdown-item' href='/FinalProj/studentadd'>เพิ่มข้อมูลนักศึกษา</a></li>
+        </ul>
+        </li>
+        HTML;
+    }
+}
+function menu_account_manage()
+{
+    echo "
+    <li class='nav-item text-center'><a class='nav-link' href='/FinalProj/manage_privilege'>จัดการสิทธิ์บัญชีผู้ใช้งาน</a></li>
+    ";
+}
+?>
