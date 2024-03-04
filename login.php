@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['name'] = $user['name'];
             $_SESSION['lastname'] = $user['lastname'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['thesis_manage_permission'] = $user['thesis_manage_permission'];
             $_SESSION['download_permissions'] = $user['download_permissions'];
             $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
             $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
