@@ -177,7 +177,7 @@ if (isset($_SESSION['role'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($dataTeacher as $row) : ?>
+                                <?php foreach ($dataTemporary as $row) : ?>
                                     <tr>
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
