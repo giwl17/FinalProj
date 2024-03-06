@@ -146,7 +146,7 @@ if ($_SESSION['role'] == 1) {
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="MembersOfficer"><?= $row['member_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?=  $row['account_manage_permission'] != NULL ? $row['account_manage_permission'] : '0' ?></td>
+                                        <td><input type="checkbox" name="account_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?=  $row['account_manage_permission'] != NULL ? $row['account_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['thesis_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?=  $row['thesis_manage_permission'] != NULL ? $row['thesis_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="StatusOfficer"><?= $row['status'] ?></td>
                                     </tr>
