@@ -135,7 +135,7 @@ if ($_SESSION['role'] == 1) {
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>E-mail</th>
                                     <th><input type="checkbox" name="selectAll" id="officerMembers" onchange="officerMembersAll(<?= $officer->rowCount(); ?>)"> จัดการสมาชิก</th>
-                                    <th><input type="checkbox" name="selectAll" id="officerDocument" onchange="officerDocumentAll(<?= $officer->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
+                                    <th><input type="checkbox" name="selectAll" id="officerDocument" onchange="officerDocumentAll(<?= $officer->rowCount(); ?>)"> จัดการสิทธิ์ของบัญชีผู้ใช้</th>
                                     <th><input type="checkbox" name="selectAll" id="officerStatus" onchange="officerStatusAll(<?= $officer->rowCount(); ?>)"> สถานะการใช้งาน</th>
                                 </tr>
                             </thead>
