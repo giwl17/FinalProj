@@ -75,8 +75,8 @@ if ($_SESSION['role'] == 1) {
                                         <td><?= $row['studentId'] ?></td>
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
-                                        <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"><?= $row['download_permissions'] ?></td>
-                                        <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"><?= $row['status'] ?></td>
+                                        <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"></td>
+                                        <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -100,7 +100,7 @@ if ($_SESSION['role'] == 1) {
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>E-mail</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิก</th>
-                                    <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
+                                    <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการสิทธิ์ของบัญชีผู้ใช้</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
                                 </tr>
                             </thead>
@@ -109,9 +109,9 @@ if ($_SESSION['role'] == 1) {
                                     <tr>
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
-                                        <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="membersTeacher"><?= $row['member_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['account_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
+                                        <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="membersTeacher"></td>
+                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"></td>
+                                        <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -144,9 +144,9 @@ if ($_SESSION['role'] == 1) {
                                     <tr>
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
-                                        <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="MembersOfficer"><?= $row['member_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?= $row['account_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="StatusOfficer"><?= $row['status'] ?></td>
+                                        <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="MembersOfficer"></td>
+                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"></td>
+                                        <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="StatusOfficer"></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -177,7 +177,7 @@ if ($_SESSION['role'] == 1) {
                                     <tr>
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
-                                        <td><input type="checkbox" name="temporary_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTemporary"><?= $row['status'] ?></td>
+                                        <td><input type="checkbox" name="temporary_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTemporary"></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
