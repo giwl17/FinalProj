@@ -94,6 +94,7 @@
                         <input type="text" id="download_permissions" name="download_permissions" value="1">
                         <input type="text" id="member_manage_permission" name="member_manage_permission" value="1">
                         <input type="text" id="account_manage_permission" name="account_manage_permission" value="1">
+                        <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                         <input type="text" id="status" name="status" value="1">
                         <input type="text" id="page" name="page" value="officer_add">
 
@@ -143,6 +144,7 @@
                                 <input type="text" id="download_permissions" name="download_permissions" value="1">
                                 <input type="text" id="member_manage_permission" name="member_manage_permission" value="1">
                                 <input type="text" id="account_manage_permission" name="account_manage_permission" value="1">
+                                <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                                 <input type="text" id="status" name="status" value="1">
                                 <input type="text" id="page" name="page" value="officer_add">
 

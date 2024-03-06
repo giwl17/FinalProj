@@ -17,11 +17,21 @@ try {
         $stmt->execute();
     }
 
+    // Update account table
+    foreach ($data['account'] as $account) {
+        $accountId = $account['account_id'];
+        $value = $account['value'];
+        $stmt = $conn->prepare("UPDATE account SET account_manage_permission	 = :value WHERE account_id = :account_id");
+        $stmt->bindParam(':value', $value, PDO::PARAM_INT);
+        $stmt->bindParam(':account_id', $accountId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
     // Update document table
     foreach ($data['document'] as $document) {
         $accountId = $document['account_id'];
         $value = $document['value'];
-        $stmt = $conn->prepare("UPDATE account SET account_manage_permission	 = :value WHERE account_id = :account_id");
+        $stmt = $conn->prepare("UPDATE account SET thesis_manage_permission	 = :value WHERE account_id = :account_id");
         $stmt->bindParam(':value', $value, PDO::PARAM_INT);
         $stmt->bindParam(':account_id', $accountId, PDO::PARAM_INT);
         $stmt->execute();
