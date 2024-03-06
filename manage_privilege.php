@@ -110,7 +110,7 @@ if ($_SESSION['role'] == 1) {
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="membersTeacher"><?= $row['member_manage_permission'] ?></td>
-                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['account_manage_permission'] ?></td>
+                                        <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['thesis_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['thesis_manage_permission'] ?></td>
                                         <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
                                     </tr>
                                 <?php endforeach; ?>
