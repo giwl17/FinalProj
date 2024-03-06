@@ -212,8 +212,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 });
             </script>';
             } else {
-                $insert = $conn->prepare("INSERT INTO account (password,studentId,prefix,name,lastname,email,role,download_permissions,member_manage_permission,account_manage_permission,thesis_manage_permission,status,reset_token_hash,reset_token_expires_at)
-                VALUES(:token,:studentID,:prefix,:name,:lastname,:email,:role,:download_permissions,:member_manage_permission,:account_manage_permission,:thesis_manage_permission,:status,:reset_token_hash,:reset_token_expires_at)");
+                $insert = $conn->prepare("INSERT INTO account (password,studentId,prefix,name,lastname,email,role,thesis_manage_permission,download_permissions,member_manage_permission,account_manage_permission,status,reset_token_hash,reset_token_expires_at)
+                VALUES(:token,:studentID,:prefix,:name,:lastname,:email,:role,:thesis_manage_permission,:download_permissions,:member_manage_permission,:account_manage_permission,:status,:reset_token_hash,:reset_token_expires_at)");
                 $insert->bindParam("token", $token_hash, PDO::PARAM_STR);
                 $insert->bindParam("prefix", $prefix, PDO::PARAM_STR);
                 $insert->bindParam("name", $name, PDO::PARAM_STR);
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $insert->bindParam("download_permissions", $download_permissions);
                 $insert->bindParam("member_manage_permission", $member_manage_permission);
                 $insert->bindParam("account_manage_permission", $account_manage_permission);
-                $insert->bindParam("account_manage_permission", $thesis_manage_permission);
+                $insert->bindParam("thesis_manage_permission", $thesis_manage_permission);
                 $insert->bindParam("status", $status);
                 $insert->bindParam("reset_token_hash", $token);
                 $insert->bindParam("reset_token_expires_at", $expiry);
