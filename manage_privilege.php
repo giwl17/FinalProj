@@ -114,7 +114,8 @@ if (isset($_SESSION['role'])) {
                                 <tr>
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>E-mail</th>
-                                    <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิก</th>
+                                    <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิกนักศึกษา</th>
+                                    <th><input type="checkbox" name="selectAll" id="teacherAccount" onchange="teacherAccountAll(<?= $teacher->rowCount(); ?>)"> จัดการสิทธิ์นักศึกษา</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
                                 </tr>
@@ -125,6 +126,7 @@ if (isset($_SESSION['role'])) {
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><input type="checkbox" name="members_<?= $row['account_id'] ?>" value='1' <?= ($row['member_manage_permission'] == 1 ? 'checked' : ''); ?> class="membersTeacher"><?= $row['member_manage_permission'] ?></td>
+                                        <td><input type="checkbox" name="account_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="accountTeacher"><?= $row['account_manage_permission'] ?></td>
                                         <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['thesis_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['thesis_manage_permission'] != NULL ? $row['thesis_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
                                     </tr>
@@ -378,6 +380,21 @@ if (isset($_SESSION['role'])) {
                 });
             } else {
                 membersTeacher.forEach((item) => {
+                    item.checked = false;
+                });
+            }
+        }
+
+        function teacherAccountAll(count) {
+            let teacherAccount = document.querySelector('#teacherAccount');
+            let accountTeacher = document.querySelectorAll('.accountTeacher');
+
+            if (teacherAccount.checked) {
+                accountTeacher.forEach((item) => {
+                    item.checked = true;
+                });
+            } else {
+                accountTeacher.forEach((item) => {
                     item.checked = false;
                 });
             }
