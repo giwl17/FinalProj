@@ -53,13 +53,13 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </table>
         </div>
         <div class="d-flex justify-content-center">
-            <div>
+            <div class="m-2">
                 <button class="btn btn-outline-success" onclick="submitPublish()">Publish</button>
             </div>
-            <div>
+            <div class="m-2">
                 <button class="btn btn-outline-primary" onclick="submitArchive()">Archive</button>
             </div>
-            <div>
+            <div class="m-2">
                 <button class="btn btn-outline-danger" onclick="submitDelete()">Delete</button>
             </div>
         </div>
