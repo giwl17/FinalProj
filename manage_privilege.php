@@ -7,12 +7,22 @@ include 'dbconnect.php';
 //     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
 // echo $_SESSION['role'];
 if (isset($_SESSION['role'])) {
-    // $role = "ผู้ดูแลระบบ";
     // 1=ผู้ดูแลระบบ
     // 2=เจ้าหน้าที่
     // 3=เจ้าหน้าที่ชั่วคราว
     // 4=อาจารย์
     // 5=นักศึกษา
+    if ($_SESSION['role'] == 1) {
+        $role = 'ผู้ดูแลระบบ';
+    } else if ($_SESSION['role'] == 2) {
+        $role = 'เจ้าหน้าที่';
+    } else if ($_SESSION['role'] == 3) {
+        $role = 'เจ้าหน้าที่ชั่วคราว';
+    } else if ($_SESSION['role'] == 4) {
+        $role = 'อาจารย์';
+    } else if ($_SESSION['role'] == 5) {
+        $role = 'นักศึกษา';
+    }
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -34,7 +44,7 @@ if (isset($_SESSION['role'])) {
     </head>
 
     <body>
-        
+
         <div class="container mt-5">
             <h1 class="h3 text-center">จัดการสิทธิ์บัญชีผู้ใช้งาน</h1>
             <div class="row">
@@ -42,15 +52,18 @@ if (isset($_SESSION['role'])) {
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">นักศึกษา</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-teacher" data-bs-toggle="tab" data-bs-target="#profile-tab-teacher" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-officer" data-bs-toggle="tab" data-bs-target="#profile-tab-officer" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-temporary" data-bs-toggle="tab" data-bs-target="#profile-tab-temporary" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
-                    </li>
+                    <?php if ($role == 'ผู้ดูแลระบบ' or $role == 'เจ้าหน้าที่') : ?>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-teacher" data-bs-toggle="tab" data-bs-target="#profile-tab-teacher" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">อาจารย์</button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-officer" data-bs-toggle="tab" data-bs-target="#profile-tab-officer" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-temporary" data-bs-toggle="tab" data-bs-target="#profile-tab-temporary" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">เจ้าหน้าที่ชั่วคราว</button>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
