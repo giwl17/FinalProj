@@ -94,7 +94,7 @@ if (isset($_SESSION['role'])) {
                                         <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"></td>
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"></td>
                                         <td>
-                                            <a class="btn btn-warning" href="#">แก้ไข</a>
+                                            <a class="btn btn-warning" onclick="updateAccount(<?php echo $row['account_id'] ?>);">แก้ไข</a>
                                             <a class="btn btn-danger" href="#">ลบ</a>
                                         </td>
                                     </tr>
@@ -119,7 +119,8 @@ if (isset($_SESSION['role'])) {
                                 <tr>
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>E-mail</th>
-                                    <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิก</th>
+                                    <th><input type="checkbox" name="selectAll" id="teacherMembers" onchange="teacherMembersAll(<?= $teacher->rowCount(); ?>)"> จัดการสมาชิกนักศึกษา</th>
+                                    <th><input type="checkbox" name="selectAll" id="teacherAccount" onchange="teacherAccountAll(<?= $teacher->rowCount(); ?>)"> จัดการสิทธิ์นักศึกษา</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
                                 </tr>
@@ -221,6 +222,57 @@ if (isset($_SESSION['role'])) {
 // }
     ?>
     <script>
+        function updateAccount(id) {
+            data = {
+                id: id
+            }
+            fetch('account.php', {
+                method: "POST",
+                body: JSON.stringify(data)
+            }).then(res => {
+                return res.json()
+            }).then(data => {
+                console.log(data)
+                let id = data.name
+                console.log(id)
+
+                Swal.fire({
+                    title: "แก้ไขข้อมูล",
+                    html: `
+                    <div class='d-flex flex-column gap-3'>
+                        <div class='form-group text-start'>
+                        <label for='student_id' class=''>รหัสนักศึกษา</label>
+                        <input type='text' id='student_id' class='form-control' value='${data.studentId}'>
+                        </div>
+                        <div class='form-group text-start d-flex flex-column gap-2'>
+                        <label for='firstname' class=''>ชื่อ-นามสกุล</label>
+                        <input type='text' id='prefix' class='form-control' value='${data.prefix}'>
+                        <input type='text' id='firstname' class='form-control' value='${data.name}'>
+                        <input type='text' id='lastname' class='form-control' value='${data.lastname}'>
+                        </div>
+                        <div class='form-group text-start'>
+                        <label for='email' class=''>Email</label>
+                        <input type='email' id='email' class='form-control'  value='${data.email}'>
+                        </div>
+                    </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: "Update",
+                    preConfirm: () => {
+                        document.getElementById("student_id").value
+                        document.getElementById("prefix").value
+                        document.getElementById("firstname").value
+                        document.getElementById("lastname").value
+                        document.getElementById("email").value
+
+                        console.log(document.getElementById("email").value
+)
+                    }
+
+                })
+            })
+
+        }
         $(document).ready(function() {
             // var table = $('#example').DataTable();
             $('#example').DataTable({
@@ -438,6 +490,7 @@ if (isset($_SESSION['role'])) {
             let anyChecked = false;
             // console.log("clicked");
             let membersTeacher = document.querySelectorAll('.membersTeacher');
+            let accountTeacher = document.querySelectorAll('.accountTeacher');
             let documentTeacher = document.querySelectorAll('.documentTeacher');
             let statusTeacher = document.querySelectorAll('.statusTeacher');
 
@@ -467,6 +520,7 @@ if (isset($_SESSION['role'])) {
                 });
             } else {
                 let checkedListMembersTeacher = [];
+                let checkedListAccountTeacher = [];
                 let checkedListDocumentTeacher = [];
                 let checkedListStatusTeacher = [];
 
@@ -477,6 +531,14 @@ if (isset($_SESSION['role'])) {
                     });
                 });
                 console.log(checkedListMembersTeacher);
+
+                accountTeacher.forEach(item => {
+                    checkedListAccountTeacher.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListAccountTeacher);
 
                 documentTeacher.forEach(item => {
                     checkedListDocumentTeacher.push({
@@ -509,6 +571,7 @@ if (isset($_SESSION['role'])) {
                                 method: "post",
                                 body: JSON.stringify({
                                     members: checkedListMembersTeacher,
+                                    account: checkedListAccountTeacher,
                                     document: checkedListDocumentTeacher,
                                     status: checkedListStatusTeacher
                                 }),

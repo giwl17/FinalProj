@@ -17,6 +17,15 @@ try {
         $stmt->execute();
     }
 
+    foreach ($data['account'] as $member) {
+        $accountId = $member['account_id'];
+        $value = $member['value'];
+        $stmt = $conn->prepare("UPDATE account SET account_manage_permission = :value WHERE account_id = :account_id");
+        $stmt->bindParam(':value', $value, PDO::PARAM_INT);
+        $stmt->bindParam(':account_id', $accountId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
     // Update document table
     foreach ($data['document'] as $document) {
         $accountId = $document['account_id'];
