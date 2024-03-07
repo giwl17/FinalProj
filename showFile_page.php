@@ -85,9 +85,9 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
             <?php if ($_SESSION['download_permissions'] == 1) : ?>
                 <a href="<? echo $fileSelect; ?>" class="btn btn-warning" download="<?php echo $fileSelect; ?>">ดาวน์โหลด</a>
             <?php endif; ?>
-            <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
-            <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
     </div>
+    <iframe src="<?php echo $fileSelect . "#toolbar=0"; ?>" width="100%" height="100%" loading="lazy"></iframe>
+    <div class="position-absolute" style="font-size:100px; top:45%; left:33%; transform: rotate(-45deg); opacity:0.3;">RMUTT CPE</div>
 <?php else : ?>
     <h1>ไม่พบไฟล์</h1>
 <? endif; ?>
