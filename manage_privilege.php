@@ -82,6 +82,7 @@ if (isset($_SESSION['role'])) {
                                     <th>E-mail</th>
                                     <th><input type="checkbox" name="selectAll" id="selectPermissions" onchange="checkPermissionsAll(<?= $stu->rowCount(); ?>)"> สิทธิ์ในการดาว์นโหลดไฟล์</th>
                                     <th><input type="checkbox" name="selectAll" id="selectStatus" onchange="checkStatusAll(<?= $stu->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                                    <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,6 +93,10 @@ if (isset($_SESSION['role'])) {
                                         <td><?= $row['email'] ?></td>
                                         <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"></td>
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"></td>
+                                        <td>
+                                            <button class="btn btn-warning">แก้ไข</button>
+                                            <button class="btn btn-danger">ลบ</button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
