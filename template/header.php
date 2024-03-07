@@ -64,6 +64,8 @@ if (isset($_SESSION['role'])) {
                 echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/'>รายการปริญญานิพนธ์</a></li>";
                 if ($_SESSION['member_manage_permission'] == 1)
                     menu_member_manage($role);
+                if ($_SESSION['account_manage_permission'] == 1)
+                    menu_account_manage();
                 echo "<li class='nav-item text-center'><a class='nav-link' href='/FinalProj/chart_director'>สถิติข้อมูล</a></li>";
 
                 echo "</ul>";
