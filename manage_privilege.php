@@ -94,8 +94,8 @@ if (isset($_SESSION['role'])) {
                                         <td><input type="checkbox" name="permissions_<?= $row['account_id'] ?>" value='1' <?= ($row['download_permissions'] == 1 ? 'checked' : ''); ?> class="permissions"></td>
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"></td>
                                         <td>
-                                            <button class="btn btn-warning">แก้ไข</button>
-                                            <button class="btn btn-danger">ลบ</button>
+                                            <a class="btn btn-warning" href="#">แก้ไข</a>
+                                            <a class="btn btn-danger" href="#">ลบ</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
