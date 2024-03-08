@@ -95,7 +95,7 @@ if (isset($_SESSION['role'])) {
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="status"></td>
                                         <td>
                                             <a class="btn btn-warning" onclick="updateAccount(<?php echo $row['account_id'] ?>);">แก้ไข</a>
-                                            <a class="btn btn-danger" href="#">ลบ</a>
+                                            <a class="btn btn-danger" onclick="deleteAccount(<?php echo $row['account_id'] ?>);">ลบ</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -291,8 +291,50 @@ if (isset($_SESSION['role'])) {
 
                 })
             })
-
         }
+
+        function deleteAccount(id) {
+            data = {
+                account_id: id
+            }
+            Swal.fire({
+                title: "แน่ใจหรือไม่?",
+                text: "ต้องการลบบัญชีผู้ใช้นี้ใช่ไหม",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Delete"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch("account_delete.php", {
+                        method: "POST",
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        return res.text()
+                    }).then(data => {
+                        if (data == '1') {
+                            Swal.fire({
+                                title: "ลบสำเร็จ!",
+                                text: "คุณได้ลบรายการปริญญานิพนธ์เรียบร้อยแล้ว",
+                                icon: "success"
+                            }).then(result => {
+                                if(result.isConfirmed) {
+                                    window.location.reload()
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "มีบางอย่างผิดพลาด",
+                                icon: "error"
+                            })
+                        }
+                    })
+
+                }
+            })
+        }
+
         $(document).ready(function() {
             // var table = $('#example').DataTable();
             $('#example').DataTable({

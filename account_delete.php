@@ -4,7 +4,7 @@ $json = file_get_contents("php://input"); // json string
 $obj = json_decode($json);
 
 try {
-    $stmt = $conn->prepare("");
+    $stmt = $conn->prepare("DELETE FROM account WHERE account_id = :account_id");
     $stmt->bindParam(":account_id", $obj->account_id);
     $result = $stmt->execute();
     if ($result) {
