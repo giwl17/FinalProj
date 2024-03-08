@@ -684,10 +684,17 @@ if (isset($_SESSION['role'])) {
             let anyChecked = false;
             // console.log("clicked");
             let members = document.querySelectorAll('.MembersOfficer');
+            let account = document.querySelectorAll('.AccountOfficer');
             let documentOff = document.querySelectorAll('.DocumentOfficer');
             let status = document.querySelectorAll('.StatusOfficer');
 
             members.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+                }
+            });
+
+            account.forEach((item) => {
                 if (item.checked) {
                     anyChecked = true;
                 }
@@ -713,6 +720,7 @@ if (isset($_SESSION['role'])) {
                 });
             } else {
                 let checkedListMembers = [];
+                let checkedListAccount = [];
                 let checkedListDocument = [];
                 let checkedListStatus = [];
 
@@ -723,6 +731,14 @@ if (isset($_SESSION['role'])) {
                     });
                 });
                 console.log(checkedListMembers);
+
+                account.forEach(item => {
+                    checkedListAccount.push({
+                        account_id: item.name.split('_')[1], // Extract account_id from name attribute
+                        value: item.checked ? 1 : 0
+                    });
+                });
+                console.log(checkedListAccount);
 
                 documentOff.forEach(item => {
                     checkedListDocument.push({
@@ -755,6 +771,7 @@ if (isset($_SESSION['role'])) {
                                 method: "post",
                                 body: JSON.stringify({
                                     members: checkedListMembers,
+                                    account: checkedListAccount,
                                     document: checkedListDocument,
                                     status: checkedListStatus
                                 }),
