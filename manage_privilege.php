@@ -159,6 +159,7 @@
                                     <th><input type="checkbox" name="selectAll" id="officerAccount" onchange="officerAccountAll(<?= $officer->rowCount(); ?>)"> จัดการสิทธิ์</th>
                                     <th><input type="checkbox" name="selectAll" id="officerDocument" onchange="officerDocumentAll(<?= $officer->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
                                     <th><input type="checkbox" name="selectAll" id="officerStatus" onchange="officerStatusAll(<?= $officer->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                                    <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,6 +171,10 @@
                                         <td><input type="checkbox" name="account_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="AccountOfficer"><?= $row['account_manage_permission'] != NULL ? $row['account_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['thesis_manage_permission'] == 1 ? 'checked' : ''); ?> class="DocumentOfficer"><?= $row['thesis_manage_permission'] != NULL ? $row['thesis_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="status_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="StatusOfficer"><?= $row['status'] ?></td>
+                                        <td>
+                                            <a class="btn btn-warning" onclick="updateAccount(<?php echo $row['account_id'] ?>);">แก้ไข</a>
+                                            <a class="btn btn-danger" onclick="deleteAccount(<?php echo $row['account_id'] ?>);">ลบ</a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -235,7 +240,7 @@
                 let htmlTxt = ''
                 if (data.studentId !== null) {
                     htmlTxt =
-                    `<div class='d-flex flex-column gap-3'>
+                        `<div class='d-flex flex-column gap-3'>
                         <div class='form-group text-start'>
                         <label for='student_id' class=''>รหัสนักศึกษา</label>
                         <input type='text' id='student_id' class='form-control' value='${data.studentId}'>
@@ -253,7 +258,7 @@
                     </div>`
                 } else {
                     htmlTxt =
-                    `<div class='d-flex flex-column gap-3'>
+                        `<div class='d-flex flex-column gap-3'>
                         <div class='form-group text-start d-flex flex-column gap-2'>
                             <label for='firstname' class=''>ชื่อ-นามสกุล</label>
                             <input type='text' id='prefix' class='form-control' value='${data.prefix}'>
