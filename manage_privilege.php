@@ -198,6 +198,7 @@
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>E-mail</th>
                                     <th><input type="checkbox" name="selectAll" id="temporaryStatus" onchange="temporaryStatusAll(<?= $temporary->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                                    <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -206,6 +207,10 @@
                                         <td><?= $row['prefix'] . $row['name'] . "&nbsp" . $row['lastname'] ?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><input type="checkbox" name="temporary_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTemporary"></td>
+                                        <td>
+                                            <a class="btn btn-warning" onclick="updateAccount(<?php echo $row['account_id'] ?>);">แก้ไข</a>
+                                            <a class="btn btn-danger" onclick="deleteAccount(<?php echo $row['account_id'] ?>);">ลบ</a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
