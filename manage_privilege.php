@@ -1,50 +1,44 @@
-<?php
-require 'template/header.php';
-// session_start();
-include 'dbconnect.php';
-// $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
-// if (isset($_SESSION['role'])) 
-//     $name = $_SESSION['name'] . "&nbsp" . $_SESSION['lastname'];
-// echo $_SESSION['role'];
-if (isset($_SESSION['role'])) {
-    // 1=ผู้ดูแลระบบ
-    // 2=เจ้าหน้าที่
-    // 3=เจ้าหน้าที่ชั่วคราว
-    // 4=อาจารย์
-    // 5=นักศึกษา
-    if ($_SESSION['role'] == 1) {
-        $role = 'ผู้ดูแลระบบ';
-    } else if ($_SESSION['role'] == 2) {
-        $role = 'เจ้าหน้าที่';
-    } else if ($_SESSION['role'] == 3) {
-        $role = 'เจ้าหน้าที่ชั่วคราว';
-    } else if ($_SESSION['role'] == 4) {
-        $role = 'อาจารย์';
-    } else if ($_SESSION['role'] == 5) {
-        $role = 'นักศึกษา';
-    }
-?>
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>จัดการสิทธิ์บัญชีผู้ใช้งาน</title>
-        <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
-        <link rel="stylesheet" href="css/main.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>จัดการสิทธิ์บัญชีผู้ใช้งาน</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
-    <body>
-
+<body>
+    <?php
+    require 'template/header.php';
+    include 'dbconnect.php';
+    if (isset($_SESSION['role'])) {
+        // 1=ผู้ดูแลระบบ
+        // 2=เจ้าหน้าที่
+        // 3=เจ้าหน้าที่ชั่วคราว
+        // 4=อาจารย์
+        // 5=นักศึกษา
+        if ($_SESSION['role'] == 1) {
+            $role = 'ผู้ดูแลระบบ';
+        } else if ($_SESSION['role'] == 2) {
+            $role = 'เจ้าหน้าที่';
+        } else if ($_SESSION['role'] == 3) {
+            $role = 'เจ้าหน้าที่ชั่วคราว';
+        } else if ($_SESSION['role'] == 4) {
+            $role = 'อาจารย์';
+        } else if ($_SESSION['role'] == 5) {
+            $role = 'นักศึกษา';
+        }
+    ?>
         <div class="container mt-5">
             <h1 class="h3 text-center">จัดการสิทธิ์บัญชีผู้ใช้งาน</h1>
             <div class="row">
@@ -215,11 +209,11 @@ if (isset($_SESSION['role'])) {
             </div>
         </div>
     <?php
-} else {
-    // header("Location: /FinalProj/");
-    // exit();
-}
-// }
+    } else {
+        // header("Location: /FinalProj/");
+        // exit();
+    }
+    // }
     ?>
     <script>
         function updateAccount(id) {
@@ -319,7 +313,7 @@ if (isset($_SESSION['role'])) {
                                 text: "คุณได้ลบรายการปริญญานิพนธ์เรียบร้อยแล้ว",
                                 icon: "success"
                             }).then(result => {
-                                if(result.isConfirmed) {
+                                if (result.isConfirmed) {
                                     window.location.reload()
                                 }
                             })
@@ -928,4 +922,4 @@ if (isset($_SESSION['role'])) {
         }
     </script>
 
-    </body>
+</body>
