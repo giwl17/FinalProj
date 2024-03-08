@@ -117,6 +117,7 @@
                                     <th><input type="checkbox" name="selectAll" id="teacherAccount" onchange="teacherAccountAll(<?= $teacher->rowCount(); ?>)"> จัดการสิทธิ์นักศึกษา</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherDocument" onchange="teacherDocumentAll(<?= $teacher->rowCount(); ?>)"> จัดการเล่มปริญญานิพนธ์</th>
                                     <th><input type="checkbox" name="selectAll" id="teacherStatus" onchange="teacherStatusAll(<?= $teacher->rowCount(); ?>)"> สถานะการใช้งาน</th>
+                                    <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,6 +129,10 @@
                                         <td><input type="checkbox" name="account_<?= $row['account_id'] ?>" value='1' <?= ($row['account_manage_permission'] == 1 ? 'checked' : ''); ?> class="accountTeacher"><?= $row['account_manage_permission'] ?></td>
                                         <td><input type="checkbox" name="document_<?= $row['account_id'] ?>" value='1' <?= ($row['thesis_manage_permission'] == 1 ? 'checked' : ''); ?> class="documentTeacher"><?= $row['thesis_manage_permission'] != NULL ? $row['thesis_manage_permission'] : '0' ?></td>
                                         <td><input type="checkbox" name="teacher_<?= $row['account_id'] ?>" value='1' <?= ($row['status'] == 1 ? 'checked' : ''); ?> class="statusTeacher"><?= $row['status'] ?></td>
+                                        <td>
+                                            <a class="btn btn-warning" onclick="updateAccount(<?php echo $row['account_id'] ?>);">แก้ไข</a>
+                                            <a class="btn btn-danger" onclick="deleteAccount(<?php echo $row['account_id'] ?>);">ลบ</a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -227,10 +232,10 @@
                 return res.json()
             }).then(data => {
                 console.log(data)
-                Swal.fire({
-                    title: "แก้ไขข้อมูล",
-                    html: `
-                    <div class='d-flex flex-column gap-3'>
+                let htmlTxt = ''
+                if (data.studentId !== null) {
+                    htmlTxt =
+                    `<div class='d-flex flex-column gap-3'>
                         <div class='form-group text-start'>
                         <label for='student_id' class=''>รหัสนักศึกษา</label>
                         <input type='text' id='student_id' class='form-control' value='${data.studentId}'>
@@ -245,8 +250,27 @@
                         <label for='email' class=''>Email</label>
                         <input type='email' id='email' class='form-control'  value='${data.email}'>
                         </div>
-                    </div>
-                    `,
+                    </div>`
+                } else {
+                    htmlTxt =
+                    `<div class='d-flex flex-column gap-3'>
+                        <div class='form-group text-start d-flex flex-column gap-2'>
+                            <label for='firstname' class=''>ชื่อ-นามสกุล</label>
+                            <input type='text' id='prefix' class='form-control' value='${data.prefix}'>
+                            <input type='text' id='firstname' class='form-control' value='${data.name}'>
+                            <input type='text' id='lastname' class='form-control' value='${data.lastname}'>
+                        </div>
+                        <div class='form-group text-start'>
+                            <label for='email' class=''>Email</label>
+                            <input type='email' id='email' class='form-control'  value='${data.email}'>
+                        </div>
+                        <input type="hidden" id="student_id" value="${data.studentId}">
+                    </div>`
+                }
+
+                Swal.fire({
+                    title: "แก้ไขข้อมูล",
+                    html: htmlTxt,
                     showCancelButton: true,
                     confirmButtonText: "Update",
                     preConfirm: () => {
