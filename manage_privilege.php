@@ -233,9 +233,6 @@ if (isset($_SESSION['role'])) {
                 return res.json()
             }).then(data => {
                 console.log(data)
-                let id = data.name
-                console.log(id)
-
                 Swal.fire({
                     title: "แก้ไขข้อมูล",
                     html: `
@@ -259,14 +256,37 @@ if (isset($_SESSION['role'])) {
                     showCancelButton: true,
                     confirmButtonText: "Update",
                     preConfirm: () => {
-                        document.getElementById("student_id").value
-                        document.getElementById("prefix").value
-                        document.getElementById("firstname").value
-                        document.getElementById("lastname").value
-                        document.getElementById("email").value
+                        data = {
+                            "account_id": data.account_id,
+                            "student_id": document.getElementById("student_id").value,
+                            "prefix": document.getElementById("prefix").value,
+                            "firstname": document.getElementById("firstname").value,
+                            "lastname": document.getElementById("lastname").value,
+                            "email": document.getElementById("email").value,
+                        }
 
-                        console.log(document.getElementById("email").value
-)
+                        fetch("account_updata.php", {
+                            method: "POST",
+                            body: JSON.stringify(data)
+                        }).then(res => {
+                            return res.text()
+                        }).then(data => {
+                            if (data == '1') {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "แก้ไขข้อมูลสำเร็จแล้ว",
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload()
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "มีบางอย่างผิดพลาด"
+                                })
+                            }
+                        })
                     }
 
                 })
