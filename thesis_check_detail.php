@@ -547,11 +547,11 @@ function checkPrefixMembers($members)
             <label for="">คำสำคัญ (อย่างน้อย 3 คำ)</label>
             <?php
             $keywords = $row['keyword'];
-            $keyword = explode(',', $keywords);
+            $keywords = explode(',', $keywords);
             ?>
-            <input class="form-control mb-3" type="text" name="keyword_1" id="keyword_1" placeholder="คำสำคัญ 1" required <?php echo "value=$keyword[0] ?? ''" ?>>
-            <input class="form-control mb-3" type="text" name="keyword_2" id="keyword_2" placeholder="คำสำคัญ 2" required <?php echo "value=$keyword[1] ?? ''" ?>>
-            <input class="form-control mb-3" type="text" name="keyword_3" id="keyword_3" placeholder="คำสำคัญ 3" required <?php echo "value=$keyword[2] ?? ''" ?>>
+            <?php foreach ($keywords as $index => $keyword) : ?>
+                <input class="form-control mb-3 keywords" type="text" name="keywords[<?= $index ?>]" id="keyword_<?= $index + 1 ?>" placeholder="คำสำคัญ<?= $index + 1 ?>" required <?php echo "value=$keyword ?? ''" ?>>
+            <?php endforeach; ?>
         </div>
         <div class="mb-3">
             <input class="btn btn-success" type="button" value="+" id="buttonAddWord">
@@ -589,15 +589,17 @@ function checkPrefixMembers($members)
         let buttonAddWord = document.getElementById('buttonAddWord');
         let buttonDeleteWord = document.getElementById('buttonDeleteWord');
         let formWord = document.getElementById('formWord');
-        let i = 4;
+        let keywordsInput = document.querySelectorAll(".keywords");
+        let i = keywordsInput.length + 1;
+        keywordsInput.forEach(keyword => {
+            console.log(keyword.id, keyword.name);
+        })
         buttonAddWord.addEventListener('click', () => {
-            $html = '<input class="form-control mb-3" type="text" name="keyword_' + i + '" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
+            $html = '<input class="form-control mb-3" type="text" name="keywords[' + (i - 1) + ']" id="keyword_' + i + '" placeholder="คำสำคัญ ' + i + '" required>';
             formWord.insertAdjacentHTML('beforeend', $html);
             i++;
-            console.log('i=', i);
         })
         buttonDeleteWord.addEventListener('click', () => {
-            console.log('click');
             if (i > 4) {
                 let id = 'keyword_' + (i - 1);
                 console.log(id);
