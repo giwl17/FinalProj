@@ -182,9 +182,9 @@ function checkPrefixMembers($members)
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
                                                                     echo "selected";
                                                                 } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
+                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
                                                                                 echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                 <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
                                                                         echo "selected";
                                                                     } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -248,7 +248,7 @@ function checkPrefixMembers($members)
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
                                                                     echo "selected";
                                                                 } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
+                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
                                                                                 echo "selected";
                                                                             } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                 <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
@@ -314,9 +314,9 @@ function checkPrefixMembers($members)
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
                                                                     echo "selected";
                                                                 } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
+                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
                                                                                 echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                 <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
                                                                         echo "selected";
                                                                     } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -380,9 +380,9 @@ function checkPrefixMembers($members)
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
                                                                     echo "selected";
                                                                 } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
+                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
                                                                                 echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                 <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
                                                                         echo "selected";
                                                                     } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -446,9 +446,9 @@ function checkPrefixMembers($members)
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
                                                                     echo "selected";
                                                                 } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
+                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
                                                                                 echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ดร.ศิริชัย เตรียมล้ำเลิศ</option>
+                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                 <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
                                                                         echo "selected";
                                                                     } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
