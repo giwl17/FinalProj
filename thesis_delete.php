@@ -1,10 +1,17 @@
 <?php
+
 require "dbconnect.php";
+
+date_default_timezone_set("Asia/Bangkok");
+$currentTime = date_default_timezone_get();
+$datetime = date('Y-m-d H:i:s', time());
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
-        $stmt = $conn->prepare("UPDATE thesis_document SET thesis_status = 0 WHERE thesis_id = :thesis_id");
+        $stmt = $conn->prepare("UPDATE thesis_document SET thesis_status = 0, dateTime_deleted = :dateTime_deleted WHERE thesis_id = :thesis_id");
         $stmt->bindParam(":thesis_id", $id);
+        $stmt->bindParam(":dateTime_deleted", $datetime);
         $stmt->execute();
         header('location: /FinalProj');
     } catch (PDOException $e) {
@@ -18,7 +25,7 @@ if (isset($_GET['id'])) {
         $data_ex = array_pop($data_ex);
         array_push($id, $data_ex);
     }
-    $sql = "UPDATE thesis_document SET thesis_status = 0 WHERE thesis_id = $id[0]";
+    $sql = "UPDATE thesis_document SET thesis_status = 0, dateTime_deleted = $datetime  WHERE thesis_id = $id[0]";
     for ($i = 1; $i < count($id); $i++) {
         $sql .= " OR thesis_id = $id[$i]";
     }
