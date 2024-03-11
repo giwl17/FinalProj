@@ -34,6 +34,8 @@ if ($result) {
     }
 }
 
+
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +110,7 @@ if ($result) {
 </head>
 
 <body>
-    <?php require(__DIR__ . '/template/header.php'); ?>
+    <?php require './template/header.php'; ?>
     <div class="container my-4 d-flex flex-column gap-3">
         <div class="d-flex gap-2 align-items-end">
             <div class="form-group col-2">
