@@ -56,6 +56,7 @@
             echo '' . $e->getMessage() . '';
         }
     }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST["password"];
         $checkPassword = $_POST["checkPassword"];
@@ -63,27 +64,33 @@
         $token_hash = password_hash($token, PASSWORD_DEFAULT);
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-
         if (strnatcmp($password, $checkPassword) == 0) {
             try {
-                $sql = "UPDATE account SET password = :password_hash , reset_token_hash =NULL,reset_token_expires_at =NULL
+                $sql = "UPDATE account SET password = :password_hash , reset_token_hash =NULL,reset_token_expires_at = NULL
                 WHERE reset_token_hash = :token";
 
                 $select = $conn->prepare($sql);
                 $select->bindParam("password_hash", $password_hash, PDO::PARAM_STR);
                 $select->bindParam("token", $token, PDO::PARAM_STR);
 
-
                 $select->execute();
-
-                // echo"update password";
-                echo '<script>
-                Swal.fire({
-                title: "เปลี่ยนรหัสผ่านเสร็จสิ้น",
-                icon: "success",
-                confirmButtonText: "<a href="login.php">OK</a>"
-                });
-            </script>';
+                echo <<<HTML
+                    <script>
+                        Swal.fire({
+                            title: "ตั้งรหัสผ่านเรียบร้อยแล้ว",
+                            icon: "success"
+                        }).then(() => {
+                            window.location.href = "login.php"
+                        })
+                    </script>
+                HTML; 
+                // echo"update password";   
+                // echo `<script>
+                // Swal.fire({
+                // title: "เปลี่ยนรหัสผ่านเสร็จสิ้น",
+                // icon: "success",
+                // });
+                // </script>`;
                 // echo '<script>window.location.href = "login.php";</script>';
             } catch (PDOException $e) {
                 echo '' . $e->getMessage() . '';
@@ -112,14 +119,14 @@
         <label for="pass">รหัสผ่านอีกครั้ง</label>
         <input class="form-control" type="password" name="checkPassword" id="checkPassword" placeholder="ใส่รหัสผ่านอีกครั้ง" required>
     </div>
-    <input type="submit" class="btn btn-primary container-fluid mb-3" value="สร้างบัญชีผู้ใช้งาน" />
+    <input type="submit" class="btn btn-primary container-fluid mb-3" name="submitPass" value="ตั้งรหัสผ่าน" />
 </form>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function () {
         $("#resetForm").submit(function (event) {
-            event.preventDefault(); // Prevent the form from submitting
+            // event.preventDefault(); // Prevent the form from submitting  
 
             // Your validation code
             var password = $("#password").val();
@@ -143,6 +150,7 @@
                 });
                 return false;
             }
+
 
             // If validation passes, you can submit the form
             // Uncomment the following line if you want to submit the form after validation
