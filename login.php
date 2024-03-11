@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user['status'] == 1) {
             // User has status 1, proceed with login
             $_SESSION['email'] = $user['email'];
+            $_SESSION['prefix'] = $user['prefix'];
             $_SESSION['name'] = $user['name'];
             $_SESSION['lastname'] = $user['lastname'];
             $_SESSION['role'] = $user['role'];
@@ -41,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['member_manage_permission'] = $user['member_manage_permission'];
             $_SESSION['account_manage_permission'] = $user['account_manage_permission'];
             $_SESSION['status'] = $user['status'];
+            $_SESSION['isLogin'] = TRUE;
             setcookie('email', $email, time() + (86400 * 30), "/");
             header("Location: ". $_SESSION['current_page']);
             exit();
