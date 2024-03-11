@@ -65,7 +65,7 @@ function checkPrefixMembers($members)
     <?php require "template/header.php" ?>
 
     <form class="container mt-4" method="post" action="../thesis_check_detail_db.php" enctype="multipart/form-data" id="form" name="submitUpdateThesis">
-        <h1 class="h3 text-primary text-center mb-4">ตรวจสอบข้อมูล</h1>
+        <?php echo $_SESSION['role'] == 3 ? "<h1 class='h3 text-primary text-center mb-4'>แก้ไขข้อมูล</h1>" : "<h1 class='h3 text-primary text-center mb-4'>ตรวจสอบข้อมูล</h1>"; ?>
         <div class="form-group mb-3">
             <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
             <textarea class="form-control required" name="thesis_name_th" cols="30" rows="4" style="resize: none;" required><?php echo $row['thai_name'] ?></textarea>
@@ -501,8 +501,12 @@ function checkPrefixMembers($members)
 
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         <div class="d-flex gap-2 my-5 justify-content-center">
-            <div class="btn btn-danger" onclick="deleteThesis()">ลบข้อมูล</div>
-            <div class="btn btn-primary" onclick="submitForm()">นำเข้าข้อมูล</div>
+            <?php if ($_SESSION['role'] != 3) : ?>
+                <div class="btn btn-danger" onclick="deleteThesis()">ลบข้อมูล</div>
+                <div class="btn btn-primary" onclick="submitForm()">นำเข้าข้อมูล</div>
+            <?php else : ?>
+                <div class="btn btn-warning" onclick="">แก้ไขข้อมูล</div>
+            <?php endif; ?>
         </div>
     </form>
 
