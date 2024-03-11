@@ -91,6 +91,7 @@
                     </div>
                     <div hidden>
                         <input type="text" id="role" name="role" value="3">
+                        <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                         <input type="text" id="download_permissions" name="download_permissions" value="0">
                         <input type="text" id="member_manage_permission" name="member_manage_permission" value="0">
                         <input type="text" id="account_manage_permission" name="account_manage_permission" value="0">
@@ -139,6 +140,7 @@
                         </div>
                         <div hidden>
                             <input type="text" id="role" name="role" value="3">
+                            <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                             <input type="text" id="download_permissions" name="download_permissions" value="0">
                             <input type="text" id="member_manage_permission" name="member_manage_permission" value="0">
                             <input type="text" id="account_manage_permission" name="account_manage_permission" value="0">
