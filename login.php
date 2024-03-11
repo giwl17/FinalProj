@@ -16,6 +16,10 @@
 <body>
 <?php
 session_start();
+if($_SESSION['isLogin']) {
+  header("Location: /FinalProj");
+}
+
 include 'dbconnect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
