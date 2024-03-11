@@ -553,7 +553,7 @@ function checkPrefixMembers($members)
             <label for="">คำสำคัญ (อย่างน้อย 3 คำ)</label>
             <?php
             $keywords = $row['keyword'];
-            $keywords = explode(',', $keywords);
+            $keywords = explode(', ', $keywords);
             ?>
             <?php foreach ($keywords as $index => $keyword) : ?>
                 <input class="form-control mb-3 keywords" type="text" name="keywords[<?= $index ?>]" id="keyword_<?= $index + 1 ?>" placeholder="คำสำคัญ<?= $index + 1 ?>" required <?php echo "value=$keyword ?? ''" ?>>
