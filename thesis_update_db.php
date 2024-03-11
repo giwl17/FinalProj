@@ -129,12 +129,6 @@ if ($_FILES['poster_file']['size'] !== 0) {
     move_uploaded_file($poster_temp, $poster_upload_path);
 }
 
-
-
-
-$thesis_status = 1; // 0 = ไม่เผยแพร่, 1 = เผยแพร่, 2 = Archove
-$approval_status = 1; // 0 = รออนุมัติ, 1 = อนุมัติ
-
 try {
     if ($_FILES['approval_file']['size'] !== 0 and $_FILES['thesis_file']['size'] !== 0 and $_FILES['poster_file']['size'] !== 0) {
         $update =  $conn->prepare("UPDATE thesis_document SET thai_name = :thai_name, english_name = :english_name, 
@@ -275,7 +269,9 @@ try {
                 // echo "เพิ่มสมาชิก 3 สำเร็จ";
             }
         }
-        $urlLocation = '/FinalProj/thesis?id=' . $id;
+
+        session_start();        
+        $urlLocation = ($_SESSION['role'] == 3) ? '/FinalProj/thesislistwaiting' : '/FinalProj/thesis?id=' . $id;
         header("location: $urlLocation");
     }
 } catch (PDOException $e) {

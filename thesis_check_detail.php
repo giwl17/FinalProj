@@ -63,8 +63,7 @@ function checkPrefixMembers($members)
 
 <body>
     <?php require "template/header.php" ?>
-
-    <form class="container mt-4" method="post" action="../thesis_check_detail_db.php" enctype="multipart/form-data" id="form" name="submitUpdateThesis">
+    <form class="container mt-4" method="post" action="<?php echo $_SESSION['role'] == 3 ?  "../thesis_update_db.php" : "../thesis_check_detail_db.php" ?>" enctype="multipart/form-data" id="form" name="submitUpdateThesis">
         <?php echo $_SESSION['role'] == 3 ? "<h1 class='h3 text-primary text-center mb-4'>แก้ไขข้อมูล</h1>" : "<h1 class='h3 text-primary text-center mb-4'>ตรวจสอบข้อมูล</h1>"; ?>
         <div class="form-group mb-3">
             <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
@@ -177,7 +176,7 @@ function checkPrefixMembers($members)
         </div>
 
         <div class="form-group mb-3" id="formAdvisor">
-        <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
+            <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
             <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()">
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
@@ -243,7 +242,7 @@ function checkPrefixMembers($members)
         </div>
 
         <div class="form-group mb-3">
-        <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
+            <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
             <select class="form-select" name="coAdvisor" id="coAdvisor" onchange="coAdvisorChange()">
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
@@ -309,7 +308,7 @@ function checkPrefixMembers($members)
         </div>
 
         <div class="form-group mb-3">
-        <label class="" for="chairman">ประธานกรรมการ</label>
+            <label class="" for="chairman">ประธานกรรมการ</label>
             <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()">
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
@@ -375,7 +374,7 @@ function checkPrefixMembers($members)
         </div>
 
         <div class="form-group mb-3">
-        <label class="" for="director1">กรรมการคนที่ 1</label>
+            <label class="" for="director1">กรรมการคนที่ 1</label>
             <select class="form-select" name="director1" id="director1" onchange="director1Change()">
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
@@ -411,7 +410,7 @@ function checkPrefixMembers($members)
                 <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
                                                             echo "selected";
                                                         } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
-                 <option value="other" id="director1_other_option">อื่น ๆ</option>
+                <option value="other" id="director1_other_option">อื่น ๆ</option>
             </select>
         </div>
 
@@ -441,7 +440,7 @@ function checkPrefixMembers($members)
         </div>
 
         <div class="form-group mb-3">
-        <label class="" for="director2">กรรมการคนที่ 2</label>
+            <label class="" for="director2">กรรมการคนที่ 2</label>
             <select class="form-select" name="director2" id="director2" onchange="director2Change()">
                 <option value=""></option>
                 <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
@@ -477,7 +476,7 @@ function checkPrefixMembers($members)
                 <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
                                                             echo "selected";
                                                         } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
-                 <option value="other" id="director2_other_option">อื่น ๆ</option>
+                <option value="other" id="director2_other_option">อื่น ๆ</option>
             </select>
         </div>
 
@@ -580,7 +579,8 @@ function checkPrefixMembers($members)
                 <div class="btn btn-danger" onclick="deleteThesis()">ลบข้อมูล</div>
                 <div class="btn btn-primary" onclick="submitForm()">นำเข้าข้อมูล</div>
             <?php else : ?>
-                <div class="btn btn-warning" onclick="">แก้ไขข้อมูล</div>
+                <input type="hidden" name="id" value="<?php echo $id; ?>">
+                <input class="btn btn-primary container-fluid mb-4" type="submit" value="แก้ไขข้อมูล" name="submitUpdateThesis">
             <?php endif; ?>
         </div>
     </form>
@@ -622,7 +622,7 @@ function checkPrefixMembers($members)
         let prefix_advisor = <?php echo json_encode($row['prefix_advisor']); ?>;
         let name_advisor = <?php echo json_encode($row['name_advisor']); ?>;
         let surname_advisor = <?php echo json_encode($row['surname_advisor']); ?>;
-        if(prefix_advisor !== '' && advisorSelect.value == '') {
+        if (prefix_advisor !== '' && advisorSelect.value == '') {
             teacher_other_option.selected = true
         }
         if (advisorSelect.value == 'other') {
@@ -652,7 +652,7 @@ function checkPrefixMembers($members)
             document.querySelector("[name='advisor_other_prefix']").value = prefix_advisor
         }
 
-        
+
         const coAdvisorChange = () => {
             let advisorDOM = document.getElementById('coAdvisor');
             if (advisorDOM.value === 'other') {
@@ -666,7 +666,7 @@ function checkPrefixMembers($members)
         let prefix_coAdvisor = <?php echo json_encode($row['prefix_coAdvisor']); ?>;
         let name_coAdvisor = <?php echo json_encode($row['name_coAdvisor']); ?>;
         let surname_coAdvisor = <?php echo json_encode($row['surname_coAdvisor']); ?>;
-        if(prefix_coAdvisor !== '' && coAdvisorSelect.value == '') {
+        if (prefix_coAdvisor !== '' && coAdvisorSelect.value == '') {
             coAdvisor_other_option.selected = true
         }
         if (coAdvisorSelect.value == 'other') {
@@ -709,7 +709,7 @@ function checkPrefixMembers($members)
         let prefix_chairman = <?php echo json_encode($row['prefix_chairman']); ?>;
         let name_chairman = <?php echo json_encode($row['name_chairman']); ?>;
         let surname_chairman = <?php echo json_encode($row['surname_chairman']); ?>;
-        if(prefix_chairman !== '' && chairmanSelect.value == '') {
+        if (prefix_chairman !== '' && chairmanSelect.value == '') {
             chairman_other_option.selected = true
         }
         if (chairmanSelect.value == 'other') {
@@ -751,7 +751,7 @@ function checkPrefixMembers($members)
         let prefix_director1 = <?php echo json_encode($row['prefix_director1']); ?>;
         let name_director1 = <?php echo json_encode($row['name_director1']); ?>;
         let surname_director1 = <?php echo json_encode($row['surname_director1']); ?>;
-        if(prefix_director1 !== '' && director1Select.value == '') {
+        if (prefix_director1 !== '' && director1Select.value == '') {
             director1_other_option.selected = true
         }
         if (director1Select.value == 'other') {
@@ -793,7 +793,7 @@ function checkPrefixMembers($members)
         let prefix_director2 = <?php echo json_encode($row['prefix_director2']); ?>;
         let name_director2 = <?php echo json_encode($row['name_director2']); ?>;
         let surname_director2 = <?php echo json_encode($row['surname_director2']); ?>;
-        if(prefix_director2 !== '' && director2Select.value == '') {
+        if (prefix_director2 !== '' && director2Select.value == '') {
             director2_other_option.selected = true
         }
         if (director2Select.value == 'other') {
