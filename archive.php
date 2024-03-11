@@ -128,7 +128,7 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     title: "เผยแพร่สำเร็จ!",
                                     icon: "success"
                                 }).then(result => {
-                                    window.location.replace("/FinalProj/recycle_bin")
+                                    window.location.replace("/FinalProj/archive")
                                 })
                             }
                         }
