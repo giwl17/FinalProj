@@ -1,15 +1,5 @@
 <?php
 require "dbconnect.php";
-if (isset($_POST['selectShow'])) {
-    $per_page_record = $_POST['selectShow'];
-} else {
-    $per_page_record = 10;
-}
-if (isset($_GET["page"])) {
-    $page  = $_GET["page"];
-} else {
-    $page = 1;
-}
 
 if (isset($_GET['selected']) && isset($_GET['data'])) {
     $searchSelect = $_GET['selected'];
@@ -73,6 +63,16 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
         $searchSelect = 'abstract';
     }
 }
+
+//set limit show per page
+$per_page_record = 10;
+if (isset($_GET["page"])) {
+    $page  = $_GET["page"];
+} else {
+    $page = 1;
+}
+$start_from = ($page - 1) * $per_page_record;
+
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +81,7 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเล่มปริญญานิพนธ์ - รายการ</title>
+    <title>รายการปริญญานิพนธ์</title>
     <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -90,8 +90,6 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
 </head>
 
 <body>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <?php require "template/header.php"; ?>
 
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
@@ -150,7 +148,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
 
-        <?php
+        <?php        
+
         try {
             if (isset($_GET['selected'])) {
                 if ($searchSelect == 'author') {
@@ -215,7 +214,39 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         }
                     }
                 } else {
+
                     if ($searchSelect === 'all') {
+                        $likeInput = "%" . $dataInput . "%";
+                        //count total row
+                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document WHERE (thai_name LIKE :input
+                        OR english_name LIKE :input
+                        OR abstract LIKE :input
+                        OR printed_year LIKE :input
+                        OR approval_year LIKE :input
+                        OR semester LIKE :input
+                        OR keyword LIKe :input
+                        OR prefix_chairman LIKE :input
+                        OR name_chairman LIKE :input
+                        OR surname_chairman LIKE :input
+                        OR prefix_director1 LIKE :input
+                        OR name_director1 LIKE :input
+                        OR surname_director1 LIKe :input
+                        OR prefix_director2 LIKE :input
+                        OR name_director2 LIKE :input
+                        OR surname_director2 LIKe :input
+                        OR prefix_advisor LIKE :input
+                        OR name_advisor LIKE :input
+                        OR surname_advisor LIKE :input
+                        OR prefix_coAdvisor LIKE :input
+                        OR name_coAdvisor LIKE :input
+                        OR surname_coAdvisor LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)");
+                        $selectAll->bindParam(":input", $likeInput);
+                        $selectAll->execute();
+                        $row =  $selectAll->fetch();
+                        $all_result =  $row['count'];
+
+                        //select thesis
                         $sql = "SELECT * 
                         FROM thesis_document 
                         WHERE (thai_name LIKE :input
@@ -241,37 +272,67 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         OR name_coAdvisor LIKE :input
                         OR surname_coAdvisor LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
-                        ORDER BY thesis_id DESC
+                        ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                         ";
-                        $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'thesis_name') {
+                        $likeInput = "%" . $dataInput . "%";
+                        //count total row
+                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                        WHERE (thai_name LIKE :input
+                        OR english_name LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)");
+                        $selectAll->bindParam(":input", $likeInput);
+                        $selectAll->execute();
+                        $row =  $selectAll->fetch();
+                        $all_result =  $row['count'];
+
                         $sql = "SELECT * FROM thesis_document
                         WHERE (thai_name LIKE :input
                         OR english_name LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
-                        ORDER BY thesis_id DESC
+                        ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                         ";
-                        $likeInput = "%" . $dataInput . "%";
+
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'keyword') {
+                        $likeInput = "%" . $dataInput . "%";
+                        //count total row
+                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                        WHERE (keyword LIKE :input) 
+                        AND (thesis_status = 1 AND approval_status = 1)");
+                        $selectAll->bindParam(":input", $likeInput);
+                        $selectAll->execute();
+                        $row =  $selectAll->fetch();
+                        $all_result =  $row['count'];
+
                         $sql = "SELECT * FROM thesis_document
                         WHERE (keyword LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
-                        ORDER BY thesis_id DESC
+                        ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                         ";
-                        $likeInput = "%" . $dataInput . "%";
+
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'printed_year') {
+                        $likeInput = "%" . $dataInput . "%";
+                        //count total row
+                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                        WHERE (printed_year LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)");
+                        $selectAll->bindParam(":input", $likeInput);
+                        $selectAll->execute();
+                        $row =  $selectAll->fetch();
+                        $all_result =  $row['count'];
+
                         $sql = "SELECT * FROM thesis_document
                         WHERE (printed_year LIKE :input)
                         AND (thesis_status = 1 AND approval_status = 1)
-                        ORDER BY thesis_id DESC
+                        ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                         ";
-                        $likeInput = "%" . $dataInput . "%";
+
                         $insert_thesis = $conn->prepare($sql);
                         $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'semester') {
@@ -279,62 +340,115 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                         if (count($semesterYear) == 2) {
                             $semester = $semesterYear[0];
                             $years = $semesterYear[1];
+                            $likeSemester = "%" . $semester . "%";
+                            $likeYears = "%" . $years . "%";
+                            $likeInput = "%" . $dataInput . "%";
+
+                            //count total row
+                            $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                            WHERE (semester LIKE :semester
+                            AND approval_year LIKE :years)
+                            AND (thesis_status = 1 AND approval_status = 1)");
+                            $selectAll->bindParam(":semester", $likeSemester);
+                            $selectAll->bindParam(":years", $likeYears);
+                            $selectAll->execute();
+                            $row =  $selectAll->fetch();
+                            $all_result =  $row['count'];
 
                             $sql = "SELECT * FROM thesis_document
                             WHERE (semester LIKE :semester
                             AND approval_year LIKE :years)
                             AND (thesis_status = 1 AND approval_status = 1)
-                            ORDER BY thesis_id DESC
+                            ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                             ";
-                            $likeSemester = "%" . $semester . "%";
-                            $likeYears = "%" . $years . "%";
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":semester", $likeSemester);
                             $insert_thesis->bindParam(":years", $likeYears);
                         } else {
+                            $likeInput = "%" . $dataInput . "%";
+                            //count total row
+                            $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                            WHERE (semester LIKE :input
+                            OR approval_year LIKE :input)
+                            AND (thesis_status = 1 AND approval_status = 1)");
+                            $selectAll->bindParam(":input", $likeInput);
+                            $selectAll->execute();
+                            $row =  $selectAll->fetch();
+                            $all_result =  $row['count'];
+
                             $sql = "SELECT * FROM thesis_document
                             WHERE (semester LIKE :input
                             OR approval_year LIKE :input)
                             AND (thesis_status = 1 AND approval_status = 1)
-                            ORDER BY thesis_id DESC
+                            ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                             ";
-                            $likeInput = "%" . $dataInput . "%";
                             $insert_thesis = $conn->prepare($sql);
-                            $insert_thesis->bindParam(":input", $dataInput);
+                            $insert_thesis->bindParam(":input", $likeInput);
                         }
                     } else if ($searchSelect === 'abstract') {
+                        $likeInput = "%" . $dataInput . "%";
+                        //count total row
+                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                        WHERE (abstract LIKE :input)
+                        AND (thesis_status = 1 AND approval_status = 1)");
+                        $selectAll->bindParam(":input", $likeInput);
+                        $selectAll->execute();
+                        $row =  $selectAll->fetch();
+                        $all_result =  $row['count'];     
+
                         $sql = "SELECT * FROM thesis_document
                             WHERE (abstract LIKE :input)
                             AND (thesis_status = 1 AND approval_status = 1)
-                            ORDER BY thesis_id DESC
+                            ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                             ";
-                        $likeInput = "%" . $dataInput . "%";
                         $insert_thesis = $conn->prepare($sql);
-                        $insert_thesis->bindParam(":input", $dataInput);
+                        $insert_thesis->bindParam(":input", $likeInput);
                     } else if ($searchSelect === 'advisor') {
                         if (strpos($dataInput, " ") !== false) {
                             $advisor = explode(" ", $dataInput);
                             switch (count($advisor)) {
                                 case 2: {
+                                        $likeInput1 = "%" . $advisor[0] . "%";
+                                        $likeInput2 = "%" . $advisor[1] . "%";
+                                        //count total row
+                                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                                    WHERE (name_advisor LIKE :input1 AND surname_advisor LIKE :input2)
+                                    AND (thesis_status = 1 AND approval_status = 1)");
+                                        $selectAll->bindParam(":input1", $likeInput1);
+                                        $selectAll->bindParam(":input2", $likeInput2);
+                                        $selectAll->execute();
+                                        $row =  $selectAll->fetch();
+                                        $all_result =  $row['count'];
+
                                         $sql = "SELECT * FROM thesis_document 
                                     WHERE (name_advisor LIKE :input1 AND surname_advisor LIKE :input2)
                                     AND (thesis_status = 1 AND approval_status = 1)
-                                    ORDER BY thesis_id DESC";
-                                        $likeInput1 = "%" . $advisor[0] . "%";
-                                        $likeInput2 = "%" . $advisor[1] . "%";
+                                    ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}";
+
                                         $insert_thesis = $conn->prepare($sql);
                                         $insert_thesis->bindParam(":input1", $likeInput1);
                                         $insert_thesis->bindParam(":input2", $likeInput2);
                                     }
                                     break;
                                 case 3: {
-                                        $sql = "SELECT * FROM thesis_document 
-                                    WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
-                                    AND (thesis_status = 1 AND approval_status = 1)
-                                    ORDER BY thesis_id DESC";
                                         $likeInput1 = "%" . $advisor[0] . "%";
                                         $likeInput2 = "%" . $advisor[1] . "%";
                                         $likeInput3 = "%" . $advisor[2] . "%";
+                                        //count total row
+                                        $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                                     WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
+                                    AND (thesis_status = 1 AND approval_status = 1)");
+                                        $selectAll->bindParam(":input1", $likeInput1);
+                                        $selectAll->bindParam(":input2", $likeInput2);
+                                        $selectAll->bindParam(":input3", $likeInput3);
+                                        $selectAll->execute();
+                                        $row =  $selectAll->fetch();
+                                        $all_result =  $row['count'];
+
+                                        $sql = "SELECT * FROM thesis_document 
+                                    WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
+                                    AND (thesis_status = 1 AND approval_status = 1)
+                                    ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}";
                                         $insert_thesis = $conn->prepare($sql);
                                         $insert_thesis->bindParam(":input1", $likeInput1);
                                         $insert_thesis->bindParam(":input2", $likeInput2);
@@ -343,13 +457,24 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                                     break;
                             }
                         } else {
+                            $likeInput = "%" . $dataInput . "%";
+                            //count total row
+                            $selectAll = $conn->prepare("SELECT COUNT(*) as count FROM thesis_document
+                                WHERE (prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
+                                OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor)
+                                AND (thesis_status = 1 AND approval_status = 1)");
+                            $selectAll->bindParam(":input", $likeInput);
+                            $selectAll->execute();
+                            $row =  $selectAll->fetch();
+                            $all_result =  $row['count'];
+
                             $sql = "SELECT * FROM thesis_document 
                         WHERE (prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
                                 OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor)
                                 AND (thesis_status = 1 AND approval_status = 1)
-                                ORDER BY thesis_id DESC
+                                ORDER BY thesis_id DESC LIMIT {$start_from}, {$per_page_record}
                                 ";
-                            $likeInput = "%" . $dataInput . "%";
+                                
                             $insert_thesis = $conn->prepare($sql);
                             $insert_thesis->bindParam(":input", $likeInput);
                         }
@@ -404,6 +529,37 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
                             echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
                             echo "</div>";
                         }
+        ?>
+                        <!-- show menu page -->
+                        <nav class='d-flex justify-content-center'>
+                            <ul class='pagination d-flex flex-wrap' id='pagination'>
+                                <?php $total_pages = ceil($all_result / $per_page_record); ?>
+                                <?php $pagLink = ""; ?>
+
+                                <?php if ($page >= 2) : ?>
+                                    <li class='page-item'>
+                                        <a class='page-link' href='search.php?selected=<?= $searchSelect ?>&data=<?= $dataInput ?>&page=<?= ($page - 1) ?>'>&#60;</a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                                    <?php if ($i == $page) : ?>
+                                        <li class='page-item active mb-1'>
+                                            <a class='page-link' href='search.php?selected=<?= $searchSelect ?>&data=<?= $dataInput ?>&page=<?= $i ?>'><?= $i ?></a>
+                                        </li>
+                                    <?php else : ?>
+                                        <li class=' page-item'>
+                                            <a class='page-link' href='search.php?selected=<?= $searchSelect ?>&data=<?= $dataInput ?>&page=<?= $i ?>'><?= $i ?></a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+
+                                <?php if ($page < $total_pages) : ?>
+                                    <li class='page-item'><a class='page-link' href='search.php?selected=<?= $searchSelect ?>&data=<?= $dataInput ?>&page=<?= ($page + 1) ?>'>&#62;</a></li>
+                                <?php endif; ?>
+                            </ul>
+                        </nav>
+        <?php
                     } else {
                         echo "ไม่พบข้อมูล";
                     }
