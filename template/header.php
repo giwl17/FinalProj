@@ -19,7 +19,7 @@ if (isset($_SESSION['role'])) {
         // exit();
     }
 } else {
-    header("Location: login");
+    // header("Location: login");
 }
 ?>
 

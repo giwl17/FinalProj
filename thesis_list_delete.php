@@ -171,6 +171,7 @@
                         }).then(res => {
                             return res.text()
                         }).then(data => {
+                            // alert(data)
                             if (data == '1') {
                                 if (result.isConfirmed) {
                                     Swal.fire({
