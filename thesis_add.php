@@ -78,7 +78,7 @@
                             <div>
                                 <div class="form-group mb-3">
                                     <label for="member1_id">รหัสนักศึกษา (มีขีด)</label>
-                                    <input class="form-control members_id" type="text" name="member1_id" id="member1_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$" required>
+                                    <input class="form-control members_id" type="text" name="member1_id" id="member1_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$" placeholder="xxxxxxxxxxxx-x" required>
                                 </div>
                                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                                     <div class="col form-group">
@@ -107,7 +107,7 @@
                             <label class="form-check-label" for="member2">สมาชิกคนที่ 2</label>
                             <div class="form-group mb-3 member-child">
                                 <label for="member2_id">รหัสนักศึกษา (มีขีด)</label>
-                                <input class="form-control members_id" type="text" name="member2_id" id="member2_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$">
+                                <input class="form-control members_id" type="text" name="member2_id" id="member2_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$" placeholder="xxxxxxxxxxxx-x">
                             </div>
                             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                                 <div class="col form-group">
@@ -136,7 +136,7 @@
                             <div>
                                 <div class="form-group mb-3">
                                     <label for="member3_id">รหัสนักศึกษา (มีขีด)</label>
-                                    <input class="form-control members_id" type="text" name="member3_id" id="member3_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$">
+                                    <input class="form-control members_id" type="text" name="member3_id" id="member3_id" maxlength="14" pattern="^[0-9]{12}-[0-9]$" placeholder="xxxxxxxxxxxx-x">
                                 </div>
                                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                                     <div class="col form-group">

@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+
     <style>
         table {
             border-collapse: collapse;
@@ -30,7 +30,6 @@
 </head>
 
 <body>
-    
     <?php
     $tab = 'active';
     $tabshow = 'show active';
@@ -53,7 +52,6 @@
             </li>
 
         </ul>
-
         <div class="tab-content" id="myTabContent">
             <!-- tab manual -->
             <div class="tab-pane fade <?php echo $tabshow; ?>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -71,7 +69,7 @@
                         </div>
                         <div class="col-md-2" id="other" name="other" style="display: none;" required>
                             <label for="name" class="form-label">คำนำหน้า</label>
-                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า" >
+                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า">
                         </div>
                         <div class="col-md-4">
                             <label for="name" class="form-label">ชื่อ</label>
@@ -82,7 +80,6 @@
                             <input type="text" class="form-control" id="lastname" name="lastname" placeholder="กรุณาใส่นามสกุล" required>
                         </div>
                     </div>
-                    <br>
                     <div class="row g-3">
                         <div class="col">
                             <label for="email" class="form-label">อีเมล์</label>
@@ -97,12 +94,10 @@
                         <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                         <input type="text" id="status" name="status" value="1">
                         <input type="text" id="page" name="page" value="officer_add">
-
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">ส่งอีเมล์เพื่อสร้างรหัสผ่าน</button>
                 </form>
             </div>
-
             <!-- tab csv -->
             <div class="tab-pane fade <?php echo $tabcsvshow; ?>" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
@@ -131,7 +126,6 @@
                     echo '</div>';
                 }
                 ?>
-
                 <div class="container mt-5">
                     <form method="post" enctype="multipart/form-data" class="form-inline">
                         <div class="form-group">
@@ -147,7 +141,6 @@
                                 <input type="text" id="thesis_manage_permission" name="thesis_manage_permission" value="1">
                                 <input type="text" id="status" name="status" value="1">
                                 <input type="text" id="page" name="page" value="officer_add">
-
                             </div>
                             <br>
                         </div>
@@ -159,11 +152,7 @@
                         <button type="submit" class="btn btn-primary ml-2">Upload</button>
                     </form>
                 </div>
-
-
-
             </div>
-
         </div>
         <br>
     </div>
@@ -214,18 +203,19 @@
             tableHTML += '</table>';
             tableContainer.innerHTML = tableHTML;
         }
-        function otherShow() {
-        var prefixSelect = document.getElementById("prefix");
-        var otherDiv = document.getElementById("other");
 
-        if (prefixSelect.value === "other") {
-            otherDiv.style.display = "block";
-            otherDiv.setAttribute("required", "required");
-        } else {
-            otherDiv.style.display = "none";
-            otherDiv.removeAttribute("required");
+        function otherShow() {
+            var prefixSelect = document.getElementById("prefix");
+            var otherDiv = document.getElementById("other");
+
+            if (prefixSelect.value === "other") {
+                otherDiv.style.display = "block";
+                otherDiv.setAttribute("required", "required");
+            } else {
+                otherDiv.style.display = "none";
+                otherDiv.removeAttribute("required");
+            }
         }
-    }
     </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>

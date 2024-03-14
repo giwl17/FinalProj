@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEST API</title>
+    <link rel="icon" type="image/x-icon" href="./img/rmuttlogo16x16.jpg">
 </head>
 <div id="show">
 
