@@ -60,26 +60,35 @@ if (isset($_GET['token'])) {
 
 <body>
     <?php require 'template/header_login.php'; ?>
-    <form class="container mt-4" id="resetForm" method="post" onsubmit="return validateForm()">
+    <div class="container mt-5">
+        <form class="container mt-4" id="resetForm" method="post" onsubmit="return validateForm()">
         <h1 class="h1 text-center">เปลี่ยนรหัสผ่าน</h1>
-        <div class="form-group mb-3">
-            <span>
-                สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
-            </span>
-        </div>
-        <div class="form-group mb-3">
-            <label for="pass">New Password</label>
-            <input type="password" id="pass" name="pass" class="form-control" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="pass">Confirm Password</label>
-            <input type="password" id="new_password" name="new_password" class="form-control" required>
-            <div class="form-text">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <span>
+                                    สวัสดีคุณ <?php echo $name . '&nbsp;&nbsp;' . $lastname; ?>
+                                </span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="pass">New Password</label>
+                                <input type="password" id="pass" name="pass" class="form-control" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="pass">Confirm Password</label>
+                                <input type="password" id="new_password" name="new_password" class="form-control" required>
+                                <div class="form-text">
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-primary container-fluid mb-3" value="ยืนยัน" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <input type="submit" class="btn btn-primary container-fluid mb-3" value="ยืนยัน" />
-    </form>
-
+        </form>
+    </div>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
