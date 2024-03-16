@@ -13,12 +13,22 @@
 <body>
     <?php require 'template/header_login.php'; ?>
     <form id="emailForm" method="POST" accept="send_mail.php" class="container mt-4">
-        <h1 class="h1 text-center">ลืมรหัสผ่าน</h1>
-        <div class="form-group mb-3">
-            <label for="email">Email</label>
-            <input id="email" class="form-control" type="email" name="email" placeholder="Enter email" required>
+        <div class="container mt-5">
+            <h1 class="h1 text-center">ลืมรหัสผ่าน</h1>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input id="email" class="form-control" type="email" name="email" placeholder="Enter email" required>
+                            </div>
+                            <input type="submit" class="btn btn-primary container-fluid" value="ส่งลิงก์สำหรับเปลี่ยนรหัสผ่าน" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <input type="submit" class="btn btn-primary container-fluid" value="ส่งลิงก์สำหรับเปลี่ยนรหัสผ่าน" />
     </form>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>

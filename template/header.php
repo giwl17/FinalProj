@@ -39,7 +39,7 @@ if (isset($_SESSION['role'])) {
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li><a href="/FinalProj/change_password" class="dropdown-item" type="button">เปลี่ยนรหัสผ่าน</a></li>
-                    <li><a href="logout.php" class="dropdown-item" type="button">Logout</a></li>
+                    <li><a href="#" class="dropdown-item"  id="logoutBtn" type="button">Logout</a></li>
                 </ul>
             </div>
         <?php else : ?>
@@ -161,3 +161,37 @@ function menu_account_manage()
     ";
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'ยืนยันการออกจากระบบ?',
+                text: 'คุณแน่ใจหรือไม่ที่ต้องการที่จะออกจากระบบ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ออกจากระบบ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // ทำการลิงค์ไปยังหน้า logout.php
+                    window.location.href = '/FinalProj/logout';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
