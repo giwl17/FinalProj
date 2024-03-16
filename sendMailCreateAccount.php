@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->isHTML(true);
                 $mail->Subject = 'Create New Account';
                 $mail->Body = "To create your account, <br>
-                token : $token <br>
+                password : $token <br>
                 click on the following link: <a href='$create_link'>to create your account</a>";
 
                 $mail->send();
