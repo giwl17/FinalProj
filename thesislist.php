@@ -47,8 +47,6 @@
         function submitSearch() {
             let selectSearch = document.getElementById('selectSearch').value;
             let inputSearch = document.getElementById('inputSearch');
-
-
         }
 
         inputSearch.addEventListener('keyup', () => {
