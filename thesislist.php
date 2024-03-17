@@ -92,50 +92,6 @@ if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
             </div>
         </form>
 
-        <!-- display menu page -->
-        <nav class='d-flex justify-content-center'>
-            <ul class='pagination d-flex flex-wrap m-0' id='pagination'>
-
-                <?php if ($page >= 2) : ?>
-                    <form action="" method="POST">
-                        <li class='page-item'>
-                            <input type="hidden" name="page" value="<?= ($page - 1) ?>">
-                            <button class='page-link rounded-0 rounded-start-3 '>
-                                < </button>
-                        </li>
-                    </form>
-                <?php endif; ?>
-
-                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                    <?php if ($i == $page) : ?>
-                        <form action="" method="POST">
-                            <li class='page-item active mb-1'>
-                                <input type="hidden" name="page" value="<?= $i ?>">
-                                <button class='page-link rounded-0'> <?= $i ?> </button>
-                            </li>
-                        </form>
-                    <?php else : ?>
-                        <form action="" method="POST">
-                            <li class='page-item'>
-                                <input type="hidden" name="page" value="<?= $i ?>">
-                                <button class='page-link rounded-0'> <?= $i ?> </button>
-                            </li>
-                        </form>
-                    <?php endif; ?>
-                <?php endfor; ?>
-
-                <?php if ($page < $total_pages) : ?>
-                    <form action="" method="POST">
-                        <li class='page-item'>
-                            <input type="hidden" name="page" value="<?= ($page + 1) ?>">
-                            <button class='page-link rounded-0 rounded-end-3'> > </button>
-                        </li>
-                    </form>
-                <?php endif; ?>
-
-            </ul>
-        </nav>
-
         <!-- display list of thesis -->
         <div class='d-flex flex-column gap-3' id='thesis_list'>
             <?php if ($stmt->rowCount() > 0) : ?>
