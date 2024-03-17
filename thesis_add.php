@@ -55,14 +55,17 @@
         </ul>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                <form class="mt-4" method="post" action="thesis_add_db.php" enctype="multipart/form-data">
+                <form class="mt-4" method="post" action="thesis_add_db.php" enctype="multipart/form-data" id="myform1" novalidate>
                     <div class="form-group mb-3">
                         <label for="thesis_name_th">ชื่อปริญญานิพนธ์ (ภาษาไทย)</label>
                         <textarea class="form-control required" name="thesis_name_th" cols="30" rows="4" style="resize: none;" required></textarea>
                     </div>
                     <div class="form-group mb-3">
                         <label for="thesis_name_en">ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</label>
-                        <textarea class="form-control" name="thesis_name_en" cols="30" rows="4" style="resize: none;" required></textarea>
+                        <textarea class="form-control" name="thesis_name_en" id="textInput" cols="30" rows="4" style="resize: none;" required></textarea>
+                        <div class="invalid-feedback invalid">
+                            กรุณากรอกข้อมูลเป็นภาษาอังกฤษ
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="abstract">บทคัดย่อ</label>
@@ -208,7 +211,7 @@
                     <div class="form-group mb-3">
                         <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
                         <select class="form-select" name="coAdvisor" id="coAdvisor" onchange="coAdvisorChange()">
-                           <option value=""></option>
+                            <option value=""></option>
                             <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                             <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                             <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -252,7 +255,7 @@
                     <div class="form-group mb-3">
                         <label class="" for="chairman">ประธานกรรมการ</label>
                         <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()" required>
-                           <option value=""></option>
+                            <option value=""></option>
                             <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                             <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                             <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -296,7 +299,7 @@
                     <div class="form-group mb-3">
                         <label class="" for="director1">กรรมการคนที่ 1</label>
                         <select class="form-select" name="director1" id="director1" onchange="director1Change(this)" required>
-                           <option value=""></option>
+                            <option value=""></option>
                             <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                             <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                             <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -340,7 +343,7 @@
                     <div class="form-group mb-3">
                         <label class="" for="director2">กรรมการคนที่ 2</label>
                         <select class="form-select" name="director2" id="director2" onchange="director2Change()" required>
-                           <option value=""></option>
+                            <option value=""></option>
                             <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
                             <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
                             <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
@@ -436,7 +439,7 @@
                         <label for="" class="form-label">ไฟล์โปสเตอร์ (ชนิดไฟล์ PDF)</label>
                         <input class="form-control" type="file" name="poster_file" accept="application/pdf" onchange="checkPDF(event)">
                     </div>
-                    <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล" name="submitAddThesis">
+                    <input class="btn btn-primary container-fluid mb-4" type="submit" value="เพิ่มข้อมูล" name="submitAddThesis" onclick="checkInput()">
                 </form>
             </div>
 
@@ -638,7 +641,39 @@
 
         })
     </script>
+    <script type="text/javascript">
+        $(function() {
+            function isEnglish(text) {
+                // Use a regular expression to check if the text contains only English characters
+                return /^[a-zA-Z\s]*$/.test(text);
+            }
 
+            // Move checkInput function outside of the scope to make it globally accessible
+            window.checkInput = function(inputText) {
+                if (isEnglish(inputText)) {
+                    // Alert that the input is in English
+                    // alert("Input is in English!");
+                } else {
+                    // Alert that the input is not in English
+                    // alert("Input is not in English!");
+                }
+            };
+
+            // Add event listener to the form submission
+            $("#myform1").on("submit", function(event) {
+                var form = $(this)[0];
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+
+                // Retrieve input text and call checkInput function
+                var inputText = $("#textInput").val();
+                checkInput(inputText);
+            });
+        });
+    </script>
 
 
 </body>
