@@ -20,21 +20,30 @@ $start_from = ($page - 1) * $per_page_record;
 $total_pages = ceil($all_result / $per_page_record);
 
 //query thesis
-if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
-    $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} else if ($_POST['selectSortBy'] == 'sort_printedYear_old') {
-    $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year ASC LIMIT $start_from, $per_page_record";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_POST['selectSortBy'])) {
+    if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
+        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($_POST['selectSortBy'] == 'sort_printedYear_old') {
+        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year ASC LIMIT $start_from, $per_page_record";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    $selectSortBy = $_POST['selectSortBy'];
 } else {
     $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $selectSortBy = '';
 }
 
 ?>
@@ -83,11 +92,15 @@ if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
 
         <!-- display select sort -->
         <form method="POST" action="" id="formSort">
-            <div class='row align-items-center justify-content-end gap-1'>
+            <div class='d-flex align-items-center justify-content-end w-100 gap-2'>
                 <label class='w-auto' for='sortBy'>เรียงจาก</label>
-                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="document.getElementById('formSort').submit();">
-                    <option value="sort_printedYear_new" <?php if ($_POST['selectSortBy'] == 'sort_printedYear_new') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม ใหม่->เก่า</option>
-                    <option value="sort_printedYear_old" <?php if ($_POST['selectSortBy'] == 'sort_printedYear_old') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม เก่า->ใหม่</option>
+                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="ThesisGetData()">
+                    <option value="sort_printedYear_new" <?php if ($selectSortBy == 'sort_printedYear_new') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม ใหม่->เก่า</option>
+                    <option value="sort_printedYear_old" <?php if ($selectSortBy == 'sort_printedYear_old') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม เก่า->ใหม่</option>
+                    <option value="sort_englishName_first" <?php if ($selectSortBy == 'sort_englishName_first') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาอังกฤษ A->Z</option>
+                    <option value="sort_englishName_end" <?php if ($selectSortBy == 'sort_englishName_end') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาอังกฤษ Z->A</option>
+                    <option value="sort_thaiName_first" <?php if ($selectSortBy == 'sort_thaiName_first') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาไทย ก->ฮ</option>
+                    <option value="sort_thaiName_end" <?php if ($selectSortBy == 'sort_thaiName_end') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาไทย ฮ->ก</option>
                 </select>
             </div>
         </form>
@@ -127,7 +140,7 @@ if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
                         </div>
 
                         <div>อาจารยที่ปรึกษา <a href='search?advisor=<?= $row['prefix_advisor'] ?><?= $u ?><?= $row['name_advisor'] ?><?= $u ?><?= $row['surname_advisor'] ?>' class='link-primary' style='text-decoration:none;'><?= $row['prefix_advisor'] ?> <?= $row['name_advisor'] ?> <?= $row['surname_advisor'] ?></a>
-                            <?php if ($row->prefix_coAdvisor != '') : ?>
+                            <?php if ($row['prefix_coAdvisor'] != '') : ?>
                                 ,&nbsp;
                                 <a href='search?coAdvisor=<?= $row['prefix_coAdvisor'] ?><?= $u ?><?= $row['name_coAdvisor'] ?><?= $u ?><?= $row['surname_coAdvisor'] ?>' class='link-primary' style='text-decoration:none;'><?= $row['prefix_coAdvisor'] ?> <?= $row['name_coAdvisor'] ?> <?= $row['surname_coAdvisor'] ?></a>
                                 }
@@ -195,7 +208,6 @@ if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
             </ul>
         </nav>
     </div>
-
     <script>
         function submitSearch() {
             let selectSearch = document.getElementById('selectSearch').value;
@@ -224,10 +236,76 @@ if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
                 searchingDOM.innerHTML = "";
             }
         });
+
+        let sort = document.getElementById('selectSortBy').value;
+
+        function ThesisGetData() {
+            sort = document.getElementById('selectSortBy').value;
+            let url = "./api/thesis.php?sort=" + sort;
+            fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                })
+                .then(res => {
+                    return res.json();
+                })
+                .then(data => {
+                    let thesisList = document.getElementById('thesis_list');
+                    let htmlTxt = "";
+
+                    data.forEach((row) => {
+                        htmlTxt += `<div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>`;
+                        htmlTxt += `
+                        <a class='text-dark' id='thesisName' href='thesis?id=${row.thesis_id}'>
+                            <div class='fw-bold'>${row.thai_name}</div>
+                            <div class='fw-bold'>${row.english_name}</div>
+                        </a>`;
+
+                        const count_member = Object.keys(row.author_member).length;
+                        let i = 0;
+                        htmlTxt += `<div>คณะผู้จัดทำ `;
+                        for (const key in row.author_member) {
+                            let nameAuthor = row.author_member[key].prefix + row.author_member[key].name + " " + row.author_member[key].lastname;
+                            htmlTxt += `<div class='d-inline'>${nameAuthor}</div>`;
+                            if (i < count_member - 1) {
+                                htmlTxt += `<span class='text-dark'>,&nbsp;</span>`;
+                            }
+                            i++;
+                        }
+                        htmlTxt += `</div>`;
+
+                        htmlTxt += `<div>อาจารยที่ปรึกษา <a href='search?advisor=${row.prefix_advisor}_${row.name_advisor}_${row.surname_advisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_advisor} ${row.name_advisor} ${row.surname_advisor}</a>`;
+                        if (row.prefix_coAdvisor != '') {
+                            htmlTxt += ",&nbsp;";
+                            htmlTxt += `<a href='search?coAdvisor=${row.prefix_coAdvisor}_${row.name_coAdvisor}_${row.surname_coAdvisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_coAdvisor} ${row.name_coAdvisor} ${row.surname_coAdvisor}</a>`;
+                        }
+                        htmlTxt += "</div>";
+
+                        let keyword = row.keyword.split(", ");
+                        htmlTxt += `<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp;`;
+                        for (let i = 0; i < keyword.length; i++) {
+                            htmlTxt += `<a style='text-decoration:none;' href='search?keyword=${keyword[i]}'>${keyword[i]}</a>`;
+                            if (!(i == keyword.length - 1)) {
+                                htmlTxt += ",&nbsp;";
+                            }
+                        }
+                        htmlTxt += "</div>";
+
+                        htmlTxt += ` <div>ปีที่พิมพ์เล่ม <a href='search?printed=${row.printed_year}' class='link-primary' style='text-decoration:none;'>${row.printed_year}</a></div>`;
+
+                        htmlTxt += `</div>`;
+                    });
+
+                    thesisList.innerHTML = htmlTxt;
+                });
+        }
     </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/106a60ac58.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
