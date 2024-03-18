@@ -1,50 +1,50 @@
 <?php
 
-require "dbconnect.php";
+// require "dbconnect.php";
 
-//check page select
-if (isset($_POST["page"])) {
-    $page  = $_POST["page"];
-} else {
-    $page = 1;
-}
-//count total record
-$query = "SELECT COUNT(*) as count FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1";
-$selectAll = $conn->prepare($query);
-$selectAll->execute();
-$row_count =  $selectAll->fetch();
-$all_result =  $row_count['count'];
-//define variable page
-$per_page_record = 10;
-$start_from = ($page - 1) * $per_page_record;
-$total_pages = ceil($all_result / $per_page_record);
+// //check page select
+// if (isset($_POST["page"])) {
+//     $page  = $_POST["page"];
+// } else {
+//     $page = 1;
+// }
+// //count total record
+// $query = "SELECT COUNT(*) as count FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1";
+// $selectAll = $conn->prepare($query);
+// $selectAll->execute();
+// $row_count =  $selectAll->fetch();
+// $all_result =  $row_count['count'];
+// //define variable page
+// $per_page_record = 10;
+// $start_from = ($page - 1) * $per_page_record;
+// $total_pages = ceil($all_result / $per_page_record);
 
-//query thesis
-if (isset($_POST['selectSortBy'])) {
-    if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
-        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else if ($_POST['selectSortBy'] == 'sort_printedYear_old') {
-        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year ASC LIMIT $start_from, $per_page_record";
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    $selectSortBy = $_POST['selectSortBy'];
-} else {
-    $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $selectSortBy = '';
-}
+// //query thesis
+// if (isset($_POST['selectSortBy'])) {
+//     if ($_POST['selectSortBy'] == 'sort_printedYear_new') {
+//         $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
+//         $stmt = $conn->prepare($query);
+//         $stmt->execute();
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     } else if ($_POST['selectSortBy'] == 'sort_printedYear_old') {
+//         $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year ASC LIMIT $start_from, $per_page_record";
+//         $stmt = $conn->prepare($query);
+//         $stmt->execute();
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     } else {
+//         $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
+//         $stmt = $conn->prepare($query);
+//         $stmt->execute();
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     }
+//     $selectSortBy = $_POST['selectSortBy'];
+// } else {
+//     $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC LIMIT $start_from, $per_page_record";
+//     $stmt = $conn->prepare($query);
+//     $stmt->execute();
+//     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     $selectSortBy = '';
+// }
 
 ?>
 
@@ -94,116 +94,25 @@ if (isset($_POST['selectSortBy'])) {
         <form method="POST" action="" id="formSort">
             <div class='d-flex align-items-center justify-content-end w-100 gap-2'>
                 <label class='w-auto' for='sortBy'>เรียงจาก</label>
-                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="ThesisGetData()">
-                    <option value="sort_printedYear_new" <?php if ($selectSortBy == 'sort_printedYear_new') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม ใหม่->เก่า</option>
-                    <option value="sort_printedYear_old" <?php if ($selectSortBy == 'sort_printedYear_old') echo "selected"; ?>>ปีที่ตีพิมพ์เล่ม เก่า->ใหม่</option>
-                    <option value="sort_englishName_first" <?php if ($selectSortBy == 'sort_englishName_first') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาอังกฤษ A->Z</option>
-                    <option value="sort_englishName_end" <?php if ($selectSortBy == 'sort_englishName_end') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาอังกฤษ Z->A</option>
-                    <option value="sort_thaiName_first" <?php if ($selectSortBy == 'sort_thaiName_first') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาไทย ก->ฮ</option>
-                    <option value="sort_thaiName_end" <?php if ($selectSortBy == 'sort_thaiName_end') echo "selected"; ?>>ชื่อปริญญานิพนธ์ภาษาไทย ฮ->ก</option>
+                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="sortThesis()">
+                    <option value="sort_printedYear_new">ปีที่ตีพิมพ์เล่ม ใหม่->เก่า</option>
+                    <option value="sort_printedYear_old">ปีที่ตีพิมพ์เล่ม เก่า->ใหม่</option>
+                    <option value="sort_englishName_first">ชื่อปริญญานิพนธ์ภาษาอังกฤษ A->Z</option>
+                    <option value="sort_englishName_end">ชื่อปริญญานิพนธ์ภาษาอังกฤษ Z->A</option>
+                    <option value="sort_thaiName_first">ชื่อปริญญานิพนธ์ภาษาไทย ก->ฮ</option>
+                    <option value="sort_thaiName_end">ชื่อปริญญานิพนธ์ภาษาไทย ฮ->ก</option>
                 </select>
             </div>
         </form>
 
-        <!-- display list of thesis -->
+        <!-- display thesis list  -->
         <div class='d-flex flex-column gap-3' id='thesis_list'>
-            <?php if ($stmt->rowCount() > 0) : ?>
 
-                <?php foreach ($result as $row) : ?>
-
-                    <?php
-                    $keyword = explode(", ", $row['keyword']);
-                    //query author
-                    $query = "SELECT * FROM author_thesis WHERE thesis_id = $row[thesis_id]";
-                    $selectMem = $conn->prepare($query);
-                    $selectMem->execute();
-                    $result_selectMem = $selectMem->fetchAll(PDO::FETCH_ASSOC);
-                    $count = count($result_selectMem);
-                    $i = 1;
-                    $u = '_';
-                    ?>
-
-                    <div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>
-                        <a class='text-dark' id='thesisName' href='thesis?id=<?= $row['thesis_id'] ?>'>
-                            <div class='fw-bold'><?= $row['thai_name'] ?></div>
-                            <div class='fw-bold'><?= $row['english_name'] ?></div>
-                        </a>
-
-                        <div>คณะผู้จัดทำ
-                            <?php foreach ($result_selectMem as $mem) : ?>
-                                <?php $nameAuthor = $mem['prefix'] . $mem['name'] . " " . $mem['lastname']; ?>
-                                <div class='d-inline'><?= $nameAuthor ?></div>
-                                <?php if ($count != $i++) : ?>
-                                    <span class='text-dark'>,&nbsp;</span>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
-
-                        <div>อาจารยที่ปรึกษา <a href='search?advisor=<?= $row['prefix_advisor'] ?><?= $u ?><?= $row['name_advisor'] ?><?= $u ?><?= $row['surname_advisor'] ?>' class='link-primary' style='text-decoration:none;'><?= $row['prefix_advisor'] ?> <?= $row['name_advisor'] ?> <?= $row['surname_advisor'] ?></a>
-                            <?php if ($row['prefix_coAdvisor'] != '') : ?>
-                                ,&nbsp;
-                                <a href='search?coAdvisor=<?= $row['prefix_coAdvisor'] ?><?= $u ?><?= $row['name_coAdvisor'] ?><?= $u ?><?= $row['surname_coAdvisor'] ?>' class='link-primary' style='text-decoration:none;'><?= $row['prefix_coAdvisor'] ?> <?= $row['name_coAdvisor'] ?> <?= $row['surname_coAdvisor'] ?></a>
-                                }
-                            <?php endif; ?>
-                        </div>
-
-                        <div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp;
-                            <?php for ($i = 0; $i < count($keyword); $i++) : ?>
-                                <a style='text-decoration:none;' href='search?keyword=<?= $keyword[$i] ?>'><?= $keyword[$i] ?></a>
-                                <?php if (!($i == count($keyword) - 1)) : ?>
-                                    ,&nbsp;
-                                <?php endif; ?>
-                            <?php endfor; ?>
-                        </div>
-
-                        <div>ปีที่พิมพ์เล่ม <a href='search?printed=<?= $row['printed_year'] ?>' class='link-primary' style='text-decoration:none;'><?= $row['printed_year'] ?></a></div>
-                    </div>
-
-                <?php endforeach; ?>
-
-            <?php endif; ?>
         </div>
 
         <!-- display menu page -->
         <nav class='d-flex justify-content-center'>
             <ul class='pagination d-flex flex-wrap' id='pagination'>
-
-                <?php if ($page >= 2) : ?>
-                    <form action="" method="POST">
-                        <li class='page-item'>
-                            <input type="hidden" name="page" value="<?= ($page - 1) ?>">
-                            <button class='page-link rounded-0 rounded-start-3 '>
-                                < </button>
-                        </li>
-                    </form>
-                <?php endif; ?>
-
-                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                    <?php if ($i == $page) : ?>
-                        <form action="" method="POST">
-                            <li class='page-item active mb-1'>
-                                <input type="hidden" name="page" value="<?= $i ?>">
-                                <button class='page-link rounded-0'> <?= $i ?> </button>
-                            </li>
-                        </form>
-                    <?php else : ?>
-                        <form action="" method="POST">
-                            <li class='page-item'>
-                                <input type="hidden" name="page" value="<?= $i ?>">
-                                <button class='page-link rounded-0'> <?= $i ?> </button>
-                            </li>
-                        </form>
-                    <?php endif; ?>
-                <?php endfor; ?>
-
-                <?php if ($page < $total_pages) : ?>
-                    <form action="" method="POST">
-                        <li class='page-item'>
-                            <input type="hidden" name="page" value="<?= ($page + 1) ?>">
-                            <button class='page-link rounded-0 rounded-end-3'> > </button>
-                        </li>
-                    </form>
-                <?php endif; ?>
 
             </ul>
         </nav>
@@ -237,69 +146,147 @@ if (isset($_POST['selectSortBy'])) {
             }
         });
 
+        let thesisData = [];
+        let currentPage = 1;
+        let pageSize = 5;
+        let total_page = 0;
         let sort = document.getElementById('selectSortBy').value;
 
-        function ThesisGetData() {
-            sort = document.getElementById('selectSortBy').value;
-            let url = "./api/thesis.php?sort=" + sort;
-            fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                })
-                .then(res => {
-                    return res.json();
-                })
-                .then(data => {
-                    let thesisList = document.getElementById('thesis_list');
-                    let htmlTxt = "";
+        async function renderPage() {
+            await getDataThesis(sort);
+            console.log(thesisData);
+            let htmlTxt = "";
+            let htmlTxtPage = "";
+            let thesisList = document.getElementById('thesis_list');
+            let pagination = document.getElementById('pagination');
 
-                    data.forEach((row) => {
-                        htmlTxt += `<div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>`;
-                        htmlTxt += `
+            thesisData.filter((thesis, index) => {
+                let start = (currentPage - 1) * pageSize;
+                let end = currentPage * pageSize;
+                total_page = Math.ceil(thesisData.length / pageSize);
+
+                if (index >= start && index < end) return true;
+            }).forEach(row => {
+                console.log(row);
+                htmlTxt += `<div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>`;
+                htmlTxt += `
                         <a class='text-dark' id='thesisName' href='thesis?id=${row.thesis_id}'>
                             <div class='fw-bold'>${row.thai_name}</div>
                             <div class='fw-bold'>${row.english_name}</div>
                         </a>`;
 
-                        const count_member = Object.keys(row.author_member).length;
-                        let i = 0;
-                        htmlTxt += `<div>คณะผู้จัดทำ `;
-                        for (const key in row.author_member) {
-                            let nameAuthor = row.author_member[key].prefix + row.author_member[key].name + " " + row.author_member[key].lastname;
-                            htmlTxt += `<div class='d-inline'>${nameAuthor}</div>`;
-                            if (i < count_member - 1) {
-                                htmlTxt += `<span class='text-dark'>,&nbsp;</span>`;
-                            }
-                            i++;
-                        }
-                        htmlTxt += `</div>`;
+                const count_member = Object.keys(row.author_member).length;
+                let i = 0;
+                htmlTxt += `<div>คณะผู้จัดทำ `;
+                for (const key in row.author_member) {
+                    let nameAuthor = row.author_member[key].prefix + row.author_member[key].name + " " + row.author_member[key].lastname;
+                    htmlTxt += `<div class='d-inline'>${nameAuthor}</div>`;
+                    if (i < count_member - 1) {
+                        htmlTxt += `<span class='text-dark'>,&nbsp;</span>`;
+                    }
+                    i++;
+                }
+                htmlTxt += `</div>`;
 
-                        htmlTxt += `<div>อาจารยที่ปรึกษา <a href='search?advisor=${row.prefix_advisor}_${row.name_advisor}_${row.surname_advisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_advisor} ${row.name_advisor} ${row.surname_advisor}</a>`;
-                        if (row.prefix_coAdvisor != '') {
-                            htmlTxt += ",&nbsp;";
-                            htmlTxt += `<a href='search?coAdvisor=${row.prefix_coAdvisor}_${row.name_coAdvisor}_${row.surname_coAdvisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_coAdvisor} ${row.name_coAdvisor} ${row.surname_coAdvisor}</a>`;
-                        }
-                        htmlTxt += "</div>";
+                htmlTxt += `<div>อาจารยที่ปรึกษา <a href='search?advisor=${row.prefix_advisor}_${row.name_advisor}_${row.surname_advisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_advisor} ${row.name_advisor} ${row.surname_advisor}</a>`;
+                if (row.prefix_coAdvisor != '') {
+                    htmlTxt += ",&nbsp;";
+                    htmlTxt += `<a href='search?coAdvisor=${row.prefix_coAdvisor}_${row.name_coAdvisor}_${row.surname_coAdvisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_coAdvisor} ${row.name_coAdvisor} ${row.surname_coAdvisor}</a>`;
+                }
+                htmlTxt += "</div>";
 
-                        let keyword = row.keyword.split(", ");
-                        htmlTxt += `<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp;`;
-                        for (let i = 0; i < keyword.length; i++) {
-                            htmlTxt += `<a style='text-decoration:none;' href='search?keyword=${keyword[i]}'>${keyword[i]}</a>`;
-                            if (!(i == keyword.length - 1)) {
-                                htmlTxt += ",&nbsp;";
-                            }
-                        }
-                        htmlTxt += "</div>";
+                let keyword = row.keyword.split(", ");
+                htmlTxt += `<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp;`;
+                for (let i = 0; i < keyword.length; i++) {
+                    htmlTxt += `<a style='text-decoration:none;' href='search?keyword=${keyword[i]}'>${keyword[i]}</a>`;
+                    if (!(i == keyword.length - 1)) {
+                        htmlTxt += ",&nbsp;";
+                    }
+                }
+                htmlTxt += "</div>";
 
-                        htmlTxt += ` <div>ปีที่พิมพ์เล่ม <a href='search?printed=${row.printed_year}' class='link-primary' style='text-decoration:none;'>${row.printed_year}</a></div>`;
+                htmlTxt += ` <div>ปีที่พิมพ์เล่ม <a href='search?printed=${row.printed_year}' class='link-primary' style='text-decoration:none;'>${row.printed_year}</a></div>`;
 
-                        htmlTxt += `</div>`;
-                    });
+                htmlTxt += `</div>`;
+            });
+            htmlTxtPage += `
+            <li class='page-item'>
+                <button class="page-link" aria-label="Previous" onclick='previousPage()'>
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </button>
+            </li>
+            `;
 
-                    thesisList.innerHTML = htmlTxt;
-                });
+            for (let i = 1; i <= total_page; i++) {
+                if (i == currentPage) {
+                    htmlTxtPage += `
+                    <li class="page-item active"><button class="page-link" onclick='toPage(${i})'>${i}</button></li>  
+                    `
+                } else {
+                    htmlTxtPage += `
+                    <li class="page-item"><button class="page-link" onclick='toPage(${i})'>${i}</button></li>  
+                    `
+                }
+
+            };
+
+            console.log(total_page);
+            htmlTxtPage += `
+            <li class="page-item">
+                <button class="page-link" aria-label="Next" onclick='nextPage()'>
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </button>
+            </li>
+            `;
+            pagination.innerHTML = htmlTxtPage;
+            thesisList.innerHTML = htmlTxt;
+        }
+        renderPage();
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage();
+
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        }
+
+        function toPage(page) {
+            currentPage = page;
+            renderPage();
+
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+        }
+
+        function nextPage() {
+            if ((currentPage * pageSize) < thesisData.length) {
+                currentPage++;
+                renderPage();
+
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        }
+
+        async function getDataThesis(sort) {
+            const url = "./api/thesis.php?sort=" + sort;
+            const response = await fetch(url);
+            const thesis = await response.json();
+            thesisData = thesis;
+        }
+
+        async function sortThesis() {
+            sort = document.getElementById('selectSortBy').value;
+            console.log(sort);
+            currentPage = 1;
+            await getDataThesis(sort)
+            await renderPage();
         }
     </script>
 
