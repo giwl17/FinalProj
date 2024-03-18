@@ -112,9 +112,13 @@
                 ?>
             </ul>
         </nav>
-
         <div class="d-flex justify-content-center">
-            <button class="btn btn-danger" onclick="submitDelete()">ลบรายการที่เลือก</button>
+            <div class="m-2">
+                <button class="btn btn-warning" onclick="submitWithhold()">ระงับการเผยแพร่รายการที่เลือก</button>
+            </div>
+            <div class="m-2">
+                <button class="btn btn-danger" onclick="submitDelete()">ลบรายการที่เลือก</button>
+            </div>
         </div>
     </div>
     <script>
@@ -141,6 +145,7 @@
 
                 }
             });
+
             if (!anyChecked) {
                 Swal.fire({
                     text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะลบ',
@@ -164,7 +169,7 @@
                 }).then((result) => {
                     console.log(checkedList);
                     if (result.isConfirmed) {
-                        
+
                         fetch("/FinalProj/thesis_delete.php", {
                             method: "post",
                             body: JSON.stringify(checkedList),
@@ -324,6 +329,84 @@
                 })
 
         })
+    </script>
+    <script>
+        function checkSelectAll(count) {
+            let selectAll = document.querySelector('#selectAll');
+            let selectItems = document.querySelectorAll('.select');
+            if (selectAll.checked) {
+                selectItems.forEach((item) => {
+                    item.checked = true;
+                })
+            } else {
+                selectItems.forEach((item) => {
+                    item.checked = false;
+                })
+            }
+        }
+
+        function submitWithhold() {
+            let anyChecked = false;
+            let selectItems = document.querySelectorAll('.select');
+            selectItems.forEach((item) => {
+                if (item.checked) {
+                    anyChecked = true;
+
+                }
+            });
+
+            if (!anyChecked) {
+                Swal.fire({
+                    text: 'คุณไม่ได้เลือกรายการใด ๆ กรุณาเลือกรายการที่ต้องการจะลบ',
+                    icon: 'error',
+                    confirmButtonText: 'เข้าใจแล้ว'
+                })
+            } else {
+                let checkedList = [];
+                selectItems.forEach(item => {
+                    if (item.checked)
+                        checkedList.push(item.name);
+                })
+                Swal.fire({
+                    title: "ระงับการเผยแพร่รายการที่เลือกหรือไม่?",
+                    text: "รายการที่ระงับการเผยแพร่จะไปอยู่ในถังขยะ",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "ระงับข้อมูล"
+                }).then((result) => {
+                    console.log(checkedList);
+                    if (result.isConfirmed) {
+
+                        fetch("/FinalProj/thesis_withhold", {
+                            method: "post",
+                            body: JSON.stringify(checkedList),
+                        }).then(res => {
+                            return res.text()
+                        }).then(data => {
+                            // alert(data)
+                            if (data == '1') {
+                                if (result.isConfirmed) {
+                                    Swal.fire({
+                                        title: "ระงับการเผยแพร่สำเร็จ!",
+                                        icon: "success"
+                                    }).then(result => {
+                                        window.location.replace("/FinalProj/thesisdelete")
+                                    })
+                                }
+                            } else {
+                                Swal.fire({
+                                    title: "มีบางอย่างผิดพลาด",
+                                    icon: "error"
+                                })
+                            }
+                        })
+                    }
+
+                });
+            }
+        }
     </script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,7 +1,7 @@
 <?php
 include 'dbconnect.php';
 
-$stmt = $conn->query("SELECT * FROM thesis_document WHERE thesis_status = 0 ORDER BY dateTime_deleted DESC");
+$stmt = $conn->query("SELECT * FROM thesis_document WHERE thesis_status = 0 OR thesis_status = 3 ORDER BY dateTime_deleted DESC");
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -35,8 +35,9 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th><input type="checkbox" name="selectAll" id="selectAll" onchange="checkSelectAll(<?= $stmt->rowCount(); ?>)"></th>
                         <th>ชื่อปริญญานิพนธ์ (ภาษาไทย)</th>
                         <th>ชื่อปริญญานิพนธ์ (ภาษาอังกฤษ)</th>
-                        <th>ปีที่ตีพิมพ์เล่ม</th>
+                        <!-- <th>ปีที่ตีพิมพ์เล่ม</th> -->
                         <th>ปีการศึกษา</th>
+                        <th>สถานะการเผยแพร่</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,8 +46,19 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><input type="checkbox" name="select_<?= $row['thesis_id'] ?>" class="select"></td>
                             <td><?= $row['thai_name'] ?></td>
                             <td><?= $row['english_name'] ?></td>
-                            <td><?= $row['printed_year'] ?></td>
+                            <!-- <td><?= $row['printed_year'] ?></td> -->
                             <td><?= $row['semester'] . "/" . $row['approval_year'] ?></td>
+                            <td><?php
+                                if ($row['thesis_status'] == 0) {
+                                    echo "ปิดการเผยแพร่";
+                                } elseif ($row['thesis_status'] == 1) {
+                                    echo "เผยแพร่";
+                                } elseif ($row['thesis_status'] == 2) {
+                                    echo "Archive";
+                                } elseif ($row['thesis_status'] == 3) {
+                                    echo "ระงับการเผยแพร่";
+                                }
+                                ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
