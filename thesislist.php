@@ -17,7 +17,7 @@
     <?php require 'template/header.php'; ?>
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
-            <form class="d-flex position-relative" action="search.php">
+            <div class="d-flex position-relative">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
                 <select name="selected" id="selectSearch" class="form-select rounded-start-3 rounded-end-0 w-auto">
                     <option value="all" selected>ทั้งหมด</option>
@@ -35,8 +35,8 @@
                     <div class="w-100 position-absolute d-none" id="searching">
                     </div>
                 </div>
-                <button class="btn rounded-0 col-auto position-absolute end-0"><i class="bi bi-search px-1"></i></button>
-            </form>
+                <button class="btn rounded-0 col-auto position-absolute end-0" onclick="renderPage()"><i class="bi bi-search px-1"></i></button>
+            </div>
             <a href='/FinalProj/search/advance' class="text-end mt-2 link-dark">การค้นหาขัั้นสูง</a>
         </div>
 
@@ -44,7 +44,7 @@
         <form method="POST" action="" id="formSort">
             <div class='d-flex align-items-center justify-content-end w-100 gap-2'>
                 <label class='w-auto' for='sortBy'>เรียงจาก</label>
-                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="sortThesis()">
+                <select class='form-select w-auto' id='selectSortBy' name='selectSortBy' onchange="renderPage()">
                     <option value="sort_printedYear_new">ปีที่ตีพิมพ์เล่ม ใหม่->เก่า</option>
                     <option value="sort_printedYear_old">ปีที่ตีพิมพ์เล่ม เก่า->ใหม่</option>
                     <option value="sort_englishName_first">ชื่อปริญญานิพนธ์ภาษาอังกฤษ A->Z</option>
@@ -68,42 +68,32 @@
         </nav>
     </div>
     <script>
-        function submitSearch() {
-            let selectSearch = document.getElementById('selectSearch').value;
-            let inputSearch = document.getElementById('inputSearch');
-        }
-
-        inputSearch.addEventListener('keyup', () => {
-            let input = inputSearch.value;
-            let searchingDOM = document.getElementById('searching');
-
-            if (input != '') {
-                searchingDOM.classList.remove('d-none');
-
-                let options = {
-                    method: 'GET',
-                    input: input,
-                }
-                let url = '/FinalProj/searchbar_db?data=' + input + "&selected=" + selectSearch.value;
-                fetch(url, options)
-                    .then(response => {
-                        return response.text()
-                    })
-                    .then(data => searchingDOM.innerHTML = data)
-            } else {
-                searchingDOM.classList.add('d-none');
-                searchingDOM.innerHTML = "";
-            }
-        });
-
         let thesisData = [];
         let currentPage = 1;
         let pageSize = 10;
         let total_page = 0;
         let sort = document.getElementById('selectSortBy').value;
+        let selectSearch = document.getElementById('selectSearch').value;
+        let inputSearch = document.getElementById('inputSearch').value;
+
+        async function getDataThesis(sort, selectSearch, inputSearch) {
+            let url = ""
+            url = "./api/thesis.php?sort=" + sort + "&select=" + selectSearch + "&data=" + inputSearch;
+            // console.log(url);
+            const response = await fetch(url);
+            const thesis = await response.json();
+            // console.log(thesis);
+            thesisData = thesis;
+        }
 
         async function renderPage() {
-            await getDataThesis(sort);
+            sort = document.getElementById('selectSortBy').value;
+            selectSearch = document.getElementById('selectSearch').value;
+            inputSearch = document.getElementById('inputSearch').value;
+            console.log(sort);
+            console.log(selectSearch);
+            console.log(inputSearch);
+            await getDataThesis(sort, selectSearch, inputSearch);
             console.log(thesisData);
             let htmlTxt = "";
             let htmlTxtPage = "";
@@ -117,7 +107,7 @@
 
                 if (index >= start && index < end) return true;
             }).forEach(row => {
-                console.log(row);
+                // console.log(row);
                 htmlTxt += `<div class='border p-3 d-flex flex-column rounded-3 shadow-sm'>`;
                 htmlTxt += `
                         <a class='text-dark' id='thesisName' href='thesis?id=${row.thesis_id}'>
@@ -181,7 +171,7 @@
 
             };
 
-            console.log(total_page);
+            // console.log(total_page);
             htmlTxtPage += `
             <li class="page-item">
                 <button class="page-link" aria-label="Next" onclick='nextPage()'>
@@ -193,7 +183,7 @@
             pagination.innerHTML = htmlTxtPage;
             thesisList.innerHTML = htmlTxt;
         }
-        renderPage();
+        renderPage(sort, selectSearch, inputSearch);
 
         function previousPage() {
             if (currentPage > 1) {
@@ -224,20 +214,29 @@
             }
         }
 
-        async function getDataThesis(sort) {
-            const url = "./api/thesis.php?sort=" + sort;
-            const response = await fetch(url);
-            const thesis = await response.json();
-            thesisData = thesis;
-        }
+        let inputSearchDOM = document.getElementById('inputSearch');
+        inputSearchDOM.addEventListener('keyup', () => {
+            let input = inputSearchDOM.value;
+            let searchingDOM = document.getElementById('searching');
 
-        async function sortThesis() {
-            sort = document.getElementById('selectSortBy').value;
-            console.log(sort);
-            currentPage = 1;
-            await getDataThesis(sort)
-            await renderPage();
-        }
+            if (input != '') {
+                searchingDOM.classList.remove('d-none');
+
+                let options = {
+                    method: 'GET',
+                    input: input,
+                }
+                let url = '/FinalProj/searchbar_db?data=' + input + "&selected=" + selectSearch.value;
+                fetch(url, options)
+                    .then(response => {
+                        return response.text()
+                    })
+                    .then(data => searchingDOM.innerHTML = data)
+            } else {
+                searchingDOM.classList.add('d-none');
+                searchingDOM.innerHTML = "";
+            }
+        });
     </script>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
