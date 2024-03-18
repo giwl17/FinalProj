@@ -148,7 +148,7 @@
 
         let thesisData = [];
         let currentPage = 1;
-        let pageSize = 5;
+        let pageSize = 10;
         let total_page = 0;
         let sort = document.getElementById('selectSortBy').value;
 
