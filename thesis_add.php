@@ -5,6 +5,10 @@ try {
     $stmt = $conn->prepare("SELECT * FROM prefix");
     $stmt->execute();
     $rows_prefix = $stmt->fetchAll();
+
+    $stmt = $conn->prepare("SELECT * FROM academic_positions");
+    $stmt->execute();
+    $rows_positions = $stmt->fetchAll();
 } catch (PDOException $e) {
     echo "มีบางอย่างผิดพลาดที่ฐานข้อมูล";
 } finally {
