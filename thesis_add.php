@@ -1,3 +1,19 @@
+<?php
+
+require_once("dbconnect.php");
+try {
+    $stmt = $conn->prepare("SELECT * FROM prefix");
+    $stmt->execute();
+    $rows_prefix = $stmt->fetchAll();
+} catch (PDOException $e) {
+    echo "มีบางอย่างผิดพลาดที่ฐานข้อมูล";
+} finally {
+    $stmt = null;
+    $conn = null;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,9 +104,9 @@
                                         <label for="member1_prefix">คำนำหน้า</label>
                                         <select class="form-select" name="member1_prefix" required>
                                             <option value=""></option>
-                                            <option value="นาย">นาย</option>
-                                            <option value="นางสาว">นางสาว</option>
-                                            <option value="นาง">นาง</option>
+                                            <?php foreach ($rows_prefix as $row) : ?>
+                                                <option value="<?= $row['prefixName'] ?>"><?= $row['prefixName'] ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col form-group">
@@ -117,9 +133,9 @@
                                     <label for="member2_prefix">คำนำหน้า</label>
                                     <select class="form-select" name="member2_prefix" id="member2_prefix">
                                         <option value=""></option>
-                                        <option value="นาย">นาย</option>
-                                        <option value="นางสาว">นางสาว</option>
-                                        <option value="นาง">นาง</option>
+                                        <?php foreach ($rows_prefix as $row) : ?>
+                                            <option value="<?= $row['prefixName'] ?>"><?= $row['prefixName'] ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col form-group">
@@ -146,9 +162,9 @@
                                         <label for="member3_prefix">คำนำหน้า</label>
                                         <select class="form-select" name="member3_prefix" id="member3_prefix">
                                             <option value=""></option>
-                                            <option value="นาย">นาย</option>
-                                            <option value="นางสาว">นางสาว</option>
-                                            <option value="นาง">นาง</option>
+                                            <?php foreach ($rows_prefix as $row) : ?>
+                                                <option value="<?= $row['prefixName'] ?>"><?= $row['prefixName'] ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col form-group">
