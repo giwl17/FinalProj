@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 $data = json_decode(trim(file_get_contents("php://input")));
 require "../dbconnect.php";
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if ($_GET['sort'] !== '' AND $_GET['select'] !== '' AND $_GET['data'] != '') {
+    if ($_GET['sort'] !== '' and $_GET['select'] !== '' and $_GET['data'] != '') {
         //have search
         $searchSelect = $_GET['select'];
         $likeInput = "%" . $_GET['data'] . "%";
@@ -29,18 +29,159 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $order = 'DESC';
         }
 
-        if ($searchSelect == 'all') {           
+        if ($searchSelect == 'all') {
             //select thesis
             $query = "SELECT * 
-            FROM thesis_document
-            WHERE (english_name LIKE :input)
+            FROM thesis_document 
+            WHERE (thai_name LIKE :input
+            OR english_name LIKE :input
+            OR abstract LIKE :input
+            OR printed_year LIKE :input
+            OR approval_year LIKE :input
+            OR semester LIKE :input
+            OR keyword LIKe :input
+            OR prefix_chairman LIKE :input
+            OR name_chairman LIKE :input
+            OR surname_chairman LIKE :input
+            OR prefix_director1 LIKE :input
+            OR name_director1 LIKE :input
+            OR surname_director1 LIKe :input
+            OR prefix_director2 LIKE :input
+            OR name_director2 LIKE :input
+            OR surname_director2 LIKe :input
+            OR prefix_advisor LIKE :input
+            OR name_advisor LIKE :input
+            OR surname_advisor LIKE :input
+            OR prefix_coAdvisor LIKE :input
+            OR name_coAdvisor LIKE :input
+            OR surname_coAdvisor LIKE :input)
             AND (thesis_status = 1 AND approval_status = 1)
             ";
             $query .= "ORDER BY " . $sort . " " . $order;
+        } else if ($searchSelect == 'thesis_name') {
+            //select thesis
+            $query = "SELECT * 
+            FROM thesis_document 
+            WHERE (thai_name LIKE :input)
+            OR (english_name LIKE :input)
+            AND (thesis_status = 1 AND approval_status = 1)
+            ";
+            $query .= "ORDER BY " . $sort . " " . $order;
+        } else if ($searchSelect == 'keyword') {
+            //select thesis
+            $query = "SELECT * 
+            FROM thesis_document 
+            WHERE (keyword LIKE :input)
+            AND (thesis_status = 1 AND approval_status = 1)
+            ";
+            $query .= "ORDER BY " . $sort . " " . $order;
+        } else if ($searchSelect == 'printed_year') {
+            //select thesis
+            $query = "SELECT * 
+            FROM thesis_document 
+            WHERE (printed_year LIKE :input)
+            AND (thesis_status = 1 AND approval_status = 1)
+            ";
+            $query .= "ORDER BY " . $sort . " " . $order;
+        } else if ($searchSelect == 'semester') {
+            $semesterYear = explode("/", $_GET['data']);
+            if (count($semesterYear) == 2) {
+                $semester = $semesterYear[0];
+                $years = $semesterYear[1];
+                $likeSemester = "%" . $semester . "%";
+                $likeYears = "%" . $years . "%";
+
+                //select thesis
+                $query = "SELECT * FROM thesis_document
+                WHERE (semester LIKE :semester
+                AND approval_year LIKE :years)
+                AND (thesis_status = 1 AND approval_status = 1)
+                ";
+                $query .= "ORDER BY " . $sort . " " . $order;
+            } else {
+                $likeInput = "%" . $_GET['data'] . "%";
+                //select thesis
+                $query = "SELECT * FROM thesis_document
+                WHERE (semester LIKE :input
+                OR approval_year LIKE :input)
+                AND (thesis_status = 1 AND approval_status = 1)
+                ";
+                $query .= "ORDER BY " . $sort . " " . $order;
+            }
+        } else if ($searchSelect == 'abstract') {
+            //select thesis
+            $query = "SELECT * 
+            FROM thesis_document 
+            WHERE (abstract LIKE :input)
+            AND (thesis_status = 1 AND approval_status = 1)
+            ";
+            $query .= "ORDER BY " . $sort . " " . $order;
+        } else if ($searchSelect == 'advisor') {
+            if (strpos($_GET['data'], " ") !== false) {
+                $advisor = explode(" ", $_GET['data']);
+                switch (count($advisor)) {
+                    case 2: {
+                            $likeInput1 = "%" . $advisor[0] . "%";
+                            $likeInput2 = "%" . $advisor[1] . "%";              
+
+                            $query = "SELECT * FROM thesis_document 
+                            WHERE (name_advisor LIKE :input1 AND surname_advisor LIKE :input2)
+                            OR (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2) 
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ";
+                            $query .= "ORDER BY " . $sort . " " . $order;
+                        }
+                        break;
+                    case 3: {
+                            $likeInput1 = "%" . $advisor[0] . "%";
+                            $likeInput2 = "%" . $advisor[1] . "%";
+                            $likeInput3 = "%" . $advisor[2] . "%";                           
+
+                            $query = "SELECT * FROM thesis_document 
+                            WHERE (prefix_advisor LIKE :input1 AND name_advisor LIKE :input2 AND surname_advisor LIKE :input3)
+                            AND (thesis_status = 1 AND approval_status = 1)
+                            ";
+                            $query .= "ORDER BY " . $sort . " " . $order;
+                        }
+                        break;
+                }
+            } else {
+                $likeInput = "%" . $_GET['data'] . "%";
+
+                $query = "SELECT * FROM thesis_document 
+                    WHERE (prefix_advisor LIKE :input OR name_advisor LIKE :input OR surname_advisor LIKE :input
+                    OR prefix_coAdvisor LIKE :input OR name_coAdvisor LIKE :input OR surname_coAdvisor)
+                    AND (thesis_status = 1 AND approval_status = 1)
+                    ";
+                    $query .= "ORDER BY " . $sort . " " . $order;
+            }
+
+        } else if ($searchSelect == 'author') {
+            $likeInput = "%" . $_GET['data'] . "%";
+            $query = "SELECT * FROM author_thesis 
+            WHERE student_id LIKE :input
+            OR prefix LIKE :input
+            OR name LIKE :input
+            OR lastname LIKE :input 
+            ";
+            $select_mem = $conn->prepare($query);
+            $select_mem->execute([":input" => $likeInput]);
         }
-        
+
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(":input", $likeInput);
+        if(isset($semester)) {
+            $stmt->bindParam(":semester", $likeSemester);
+            $stmt->bindParam(":years", $likeYears);
+        } else if (isset($likeInput1) AND isset($likeInput2) AND isset($likeInput3)) {
+            $stmt->bindParam(":input1", $likeInput1);
+            $stmt->bindParam(":input2", $likeInput2);
+            $stmt->bindParam(":input3", $likeInput3);
+        } else if (isset($likeInput1) AND isset($likeInput2) ) {
+            $stmt->bindParam(":input1", $likeInput1);
+            $stmt->bindParam(":input2", $likeInput2);
+        } else {
+            $stmt->bindParam(":input", $likeInput);
+        }
         $stmt->execute();
         $thesis = [];
         $index = 0;
@@ -89,7 +230,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         echo json_encode($thesis, JSON_UNESCAPED_UNICODE);
-        // echo json_encode(["data" => "a"], JSON_UNESCAPED_UNICODE);
     } else if (isset($_GET['sort'])) {
         if ($_GET['sort'] == 'sort_printedYear_new') {
             $query = "SELECT * FROM thesis_document WHERE thesis_status = 1 AND approval_status = 1 ORDER BY printed_year DESC";
