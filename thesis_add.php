@@ -208,14 +208,9 @@ try {
                             <label for="advisor_other_prefix">คำนำหน้า</label>
                             <select class="form-select" name="advisor_other_prefix">
                                 <option value=""></option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_positions as $row) : ?>
+                                    <option value="<?= $row['positionName'] ?>"><?= $row['positionName'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -252,14 +247,9 @@ try {
                             <label for="coAdvisor_other_prefix">คำนำหน้า</label>
                             <select class="form-select" name="coAdvisor_other_prefix">
                                 <option value=""></option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_positions as $row) : ?>
+                                    <option value="<?= $row['positionName'] ?>"><?= $row['positionName'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -296,14 +286,9 @@ try {
                             <label for="chairman_other_prefix">คำนำหน้า</label>
                             <select class="form-select" name="chairman_other_prefix">
                                 <option value=""></option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_positions as $row) : ?>
+                                    <option value="<?= $row['positionName'] ?>"><?= $row['positionName'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -340,14 +325,9 @@ try {
                             <label for="director1_other_prefix">คำนำหน้า</label>
                             <select class="form-select" name="director1_other_prefix">
                                 <option value=""></option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_positions as $row) : ?>
+                                    <option value="<?= $row['positionName'] ?>"><?= $row['positionName'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -384,14 +364,9 @@ try {
                             <label for="director2_other_prefix">คำนำหน้า</label>
                             <select class="form-select" name="director2_other_prefix">
                                 <option value=""></option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_positions as $row) : ?>
+                                    <option value="<?= $row['positionName'] ?>"><?= $row['positionName'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col form-group">
