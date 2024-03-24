@@ -2,13 +2,24 @@
 
 require_once("dbconnect.php");
 try {
+    //prefix
     $stmt = $conn->prepare("SELECT * FROM prefix");
     $stmt->execute();
     $rows_prefix = $stmt->fetchAll();
 
+    //prefix position
     $stmt = $conn->prepare("SELECT * FROM academic_positions");
     $stmt->execute();
     $rows_positions = $stmt->fetchAll();
+
+    //teacher
+    $stmt = $conn->prepare("SELECT * FROM account WHERE role = 4 AND status = 1");
+    $stmt->execute();
+    $teacher_name = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $name = $row['prefix'] . " " . $row['name'] . " " . $row['lastname'];
+        array_push($teacher_name, $name);
+    }
 } catch (PDOException $e) {
     echo "มีบางอย่างผิดพลาดที่ฐานข้อมูล";
 } finally {
@@ -188,17 +199,9 @@ try {
                         <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
                         <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()" required>
                             <option value=""></option>
-                            <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                            <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                            <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์">อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์">ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                            <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา">รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม">ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                            <option value="ดร. พิชยพัชยา ศรีคร้าม">ดร.พิชยพัชยา ศรีคร้าม</option>
+                            <?php foreach ($teacher_name as $row) : ?>
+                                <option value="<?= $row ?>"><?= $row ?></option>
+                            <?php endforeach; ?>
                             <option value="other">อื่น ๆ</option>
                         </select>
                     </div>
@@ -227,17 +230,9 @@ try {
                         <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
                         <select class="form-select" name="coAdvisor" id="coAdvisor" onchange="coAdvisorChange()">
                             <option value=""></option>
-                            <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                            <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                            <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์">อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์">ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                            <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา">รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม">ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                            <option value="ดร. พิชยพัชยา ศรีคร้าม">ดร.พิชยพัชยา ศรีคร้าม</option>
+                            <?php foreach ($teacher_name as $row) : ?>
+                                <option value="<?= $row ?>"><?= $row ?></option>
+                            <?php endforeach; ?>
                             <option value="other">อื่น ๆ</option>
                         </select>
                     </div>
@@ -266,17 +261,9 @@ try {
                         <label class="" for="chairman">ประธานกรรมการ</label>
                         <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()" required>
                             <option value=""></option>
-                            <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                            <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                            <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์">อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์">ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                            <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา">รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม">ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                            <option value="ดร. พิชยพัชยา ศรีคร้าม">ดร.พิชยพัชยา ศรีคร้าม</option>
+                            <?php foreach ($teacher_name as $row) : ?>
+                                <option value="<?= $row ?>"><?= $row ?></option>
+                            <?php endforeach; ?>
                             <option value="other">อื่น ๆ</option>
                         </select>
                     </div>
@@ -305,17 +292,9 @@ try {
                         <label class="" for="director1">กรรมการคนที่ 1</label>
                         <select class="form-select" name="director1" id="director1" onchange="director1Change(this)" required>
                             <option value=""></option>
-                            <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                            <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                            <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์">อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์">ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                            <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา">รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม">ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                            <option value="ดร. พิชยพัชยา ศรีคร้าม">ดร.พิชยพัชยา ศรีคร้าม</option>
+                            <?php foreach ($teacher_name as $row) : ?>
+                                <option value="<?= $row ?>"><?= $row ?></option>
+                            <?php endforeach; ?>
                             <option value="other">อื่น ๆ</option>
                         </select>
                     </div>
@@ -344,17 +323,9 @@ try {
                         <label class="" for="director2">กรรมการคนที่ 2</label>
                         <select class="form-select" name="director2" id="director2" onchange="director2Change()" required>
                             <option value=""></option>
-                            <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา">ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ">ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี">ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์">ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                            <option value="ดร. ปอลิน กองสุวรรณ">ดร.ปอลิน กองสุวรรณ</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล">ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                            <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์">อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์">ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                            <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา">รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                            <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม">ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                            <option value="ดร. พิชยพัชยา ศรีคร้าม">ดร.พิชยพัชยา ศรีคร้าม</option>
+                            <?php foreach ($teacher_name as $row) : ?>
+                                <option value="<?= $row ?>"><?= $row ?></option>
+                            <?php endforeach; ?>
                             <option value="other">อื่น ๆ</option>
                         </select>
                     </div>
