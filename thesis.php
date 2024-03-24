@@ -144,7 +144,8 @@
                     if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
                         echo
                         "<div class='container-fluid d-flex gap-3 justify-content-center'>
-                <a class='btn btn-warning' href='thesis_update?id=$id'>แก้ไข</a>
+                <a class='btn btn-primary' href='thesis_update?id=$id'>แก้ไข</a>
+                <a class='btn btn-warning' onclick=\"alertWithhold($id)\">ระงับการเผยแพร่</a>
                 <a class='btn btn-danger' onclick=\"alertDelete($id)\">ลบ</a>
           </div>";
                     }
@@ -172,6 +173,28 @@
                                     icon: "success"
                                 }).then(() => {
                                     window.location = "thesis_delete?id=" + id;
+                                });
+                            }
+                        });
+                    }
+
+                    function alertWithhold(id) {
+                        Swal.fire({
+                            title: "แน่ใจหรือไม่?",
+                            text: "ต้องการระงับการเผยแพร่ข้อมูลปริญญานิพนธ์นี้ใช่ไหม",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "ระงับข้อมูล"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "ระงับการเผยแพร่สำเร็จ!",
+                                    text: "คุณได้ระงับการเผยแพร่รายการปริญญานิพนธ์เรียบร้อยแล้ว",
+                                    icon: "success"
+                                }).then(() => {
+                                    window.location = "thesis_withhold?id=" + id;
                                 });
                             }
                         });

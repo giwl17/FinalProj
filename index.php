@@ -10,6 +10,7 @@ $routes = [
     '/FinalProj/thesis' =>  __DIR__ . '/thesis.php',
     '/FinalProj/thesis_api' =>  __DIR__ . '/thesis_api.php',
     '/FinalProj/thesis_delete' =>  __DIR__ . '/thesis_delete.php',
+    '/FinalProj/thesis_withhold' =>  __DIR__ . '/thesis_withhold_db.php',
     '/FinalProj/thesis_update' =>  __DIR__ . '/thesis_update.php',
     '/FinalProj/search' =>  __DIR__ . '/search.php',
     '/FinalProj/searchbar_db' =>  __DIR__ . '/searchbar_db.php',
