@@ -1,8 +1,9 @@
 <?php
 require "dbconnect.php";
+global $prefixs;
+$teacher_names = [];
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-
     try {
         $select = $conn->prepare("SELECT * FROM thesis_document WHERE thesis_id = :thesis_id");
         $select->bindParam(":thesis_id", $id);
@@ -13,43 +14,78 @@ if (isset($_GET['id'])) {
         $select_member->bindParam(":thesis_id", $id);
         $select_member->execute();
         $members = $select_member->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $conn->prepare("SELECT * FROM prefix");
+        $stmt->execute();
+        $prefixs = $stmt->fetchAll();
+
+        $stmt = $conn->prepare("SELECT * FROM academic_positions");
+        $stmt->execute();
+        $postions = $stmt->fetchAll();
+
+        //teacher
+        $stmt = $conn->prepare("SELECT * FROM account WHERE role = 4 AND status = 1");
+        $stmt->execute();
+        $rows_teacher = $stmt->fetchAll();
+        foreach ($rows_teacher as $rows_teacher) {
+            $name = $rows_teacher['prefix'] . " " . $rows_teacher['name'] . " " . $rows_teacher['lastname'];
+            array_push($teacher_names, $name);
+        }
+
+        //prefix position
+        $stmt = $conn->prepare("SELECT * FROM academic_positions");
+        $stmt->execute();
+        $positions = $stmt->fetchAll();
     } catch (PDOException $e) {
         echo $e->getMessage();
+    } finally {
+        $select = null;
+        $select_member = null;
+        $stmt = null;
+        $conn = null;
     }
 }
 
 function checkPrefixMembers($members)
 {
-    if ($members == 'นาย') {
-        $html = "
-            <option value=''></option>
-            <option value='นาย' selected>นาย</option>
-            <option value='นางสาว'>นางสาว</option>
-            <option value='นาง'>นาง</option>";
-        echo $html;
-    } else if ($members == 'นางสาว') {
-        $html = "
-            <option value=''></option>
-            <option value='นาย'>นาย</option>
-            <option value='นางสาว' selected>นางสาว</option>
-            <option value='นาง'>นาง</option>";
-        echo $html;
-    } else if ($members == 'นาง') {
-        $html = "
-            <option value=''></option>
-            <option value='นาย'>นาย</option>
-            <option value='นางสาว'>นางสาว</option>
-            <option value='นาง' selected>นาง</option>";
-        echo $html;
-    } else {
-        $html = "
-            <option value='' selected></option>
-            <option value='นาย'>นาย</option>
-            <option value='นางสาว'>นางสาว</option>
-            <option value='นาง' >นาง</option>";
-        echo $html;
+    $html = "";
+    $html .= "<option value=''></option>";
+    foreach ($GLOBALS['prefixs'] as $prefix) {
+        if ($prefix['prefixName'] == $members) {
+            $html .= "<option value='$prefix[prefixName]' selected>$prefix[prefixName]</option>";
+        } else {
+            $html .= "<option value='$prefix[prefixName]'>$prefix[prefixName]</option>";
+        }
     }
+    echo $html;
 }
+
+function checkTeacherSelected($teacher_thesis, $teacher_names)
+{
+    $html = "";
+    foreach ($teacher_names as $teacher) {
+        if ($teacher == $teacher_thesis) {
+            $html .= " <option value='$teacher' selected>$teacher</option>";
+        } else {
+            $html .= " <option value='$teacher'>$teacher</option>";
+        }
+    }
+    echo $html;
+}
+
+function checkPositionSelected($position_thesis, $positions)
+{
+    $html = "";
+    foreach ($positions as $position) {
+        if ($position_thesis === $position['positionName']) {
+            $html .= " <option value='$position[positionName]' selected>$position[positionName]</option>";
+        } else {
+            $html .= " <option value='$position[positionName]'>$position[positionName]</option>";
+        }
+    }
+    echo $html;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -98,8 +134,8 @@ function checkPrefixMembers($members)
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3 mb-3">
                         <div class="col form-group">
                             <label for="member1_prefix">คำนำหน้า</label>
-                            <select class="form-select" name="member1_prefix" required>
-                                <?php checkPrefixMembers($members[0]['prefix']); ?>
+                            <select class="form-select" name="member3_prefix" id="member3_prefix">
+                                <?php checkPrefixMembers($members[0]['prefix']) ?>
                             </select>
                         </div>
                         <div class="col form-group">
@@ -185,39 +221,10 @@ function checkPrefixMembers($members)
             <label for="advisor">อาจารย์ที่ปรึกษาหลัก</label>
             <select class="form-select" name="advisor" id="advisor" onchange="advisorChange()">
                 <option value=""></option>
-                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
-                                                                    echo "selected";
-                                                                } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
-                                                                                echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์') {
-                                                                            echo "selected";
-                                                                        } ?>>ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                <option value="ดร. ปอลิน กองสุวรรณ" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ดร. ปอลิน กองสุวรรณ') {
-                                                        echo "selected";
-                                                    } ?>>ดร.ปอลิน กองสุวรรณ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'อาจารย์ พัฒณ์รพี สุนันทพจน์') {
-                                                                echo "selected";
-                                                            } ?>>อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา') {
-                                                                        echo "selected";
-                                                                    } ?>>รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
-                                                            echo "selected";
-                                                        } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
+                <?php
+                $teacher_thesis = $row['prefix_advisor'] . " " . $row['name_advisor'] . " " . $row['surname_advisor'];
+                checkTeacherSelected($teacher_thesis, $teacher_names);
+                ?>
                 <option value="other" id='advisor_other_option'>อื่น ๆ</option>
             </select>
         </div>
@@ -227,14 +234,9 @@ function checkPrefixMembers($members)
                 <label for="advisor_other_prefix">คำนำหน้า</label>
                 <select class="form-select" name="advisor_other_prefix" id="advisor_other_prefix">
                     <option value=""></option>
-                    <option value="ดร.">ดร.</option>
-                    <option value="ศ.">ศ.</option>
-                    <option value="ศ.ดร.">ศ.ดร.</option>
-                    <option value="รศ.">รศ.</option>
-                    <option value="รศ.ดร.">รศ.ดร.</option>
-                    <option value="ผศ.">ผศ.</option>
-                    <option value="ผศ.ดร.">ผศ.ดร.</option>
-                    <option value="อาจารย์">อาจารย์</option>
+                    <?php 
+                        checkPositionSelected($row['prefix_advisor'], $positions);
+                    ?>
                 </select>
             </div>
             <div class="col form-group">
@@ -250,40 +252,10 @@ function checkPrefixMembers($members)
         <div class="form-group mb-3">
             <label class="" for="coAdvisor">อาจารย์ที่ปรึกษาร่วม</label>
             <select class="form-select" name="coAdvisor" id="coAdvisor" onchange="coAdvisorChange()">
-                <option value=""></option>
-                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
-                                                                    echo "selected";
-                                                                } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
-                                                                                echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์') {
-                                                                            echo "selected";
-                                                                        } ?>>ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                <option value="ดร. ปอลิน กองสุวรรณ" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ดร. ปอลิน กองสุวรรณ') {
-                                                        echo "selected";
-                                                    } ?>>ดร.ปอลิน กองสุวรรณ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'อาจารย์ พัฒณ์รพี สุนันทพจน์') {
-                                                                echo "selected";
-                                                            } ?>>อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา') {
-                                                                        echo "selected";
-                                                                    } ?>>รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
-                                                            echo "selected";
-                                                        } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
+                <?php
+                $teacher_thesis = $row['prefix_coAdvisor'] . " " . $row['name_coAdvisor'] . " " . $row['surname_coAdvisor'];
+                checkTeacherSelected($teacher_thesis, $teacher_names);
+                ?>
                 <option value="other" id="coAdvisor_other_option">อื่น ๆ</option>
             </select>
         </div>
@@ -293,14 +265,9 @@ function checkPrefixMembers($members)
                 <label for="coAdvisor_other_prefix">คำนำหน้า</label>
                 <select class="form-select" name="coAdvisor_other_prefix">
                     <option value=""></option>
-                    <option value="ดร.">ดร.</option>
-                    <option value="ศ.">ศ.</option>
-                    <option value="ศ.ดร.">ศ.ดร.</option>
-                    <option value="รศ.">รศ.</option>
-                    <option value="รศ.ดร.">รศ.ดร.</option>
-                    <option value="ผศ.">ผศ.</option>
-                    <option value="ผศ.ดร.">ผศ.ดร.</option>
-                    <option value="อาจารย์">อาจารย์</option>
+                    <?php 
+                        checkPositionSelected($row['prefix_coAdvisor'], $positions);
+                    ?>
                 </select>
             </div>
             <div class="col form-group">
@@ -317,39 +284,10 @@ function checkPrefixMembers($members)
             <label class="" for="chairman">ประธานกรรมการ</label>
             <select class="form-select" name="chairman" id="chairman" onchange="chairmanChange()">
                 <option value=""></option>
-                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
-                                                                    echo "selected";
-                                                                } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
-                                                                                echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์') {
-                                                                            echo "selected";
-                                                                        } ?>>ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                <option value="ดร. ปอลิน กองสุวรรณ" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ดร. ปอลิน กองสุวรรณ') {
-                                                        echo "selected";
-                                                    } ?>>ดร.ปอลิน กองสุวรรณ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'อาจารย์ พัฒณ์รพี สุนันทพจน์') {
-                                                                echo "selected";
-                                                            } ?>>อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา') {
-                                                                        echo "selected";
-                                                                    } ?>>รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
-                                                            echo "selected";
-                                                        } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
+                <?php
+                $teacher_thesis = $row['prefix_chairman'] . " " . $row['name_chairman'] . " " . $row['surname_chairman'];
+                checkTeacherSelected($teacher_thesis, $teacher_names);
+                ?>
                 <option value="other" id="chairman_other_option">อื่น ๆ</option>
             </select>
         </div>
@@ -359,14 +297,9 @@ function checkPrefixMembers($members)
                 <label for="chairman_other_prefix">คำนำหน้า</label>
                 <select class="form-select" name="chairman_other_prefix">
                     <option value=""></option>
-                    <option value="ดร.">ดร.</option>
-                    <option value="ศ.">ศ.</option>
-                    <option value="ศ.ดร.">ศ.ดร.</option>
-                    <option value="รศ.">รศ.</option>
-                    <option value="รศ.ดร.">รศ.ดร.</option>
-                    <option value="ผศ.">ผศ.</option>
-                    <option value="ผศ.ดร.">ผศ.ดร.</option>
-                    <option value="อาจารย์">อาจารย์</option>
+                    <?php 
+                        checkPositionSelected($row['prefix_chairman'], $positions);
+                    ?>
                 </select>
             </div>
             <div class="col form-group">
@@ -383,40 +316,11 @@ function checkPrefixMembers($members)
             <label class="" for="director1">กรรมการคนที่ 1</label>
             <select class="form-select" name="director1" id="director1" onchange="director1Change()">
                 <option value=""></option>
-                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
-                                                                    echo "selected";
-                                                                } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
-                                                                                echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์') {
-                                                                            echo "selected";
-                                                                        } ?>>ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                <option value="ดร. ปอลิน กองสุวรรณ" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ดร. ปอลิน กองสุวรรณ') {
-                                                        echo "selected";
-                                                    } ?>>ดร.ปอลิน กองสุวรรณ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'อาจารย์ พัฒณ์รพี สุนันทพจน์') {
-                                                                echo "selected";
-                                                            } ?>>อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา') {
-                                                                        echo "selected";
-                                                                    } ?>>รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
-                                                            echo "selected";
-                                                        } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
-                 <option value="other" id="director1_other_option">อื่น ๆ</option>
+                <?php
+                $teacher_thesis = $row['prefix_director1'] . " " . $row['name_director1'] . " " . $row['surname_director1'];
+                checkTeacherSelected($teacher_thesis, $teacher_names);
+                ?>
+                <option value="other" id="director1_other_option">อื่น ๆ</option>
             </select>
         </div>
 
@@ -425,14 +329,9 @@ function checkPrefixMembers($members)
                 <label for="director1_other_prefix">คำนำหน้า</label>
                 <select class="form-select" name="director1_other_prefix">
                     <option value=""></option>
-                    <option value="ดร.">ดร.</option>
-                    <option value="ศ.">ศ.</option>
-                    <option value="ศ.ดร.">ศ.ดร.</option>
-                    <option value="รศ.">รศ.</option>
-                    <option value="รศ.ดร.">รศ.ดร.</option>
-                    <option value="ผศ.">ผศ.</option>
-                    <option value="ผศ.ดร.">ผศ.ดร.</option>
-                    <option value="อาจารย์">อาจารย์</option>
+                    <?php 
+                        checkPositionSelected($row['prefix_director1'], $positions);
+                    ?>
                 </select>
             </div>
             <div class="col form-group">
@@ -449,40 +348,11 @@ function checkPrefixMembers($members)
             <label class="" for="director2">กรรมการคนที่ 2</label>
             <select class="form-select" name="director2" id="director2" onchange="director2Change()">
                 <option value=""></option>
-                <option value="ผู้ช่วยศาสตราจารย์ มาโนช ประชา" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ มาโนช ประชา') {
-                                                                    echo "selected";
-                                                                } ?>>ผู้ช่วยศาสตราจารย์ มาโนช ประชา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ดร. ศิริชัย เตรียมล้ำเลิศ') {
-                                                                                echo "selected";
-                                                                            } ?>>ผู้ช่วยศาสตราจารย์ ดร.ศิริชัย เตรียมล้ำเลิศ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ นชิรัตน์ ราชบุรี</option>
-                <option value="ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์') {
-                                                                            echo "selected";
-                                                                        } ?>>ผู้ช่วยศาสตราจารย์ สมรรถชัย จันทรัตน์</option>
-                <option value="ดร. ปอลิน กองสุวรรณ" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ดร. ปอลิน กองสุวรรณ') {
-                                                        echo "selected";
-                                                    } ?>>ดร.ปอลิน กองสุวรรณ</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ เดชรัชต์ ใจถวิล') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เดชรัชต์ ใจถวิล</option>
-                <option value="อาจารย์ พัฒณ์รพี สุนันทพจน์" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'อาจารย์ พัฒณ์รพี สุนันทพจน์') {
-                                                                echo "selected";
-                                                            } ?>>อาจารย์พัฒณ์รพี สุนันทพจน์</option>
-                <option value="ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ เจษฎา อรุณฤกษ์') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์เจษฎา อรุณฤกษ์</option>
-                <option value="รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'รองศาสตราจารย์ดร. พฤศยน นินทนาวงศา') {
-                                                                        echo "selected";
-                                                                    } ?>>รองศาสตราจารย์ ดร.พฤศยน นินทนาวงศา</option>
-                <option value="ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ผู้ช่วยศาสตราจารย์ดร. ธนสิน บุญนาม') {
-                                                                        echo "selected";
-                                                                    } ?>>ผู้ช่วยศาสตราจารย์ ดร.ธนสิน บุญนาม</option>
-                <option value="ดร. พิชยพัชยา ศรีคร้าม" <?php if ($row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'] == 'ดร. พิชยพัชยา ศรีคร้าม') {
-                                                            echo "selected";
-                                                        } ?>>ดร.พิชยพัชยา ศรีคร้าม</option>
-                 <option value="other" id="director2_other_option">อื่น ๆ</option>
+                <?php
+                $teacher_thesis = $row['prefix_director2'] . " " . $row['name_director2'] . " " . $row['surname_director2'];
+                checkTeacherSelected($teacher_thesis, $teacher_names);
+                ?>
+                <option value="other" id="director2_other_option">อื่น ๆ</option>
             </select>
         </div>
 
@@ -491,14 +361,9 @@ function checkPrefixMembers($members)
                 <label for="director2_other_prefix">คำนำหน้า</label>
                 <select class="form-select" name="director2_other_prefix">
                     <option value=""></option>
-                    <option value="ดร.">ดร.</option>
-                    <option value="ศ.">ศ.</option>
-                    <option value="ศ.ดร.">ศ.ดร.</option>
-                    <option value="รศ.">รศ.</option>
-                    <option value="รศ.ดร.">รศ.ดร.</option>
-                    <option value="ผศ.">ผศ.</option>
-                    <option value="ผศ.ดร.">ผศ.ดร.</option>
-                    <option value="อาจารย์">อาจารย์</option>
+                    <?php 
+                        checkPositionSelected($row['prefix_director2'], $positions);
+                    ?>
                 </select>
             </div>
             <div class="col form-group">
@@ -622,7 +487,7 @@ function checkPrefixMembers($members)
         let prefix_advisor = <?php echo json_encode($row['prefix_advisor']); ?>;
         let name_advisor = <?php echo json_encode($row['name_advisor']); ?>;
         let surname_advisor = <?php echo json_encode($row['surname_advisor']); ?>;
-        if(prefix_advisor !== '' && advisorSelect.value == '') {
+        if (prefix_advisor !== '' && advisorSelect.value == '') {
             teacher_other_option.selected = true
         }
         if (advisorSelect.value == 'other') {
@@ -631,28 +496,9 @@ function checkPrefixMembers($members)
 
             document.querySelector("[name='advisor_other_firstname']").value = name_advisor
             document.querySelector("[name='advisor_other_lastname']").value = surname_advisor
-            if (prefix_advisor == "ศาสตราจารย์") {
-                prefix_advisor = "ศ.";
-            }
-            if (prefix_advisor == "ศาสตราจารย์ ดร.") {
-                prefix_advisor = "ศ.ดร.";
-            }
-            if (prefix_advisor == "รองศาสตราจารย์") {
-                prefix_advisor = "รศ.";
-            }
-            if (prefix_advisor == "รองศาสตราจารย์ ดร.") {
-                prefix_advisor = "รศ.ดร.";
-            }
-            if (prefix_advisor == "ผู้ช่วยศาสตราจารย์") {
-                prefix_advisor = "ผศ.";
-            }
-            if (prefix_advisor == "ผู้ช่วยศาสตราจารย์ ดร.") {
-                prefix_advisor = "ผศ.ดร.";
-            }
-            document.querySelector("[name='advisor_other_prefix']").value = prefix_advisor
         }
 
-        
+
         const coAdvisorChange = () => {
             let advisorDOM = document.getElementById('coAdvisor');
             if (advisorDOM.value === 'other') {
@@ -666,7 +512,7 @@ function checkPrefixMembers($members)
         let prefix_coAdvisor = <?php echo json_encode($row['prefix_coAdvisor']); ?>;
         let name_coAdvisor = <?php echo json_encode($row['name_coAdvisor']); ?>;
         let surname_coAdvisor = <?php echo json_encode($row['surname_coAdvisor']); ?>;
-        if(prefix_coAdvisor !== '' && coAdvisorSelect.value == '') {
+        if (prefix_coAdvisor !== '' && coAdvisorSelect.value == '') {
             coAdvisor_other_option.selected = true
         }
         if (coAdvisorSelect.value == 'other') {
@@ -675,25 +521,6 @@ function checkPrefixMembers($members)
 
             document.querySelector("[name='coAdvisor_other_firstname']").value = name_coAdvisor
             document.querySelector("[name='coAdvisor_other_lastname']").value = surname_coAdvisor
-            if (prefix_coAdvisor == "ศาสตราจารย์") {
-                prefix_coAdvisor = "ศ.";
-            }
-            if (prefix_coAdvisor == "ศาสตราจารย์ ดร.") {
-                prefix_coAdvisor = "ศ.ดร.";
-            }
-            if (prefix_coAdvisor == "รองศาสตราจารย์") {
-                prefix_coAdvisor = "รศ.";
-            }
-            if (prefix_coAdvisor == "รองศาสตราจารย์ ดร.") {
-                prefix_coAdvisor = "รศ.ดร.";
-            }
-            if (prefix_coAdvisor == "ผู้ช่วยศาสตราจารย์") {
-                prefix_coAdvisor = "ผศ.";
-            }
-            if (prefix_coAdvisor == "ผู้ช่วยศาสตราจารย์ ดร.") {
-                prefix_coAdvisor = "ผศ.ดร.";
-            }
-            document.querySelector("[name='coAdvisor_other_prefix']").value = prefix_coAdvisor
         }
 
         const chairmanChange = () => {
@@ -709,7 +536,7 @@ function checkPrefixMembers($members)
         let prefix_chairman = <?php echo json_encode($row['prefix_chairman']); ?>;
         let name_chairman = <?php echo json_encode($row['name_chairman']); ?>;
         let surname_chairman = <?php echo json_encode($row['surname_chairman']); ?>;
-        if(prefix_chairman !== '' && chairmanSelect.value == '') {
+        if (prefix_chairman !== '' && chairmanSelect.value == '') {
             chairman_other_option.selected = true
         }
         if (chairmanSelect.value == 'other') {
@@ -718,25 +545,6 @@ function checkPrefixMembers($members)
 
             document.querySelector("[name='chairman_other_firstname']").value = name_chairman
             document.querySelector("[name='chairman_other_lastname']").value = surname_chairman
-            if (prefix_chairman == "ศาสตราจารย์") {
-                prefix_chairman = "ศ.";
-            }
-            if (prefix_chairman == "ศาสตราจารย์ ดร.") {
-                prefix_chairman = "ศ.ดร.";
-            }
-            if (prefix_chairman == "รองศาสตราจารย์") {
-                prefix_chairman = "รศ.";
-            }
-            if (prefix_chairman == "รองศาสตราจารย์ ดร.") {
-                prefix_chairman = "รศ.ดร.";
-            }
-            if (prefix_chairman == "ผู้ช่วยศาสตราจารย์") {
-                prefix_chairman = "ผศ.";
-            }
-            if (prefix_chairman == "ผู้ช่วยศาสตราจารย์ ดร.") {
-                prefix_chairman = "ผศ.ดร.";
-            }
-            document.querySelector("[name='chairman_other_prefix']").value = prefix_chairman
         }
 
         const director1Change = () => {
@@ -751,7 +559,7 @@ function checkPrefixMembers($members)
         let prefix_director1 = <?php echo json_encode($row['prefix_director1']); ?>;
         let name_director1 = <?php echo json_encode($row['name_director1']); ?>;
         let surname_director1 = <?php echo json_encode($row['surname_director1']); ?>;
-        if(prefix_director1 !== '' && director1Select.value == '') {
+        if (prefix_director1 !== '' && director1Select.value == '') {
             director1_other_option.selected = true
         }
         if (director1Select.value == 'other') {
@@ -760,25 +568,6 @@ function checkPrefixMembers($members)
 
             document.querySelector("[name='director1_other_firstname']").value = name_director1
             document.querySelector("[name='director1_other_lastname']").value = surname_director1
-            if (prefix_director1 == "ศาสตราจารย์") {
-                prefix_director1 = "ศ.";
-            }
-            if (prefix_director1 == "ศาสตราจารย์ ดร.") {
-                prefix_director1 = "ศ.ดร.";
-            }
-            if (prefix_director1 == "รองศาสตราจารย์") {
-                prefix_director1 = "รศ.";
-            }
-            if (prefix_director1 == "รองศาสตราจารย์ ดร.") {
-                prefix_director1 = "รศ.ดร.";
-            }
-            if (prefix_director1 == "ผู้ช่วยศาสตราจารย์") {
-                prefix_director1 = "ผศ.";
-            }
-            if (prefix_director1 == "ผู้ช่วยศาสตราจารย์ ดร.") {
-                prefix_director1 = "ผศ.ดร.";
-            }
-            document.querySelector("[name='director1_other_prefix']").value = prefix_director1
         }
 
         const director2Change = () => {
@@ -793,7 +582,7 @@ function checkPrefixMembers($members)
         let prefix_director2 = <?php echo json_encode($row['prefix_director2']); ?>;
         let name_director2 = <?php echo json_encode($row['name_director2']); ?>;
         let surname_director2 = <?php echo json_encode($row['surname_director2']); ?>;
-        if(prefix_director2 !== '' && director2Select.value == '') {
+        if (prefix_director2 !== '' && director2Select.value == '') {
             director2_other_option.selected = true
         }
         if (director2Select.value == 'other') {
@@ -802,25 +591,6 @@ function checkPrefixMembers($members)
 
             document.querySelector("[name='director2_other_firstname']").value = name_director2
             document.querySelector("[name='director2_other_lastname']").value = surname_director2
-            if (prefix_director2 == "ศาสตราจารย์") {
-                prefix_director2 = "ศ.";
-            }
-            if (prefix_director2 == "ศาสตราจารย์ ดร.") {
-                prefix_director2 = "ศ.ดร.";
-            }
-            if (prefix_director2 == "รองศาสตราจารย์") {
-                prefix_director2 = "รศ.";
-            }
-            if (prefix_director2 == "รองศาสตราจารย์ ดร.") {
-                prefix_director2 = "รศ.ดร.";
-            }
-            if (prefix_director2 == "ผู้ช่วยศาสตราจารย์") {
-                prefix_director2 = "ผศ.";
-            }
-            if (prefix_director2 == "ผู้ช่วยศาสตราจารย์ ดร.") {
-                prefix_director2 = "ผศ.ดร.";
-            }
-            document.querySelector("[name='director2_other_prefix']").value = prefix_director2
         }
 
         const checkPDF = (event) => {
