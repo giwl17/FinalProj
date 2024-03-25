@@ -16,8 +16,10 @@
 <body>
   <?php
   session_start();
-  if ($_SESSION['isLogin']) {
-    header("Location: /FinalProj");
+  if (isset($_SESSION['isLogin'])) {
+    if ($_SESSION['isLogin']) {
+      header("Location: /FinalProj");
+    }
   }
 
   include 'dbconnect.php';
