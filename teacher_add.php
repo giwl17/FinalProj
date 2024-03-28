@@ -1,3 +1,18 @@
+<?php
+
+require_once("dbconnect.php");
+try {
+    $stmt = $conn->prepare("SELECT positionName FROM academic_positions");
+    $stmt->execute();
+    $rows_position = $stmt->fetchAll(); 
+} catch (PDOException $e) {
+    echo "failed database : " . $e->getMessage();
+} finally {
+    $conn = null;
+    $stmt = null;
+}
+?>
+
 <html lang="en">
 
 <head>
@@ -63,20 +78,15 @@
                             <label for="prefix" class="form-label">คำนำหน้า</label>
                             <select class="form-select" id="prefix" name="prefix" onchange="otherShow()" required>
                                 <option value="">กรุณาเลือกคำนำหน้า</option>
-                                <option value="ดร.">ดร.</option>
-                                <option value="ศ.">ศ.</option>
-                                <option value="ศ.ดร.">ศ.ดร.</option>
-                                <option value="รศ.">รศ.</option>
-                                <option value="รศ.ดร.">รศ.ดร.</option>
-                                <option value="ผศ.">ผศ.</option>
-                                <option value="ผศ.ดร.">ผศ.ดร.</option>
-                                <option value="อาจารย์">อาจารย์</option>
+                                <?php foreach ($rows_position as $position) : ?>
+                                    <option value="<?= $position['positionName'] ?>"><?= $position['positionName'] ?></option>
+                                <?php endforeach; ?>
                                 <option value="other">อื่นๆ</option>
                             </select>
                         </div>
                         <div class="col-md-2" id="other" name="other" style="display: none;" required>
                             <label for="name" class="form-label">คำนำหน้า</label>
-                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า" >
+                            <input type="text" class="form-control" id="otherPrefix" name="otherPrefix" placeholder="กรุณาใส่คำนำหน้า">
                         </div>
                         <div class="col-md-4">
                             <label for="name" class="form-label">ชื่อ</label>
@@ -165,6 +175,19 @@
         <br>
     </div>
     <script>
+        function otherShow() {
+            var prefixSelect = document.getElementById("prefix");
+            var otherDiv = document.getElementById("other");
+
+            if (prefixSelect.value === "other") {
+                otherDiv.style.display = "block";
+                otherDiv.setAttribute("required", "required");
+            } else {
+                otherDiv.style.display = "none";
+                otherDiv.removeAttribute("required");
+            }
+        }
+
         document.getElementById('csvFile').addEventListener('change', handleFile);
 
         function handleFile(event) {
@@ -211,18 +234,7 @@
             tableContainer.innerHTML = tableHTML;
         }
 
-        function otherShow() {
-        var prefixSelect = document.getElementById("prefix");
-        var otherDiv = document.getElementById("other");
-
-        if (prefixSelect.value === "other") {
-            otherDiv.style.display = "block";
-            otherDiv.setAttribute("required", "required");
-        } else {
-            otherDiv.style.display = "none";
-            otherDiv.removeAttribute("required");
-        }
-    }
+        
     </script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
