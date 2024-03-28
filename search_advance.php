@@ -139,8 +139,7 @@
             </div>
 
         </form>
-
-        <!-- <?php require "thesislist_db.php"  ?> -->
+        
         <!-- ส่วนแสดงรายการ -->
         <div class="container d-flex flex-column my-5 gap-3 position-relative" id="showData">
 
