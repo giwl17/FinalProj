@@ -1,8 +1,8 @@
 <?php
 require "dbconnect.php";
-if (isset($_GET['data']) && $_GET['selected']) {
-    $input = $_GET['data'];
-    $selected = $_GET['selected'];
+if (isset($_POST['data']) && $_POST['selected']) {
+    $input = $_POST['data'];
+    $selected = $_POST['selected'];
 
     if ($selected == 'all') {
         $inputLike = "" . $input . "%";

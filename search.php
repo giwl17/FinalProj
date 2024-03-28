@@ -94,7 +94,7 @@ $start_from = ($page - 1) * $per_page_record;
 
     <div class='container d-flex flex-column my-5 gap-3 position-relative'>
         <div class="d-flex flex-column">
-            <form class="d-flex position-relative" action="search.php">
+            <form class="d-flex position-relative" action="search" method="POST">
                 <label class="position-absolute" style="top: -1.5rem;">ค้นหารายการจาก</label>
                 <select name="selected" id="selectSearch" class="form-select rounded-start-3 rounded-0 w-auto">
                     <option value="all" <?php if ($searchSelect == 'all') {
