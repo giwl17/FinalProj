@@ -1,12 +1,12 @@
 <?php
 require "dbconnect.php";
 
-if (isset($_GET['selected']) && isset($_GET['data'])) {
-    $searchSelect = $_GET['selected'];
-    $dataInput = $_GET['data'];
+if (isset($_POST['selected']) && isset($_POST['data'])) {
+    $searchSelect = $_POST['selected'];
+    $dataInput = $_POST['data'];
 } else {
-    if (isset($_GET['advisor'])) {
-        $advisor = $_GET['advisor'];
+    if (isset($_POST['advisor'])) {
+        $advisor = $_POST['advisor'];
         if (strpos($advisor, "_") !== false) {
             $advisor = explode("_", $advisor);
         } else {
@@ -18,8 +18,8 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
         $surname_advisor = $advisor[2];
 
         $searchSelect = 'advisor';
-    } else if (isset($_GET['coAdvisor'])) {
-        $coAdvisor = $_GET['coAdvisor'];
+    } else if (isset($_POST['coAdvisor'])) {
+        $coAdvisor = $_POST['coAdvisor'];
         if (strpos($coAdvisor, "_") !== false) {
             try {
                 $coAdvisor = explode("_", $coAdvisor);
@@ -44,30 +44,30 @@ if (isset($_GET['selected']) && isset($_GET['data'])) {
             }
         }
         $searchSelect = 'advisor';
-    } else if (isset($_GET['printed'])) {
-        $printed = $_GET['printed'];
+    } else if (isset($_POST['printed'])) {
+        $printed = $_POST['printed'];
         $searchSelect = 'printed_year';
-    } else if (isset($_GET['approval'])) {
-        $approval = $_GET['approval'];
+    } else if (isset($_POST['approval'])) {
+        $approval = $_POST['approval'];
 
         $approvalEx = explode("/", $approval);
         $semester = $approvalEx[0];
         $approval_year = $approvalEx[1];
 
         $searchSelect = "semester";
-    } else if (isset($_GET['keyword'])) {
-        $keyword = $_GET['keyword'];
+    } else if (isset($_POST['keyword'])) {
+        $keyword = $_POST['keyword'];
         $searchSelect = 'keyword';
-    } else if (isset($_GET['abstract'])) {
-        $abstract = $_GET['abstract'];
+    } else if (isset($_POST['abstract'])) {
+        $abstract = $_POST['abstract'];
         $searchSelect = 'abstract';
     }
 }
 
 //set limit show per page
 $per_page_record = 10;
-if (isset($_GET["page"])) {
-    $page  = $_GET["page"];
+if (isset($_POST["page"])) {
+    $page  = $_POST["page"];
 } else {
     $page = 1;
 }
@@ -124,7 +124,7 @@ $start_from = ($page - 1) * $per_page_record;
                 </select>
 
                 <div class="flex-grow-1 position-relative">
-                    <?php if (isset($_GET['selected'])) : ?>
+                    <?php if (isset($_POST['selected'])) : ?>
                         <input type="text" name="data" id="inputSearch" class="form-control rounded-end-3 rounded-0" value="<?php echo $dataInput; ?>">
                     <?php else : ?>
                         <?php if ($searchSelect === 'advisor' or $searchSelect === 'coAdvisor') : ?>
@@ -151,7 +151,7 @@ $start_from = ($page - 1) * $per_page_record;
         <?php        
 
         try {
-            if (isset($_GET['selected'])) {
+            if (isset($_POST['selected'])) {
                 if ($searchSelect == 'author') {
                     require "database.php";
                     $db_con = new Database();

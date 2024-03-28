@@ -128,25 +128,30 @@
                 }
                 htmlTxt += `</div>`;
 
-                htmlTxt += `<div>อาจารยที่ปรึกษา <a href='search?advisor=${row.prefix_advisor}_${row.name_advisor}_${row.surname_advisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_advisor} ${row.name_advisor} ${row.surname_advisor}</a>`;
+                htmlTxt += `
+                <form action='search' method='post'>
+                    <div>อาจารยที่ปรึกษา <button name='advisor' value='${row.prefix_advisor}_${row.name_advisor}_${row.surname_advisor}' class='link-primary border-0 bg-transparent'>${row.prefix_advisor} ${row.name_advisor} ${row.surname_advisor}</button>
+                `;
                 if (row.prefix_coAdvisor != '') {
                     htmlTxt += ",&nbsp;";
-                    htmlTxt += `<a href='search?coAdvisor=${row.prefix_coAdvisor}_${row.name_coAdvisor}_${row.surname_coAdvisor}' class='link-primary' style='text-decoration:none;'>${row.prefix_coAdvisor} ${row.name_coAdvisor} ${row.surname_coAdvisor}</a>`;
+                    htmlTxt += `
+                    <button name='coAdvisor' value='${row.prefix_coAdvisor}_${row.name_coAdvisor}_${row.surname_coAdvisor}' class='link-primary border-0 bg-transparent'>${row.prefix_coAdvisor} ${row.name_coAdvisor} ${row.surname_coAdvisor}</button>
+                    `;
                 }
                 htmlTxt += "</div>";
 
                 let keyword = row.keyword.split(", ");
                 htmlTxt += `<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp;`;
                 for (let i = 0; i < keyword.length; i++) {
-                    htmlTxt += `<a style='text-decoration:none;' href='search?keyword=${keyword[i]}'>${keyword[i]}</a>`;
+                    htmlTxt += `<button name='keyword' class='link-primary border-0 bg-transparent' value='${keyword[i]}'>${keyword[i]}</button>`;
                     if (!(i == keyword.length - 1)) {
                         htmlTxt += ",&nbsp;";
                     }
                 }
                 htmlTxt += "</div>";
 
-                htmlTxt += ` <div>ปีที่พิมพ์เล่ม <a href='search?printed=${row.printed_year}' class='link-primary' style='text-decoration:none;'>${row.printed_year}</a></div>`;
-
+                htmlTxt += ` <div>ปีที่พิมพ์เล่ม <button name='printed' class='link-primary border-0 bg-transparent' value='${row.printed_year}'>${row.printed_year}</button></div>`;
+                htmlTxt += `</form>`;
                 htmlTxt += `</div>`;
             });
             htmlTxtPage += `
