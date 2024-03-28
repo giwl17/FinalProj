@@ -182,26 +182,28 @@ $start_from = ($page - 1) * $per_page_record;
                                                 $count++;
                                             }
                                         }
-                                        $u = '_';
+
                                         echo "</div>";
-                                        echo "<div>อาจารยที่ปรึกษา <a href='search?advisor=$row[prefix_advisor]$u$row[name_advisor]$u$row[surname_advisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</a>";
+                                        echo "<form action='search' method='post'>";
+                                        echo "<div>อาจารยที่ปรึกษา <button name='advisor' class='link-primary border-0 bg-transparent' value='$row[prefix_advisor]_$row[name_advisor]_$row[surname_advisor]'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</button>";
                                         if ($row['prefix_coAdvisor'] != '') {
                                             echo ", ";
-                                            echo "<a href='search?coAdvisor=$row[prefix_coAdvisor]$u$row[name_coAdvisor]$u$row[surname_coAdvisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</a>";
+                                            echo "<button name='coAdvisor' class='link-primary border-0 bg-transparent' value='$row[prefix_coAdvisor]_$row[name_coAdvisor]_$row[surname_coAdvisor]'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</button>";
                                         }
                                         echo "</div>";
 
                                         $keyword = explode(", ", $row['keyword']);
                                         echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
                                         for ($i = 0; $i < count($keyword); $i++) {
-                                            echo "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                                            echo "<button name='keyword' class='link-primary border-0 bg-transparent' value='$keyword[$i]'>$keyword[$i]</button>";
                                             if (!($i == count($keyword) - 1)) {
                                                 echo ",&nbsp";
                                             }
                                         }
                                         echo "</div>";
 
-                                        echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
+                                        echo "<div>ปีที่พิมพ์เล่ม <button name='printed' class='link-primary border-0 bg-transparent' value='$row[printed_year]'>$row[printed_year]</button></div>";
+                                        echo "</form>";
                                         echo "</div>";
 
                                         $countFound++;
@@ -505,28 +507,30 @@ $start_from = ($page - 1) * $per_page_record;
                                     }
                                 }
                             }
-                            $u = '_';
-                            echo "</div>";
-                            echo "<div>อาจารยที่ปรึกษา <a href='search?advisor=$row[prefix_advisor]$u$row[name_advisor]$u$row[surname_advisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</a>";
-                            if ($row['prefix_coAdvisor'] != '') {
-                                echo ", ";
-                                echo "<a href='search?coAdvisor=$row[prefix_coAdvisor]$u$row[name_coAdvisor]$u$row[surname_coAdvisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</a>";
-                            }
-                            echo "</div>";
 
-                            // echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
-
-                            $keyword = explode(", ", $row['keyword']);
-                            echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
-                            for ($i = 0; $i < count($keyword); $i++) {
-                                echo "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
-                                if (!($i == count($keyword) - 1)) {
-                                    echo ",&nbsp";
+                            echo "</div>";
+                            echo "<form action='search' method='post'>";
+                                echo "<div>อาจารยที่ปรึกษา <button name='advisor' class='link-primary border-0 bg-transparent' value='$row[prefix_advisor]_$row[name_advisor]_$row[surname_advisor]'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</button>";
+                                if ($row['prefix_coAdvisor'] != '') {
+                                    echo ", ";
+                                    echo "<button name='coAdvisor' class='link-primary border-0 bg-transparent' value='$row[prefix_coAdvisor]_$row[name_coAdvisor]_$row[surname_coAdvisor]'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</button>";
                                 }
-                            }
-                            echo "</div>";
+                                echo "</div>";
 
-                            echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
+                                // echo "<div>คำสำคัญ <a href='#'>$row[keyword]</a></div>";
+
+                                $keyword = explode(", ", $row['keyword']);
+                                echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
+                                for ($i = 0; $i < count($keyword); $i++) {
+                                    echo "<button name='keyword' class='link-primary border-0 bg-transparent' value='$keyword[$i]'>$keyword[$i]</button>";
+                                    if (!($i == count($keyword) - 1)) {
+                                        echo ",&nbsp";
+                                    }
+                                }
+                                echo "</div>";
+
+                                echo "<div>ปีที่พิมพ์เล่ม <button name='printed' class='link-primary border-0 bg-transparent' value='$row[printed_year]'>$row[printed_year]</button></div>";
+                            echo "</form>";
                             echo "</div>";
                         }
         ?>
@@ -641,28 +645,26 @@ $start_from = ($page - 1) * $per_page_record;
                                 }
                             }
                         }
-                        $u = '_';
                         echo "</div>";
-                        echo "<div>อาจารยที่ปรึกษา <a href='search?advisor=$row[prefix_advisor]$u$row[name_advisor]$u$row[surname_advisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</a>";
+                        echo "<form action='search' method='post'>";
+                        echo "<div>อาจารยที่ปรึกษา <button name='advisor' class='link-primary border-0 bg-transparent' value='$row[prefix_advisor]_$row[name_advisor]_$row[surname_advisor]'>$row[prefix_advisor] $row[name_advisor] $row[surname_advisor]</button>";
                         if ($row['prefix_coAdvisor'] != '') {
                             echo ", ";
-                            echo "<a href='search?coAdvisor=$row[prefix_coAdvisor]$u$row[name_coAdvisor]$u$row[surname_coAdvisor]' class='link-primary' style='text-decoration:none;'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</a>";
+                            echo "<button name='coAdvisor' class='link-primary border-0 bg-transparent' value='$row[prefix_coAdvisor]_$row[name_coAdvisor]_$row[surname_coAdvisor]'>$row[prefix_coAdvisor] $row[name_coAdvisor] $row[surname_coAdvisor]</button>";
                         }
                         echo "</div>";
-
-                        // echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>$row[keyword]</a></div>";
 
                         $keyword = explode(", ", $row['keyword']);
                         echo "<div class='col-auto d-flex flex-row'>คำสำคัญ&nbsp";
                         for ($i = 0; $i < count($keyword); $i++) {
-                            echo "<a style='text-decoration:none;' href='search?keyword=$keyword[$i]'>$keyword[$i]</a>";
+                            echo "<button name='keyword' class='link-primary border-0 bg-transparent' value='$keyword[$i]'>$keyword[$i]</button>";
                             if (!($i == count($keyword) - 1)) {
                                 echo ",&nbsp";
                             }
                         }
                         echo "</div>";
 
-                        echo "<div>ปีที่พิมพ์เล่ม <a href='search?printed=$row[printed_year]' class='link-primary' style='text-decoration:none;'>$row[printed_year]</a></div>";
+                        echo "<div>ปีที่พิมพ์เล่ม <button name='printed' class='link-primary border-0 bg-transparent' value='$row[printed_year]'>$row[printed_year]</button></div>";
                         echo "</div>";
                     }
                 } else {
