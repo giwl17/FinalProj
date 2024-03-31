@@ -189,6 +189,7 @@
 
             let tableHTML = '<table>';
             let count = 0;
+            let row_count = 0;
             rows.forEach(row => {
 
                 const columns = row.split(',');
@@ -202,15 +203,23 @@
                             if (column.trim() !== "")
                                 tableHTML += `<td>${column}</td>`;
                         }
+                        row_count++;
                     });
                     tableHTML += '</tr>';
                     count++;
-                }
+                } 
             });
 
-            tableHTML += '</table>';
+            tableHTML += '</table>';  
+                    
+             if(count==1) 
+            tableContainer.innerHTML = "No data in CSV";
+            else if (row_count/count==5)
             tableContainer.innerHTML = tableHTML;
+            else
+            tableContainer.innerHTML = "CSV Incorrect";
         }
+
         function otherShow() {
         var prefixSelect = document.getElementById("prefix");
         var otherDiv = document.getElementById("other");
