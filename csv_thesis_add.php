@@ -1,5 +1,6 @@
  
  <?php
+    session_start();
     $import_by = $_SESSION['prefix'] . $_SESSION['name'] . " " . $_SESSION['lastname'];
     $_SESSION['countInsertSuccess'] = 0;
     require 'vendor/autoload.php';
@@ -467,10 +468,14 @@
             fclose($fileCSV);
         } else {
             // header("Location: thesisadd");
-            echo "no";
+            echo "มีบางอย่างผิดพลาด ไม่ได้อัปโหลดไฟล์ CSV ";
+            echo "<a href='thesisadd'>กลับหน้าเพิ่มปริญญานิพนธ์</a>";
+            die();
         }
     } else {
-        die("มีบางอย่างผิดพลาด");
+        echo "มีบางอย่างผิดพลาด ";
+        echo "<a href='thesisadd'>กลับหน้าเพิ่มปริญญานิพนธ์</a>";
+        die();
     }
 
     function reArrayFiles(&$file_post)
