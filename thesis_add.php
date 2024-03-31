@@ -576,6 +576,7 @@ try {
                         if(!isEqualHeaderTemplate) {
                             tableHTML = "<div class='alert alert-danger'>คอลัมน์ไม่ถูกต้อง กรุณาอัปโหลดไฟล์ CSV ใหม่อีกครั้ง</div>"
                             event.target.value = '';
+                            submitCsvBtn.style.visibility = "hidden";
                             return;
                         }
                         tableHTML += "<tr>";
@@ -616,10 +617,6 @@ try {
             });
         });
 
-        //submit csv
-        $('#submitCsvBtn').on('click', () => {
-
-        })
     </script>
     <script type="text/javascript">
         $(function() {
