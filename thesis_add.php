@@ -424,7 +424,7 @@ try {
                         </div>
                         <!-- table show csv upload -->
                         <div id="areaTable" style="overflow-x:auto; overflow-y:auto; max-height:500px; margin:1.5rem 0;">
-                            <table class="table table-bordered" id="tableCSV">
+                            <table class="table table-bordered table-hover" id="tableCSV">
 
                             </table>
                         </div>
@@ -542,6 +542,9 @@ try {
                     let header = rows[0];
                     let tableHTML = ""
 
+                    let isEqualHeaderTemplate = false;
+                    const headerTemplate = "ปีที่พิมพ์เล่ม,โปรเจคสำเร็จ(เทอม),โปรเจคสำเร็จ(ปีการศึกษา),ชื่อโครงงานภาษาไทย,ชื่อโครงงานภาษาอังกฤษ,รหัสนศ. คนที่ 1,ชื่อ คนที่ 1,นามสกุล คนที่ 1,รหัสนศ. คนที่ 2,ชื่อ คนที่ 2,นามสกุล คนที่ 2,รหัสนศ. คนที่ 3,ชื่อ คนที่ 3,นามสกุล คนที่ 3,ชื่ออาจารย์ที่ปรึกษาหลัก,ชื่ออาจารย์ที่ปรึกษาร่วม 1,ชื่อประธานสอบ,ชื่อกรรมการ คนที่ 1,ชื่อกรรมการ คนที่ 2,คำสำคัญ1,คำสำคัญ2,คำสำคัญ3,บทคัดย่อ,ไฟล์หนำอนุมัติ,ไฟล์เล่ม,ไฟล์โปสเตอร์";
+
                     rows.forEach((row) => {
                         console.log("row", row)
                         row = row.replaceAll(", ", " ");
@@ -550,19 +553,30 @@ try {
                         console.log("row replace", row)
                         let column = row.split(",");
                         if (row === header) {
-                            console.log("header equal row")
-                            tableHTML += "<thead>"
-                            tableHTML += "<tr>";
-                            column.forEach((col) => {
-                                console.log("col", col)
-                                tableHTML += `<th>${col}</th>`;
-                            })
-                            tableHTML += "</tr>";
-                            tableHTML += "</thead>"
-                            return
+                            if (row.trim() === headerTemplate) {
+                                isEqualHeaderTemplate = true;
+                                console.log("header equal row")
+                                tableHTML += "<thead>"
+                                tableHTML += "<tr>";
+                                column.forEach((col) => {
+                                    console.log("col", col)
+                                    tableHTML += `<th>${col}</th>`;
+                                })
+                                tableHTML += "</tr>";
+                                tableHTML += "</thead>"
+                                return
+                            } else {
+                                isEqualHeaderTemplate = false;
+                            }
                         }
                         if (row == '') {
                             return
+                        }
+
+                        if(!isEqualHeaderTemplate) {
+                            tableHTML = "<div class='alert alert-danger'>คอลัมน์ไม่ถูกต้อง กรุณาอัปโหลดไฟล์ CSV ใหม่อีกครั้ง</div>"
+                            event.target.value = '';
+                            return;
                         }
                         tableHTML += "<tr>";
                         column.forEach((col) => {
