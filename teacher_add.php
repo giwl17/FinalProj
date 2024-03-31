@@ -7,10 +7,11 @@ try {
     $rows_position = $stmt->fetchAll(); 
 } catch (PDOException $e) {
     echo "failed database : " . $e->getMessage();
-} finally {
-    $conn = null;
-    $stmt = null;
-}
+} 
+// finally {
+//     $conn = null;
+//     $stmt = null;
+// }
 ?>
 
 <html lang="en">
@@ -81,7 +82,7 @@ try {
                                 <?php foreach ($rows_position as $position) : ?>
                                     <option value="<?= $position['positionName'] ?>"><?= $position['positionName'] ?></option>
                                 <?php endforeach; ?>
-                                <option value="other">อื่นๆ</option>
+                                <!-- <option value="other">อื่นๆ</option> -->
                             </select>
                         </div>
                         <div class="col-md-2" id="other" name="other" style="display: none;" required>

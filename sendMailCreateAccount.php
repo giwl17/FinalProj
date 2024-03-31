@@ -26,9 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         require 'vendor/autoload.php';
         require_once 'dbconnect.php';
 
-
-
-        $count = 1;
+        $count = 0;
+        $count_check = 0;
 
         // Check for duplicate users
         while (($objArray = fgetcsv($objCSV1, 1000, ",")) !== FALSE) {
@@ -41,25 +40,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $studentID = null;
             }
-            try {
-                $check = $conn->prepare("SELECT * FROM account WHERE email = :email OR name = :name AND lastname = :lastname");
-                $check->bindParam("name", $name, PDO::PARAM_STR);
-                $check->bindParam("lastname", $lastname, PDO::PARAM_STR);
-                $check->bindParam("email", $email, PDO::PARAM_STR);
-                $check->execute();
-                $show = $check->fetchAll();
-                if ($show) {
-                    
+            if ($count_check > 0) {
+                try {
+                    $check = $conn->prepare("SELECT * FROM account WHERE email = :email OR name = :name AND lastname = :lastname");
+                    $check->bindParam("name", $name, PDO::PARAM_STR);
+                    $check->bindParam("lastname", $lastname, PDO::PARAM_STR);
+                    $check->bindParam("email", $email, PDO::PARAM_STR);
+                    $check->execute();
+                    $show = $check->fetchAll();
+
+                    $check_pos = $conn->prepare("SELECT * FROM academic_positions WHERE positionName = :prefix OR positionShort = :prefix ");
+                    $check_pos->bindParam("prefix", $prefix, PDO::PARAM_STR);
+                    $check_pos->execute();
+                    $show_pos = $check_pos->fetchAll();
+                    if ($page == "teacher_add" && $check_pos->rowCount() == 0) {
                         array_push($error_msg["prefix"], $prefix);
                         array_push($error_msg["name"], $name);
                         array_push($error_msg["lastname"], $lastname);
                         array_push($error_msg["email"], $email);
-            
-                    
+                    } else if ($show) {
+                        array_push($error_msg["prefix"], $prefix);
+                        array_push($error_msg["name"], $name);
+                        array_push($error_msg["lastname"], $lastname);
+                        array_push($error_msg["email"], $email);
+                    }
+                } catch (PDOException $e) {
+                    echo $e;
                 }
-            } catch (PDOException $e) {
-                echo $e;
             }
+            $count_check++;
         }
 
         // If no errors, proceed with creating accounts and sending emails
@@ -74,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $studentID = null;
                 }
-                if ($count > 1) {
+                if ($count > 0) {
                     $token = bin2hex(random_bytes(16));
                     $token_hash = password_hash($token, PASSWORD_DEFAULT);
                     $expiry = date("Y-m-d H:i:s", time() + 60 * 10080);
@@ -135,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             //Content
                             $mail->isHTML(true);
                             $mail->Subject = 'Create New Password';
-                           /*  $mail->Body = "สร้างรหัสผ่านของคุณ, <br>
+                            /*  $mail->Body = "สร้างรหัสผ่านของคุณ, <br>
                             click on the following link: <a href='$create_link'>to create your account</a>"; */
                             $mail->Body = "คลิกที่ลิงค์เพื่อทำการสร้างรหัสผ่านของคุณ : <a href='" . $create_link . "'>สร้างรหัสผ่าน</a>";
                             $mail->send();
@@ -200,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once 'dbconnect.php';
 
         try {
-            $stmt = $conn->prepare("SELECT * FROM account WHERE email = :email");
+            $stmt = $conn->prepare("SELECT * FROM account WHERE email = :email OR name = :name AND lastname = :lastname");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
 
