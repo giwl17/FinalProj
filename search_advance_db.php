@@ -292,32 +292,32 @@ if (count($rows) == 0) {
             foreach ($rows[$i]['author_member'] as $key => $value) {
                 if ((strpos($rows[$i]['author_member'][$key]['prefix'], $inputSearch1) !== false || strpos($rows[$i]['author_member'][$key]['name'], $inputSearch1) !== false)) {
                     echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>";
-                    echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
-                    echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
-                    echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
-                    echo "</a>";
-                    echo "<div>คณะผู้จัดทำ ";
-                    $count = 0;
-                    foreach ($rows[$i]['author_member'] as $key => $value) {
-                        $name = $rows[$i]['author_member'][$key]['prefix'] . $rows[$i]['author_member'][$key]['name'] . " " . $rows[$i]['author_member'][$key]['lastname'];
-                        echo "<div class='d-inline'>$name</div>";
-                        if ($count < count($rows[$i]['author_member']) - 1) {
-                            echo "<span class='text-dark'>, </span>";
+                        echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
+                        echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
+                        echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
+                        echo "</a>";
+                        echo "<div>คณะผู้จัดทำ ";
+                        $count = 0;
+                        foreach ($rows[$i]['author_member'] as $key => $value) {
+                            $name = $rows[$i]['author_member'][$key]['prefix'] . $rows[$i]['author_member'][$key]['name'] . " " . $rows[$i]['author_member'][$key]['lastname'];
+                            echo "<div class='d-inline'>$name</div>";
+                            if ($count < count($rows[$i]['author_member']) - 1) {
+                                echo "<span class='text-dark'>, </span>";
+                            }
+                            $count++;
                         }
-                        $count++;
-                    }
-                    echo "</div>";
-                    $u = '_';
-                    echo "<div>อาจารยที่ปรึกษา <a href='../search?advisor=" . $rows[$i]['prefix_advisor'] . $u . $rows[$i]['name_advisor'] . $u . $rows[$i]['surname_advisor'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['prefix_advisor'] . $rows[$i]['name_advisor'] . " " . $rows[$i]['surname_advisor'] . "</a>";
-                    if ($rows[$i]['prefix_coAdvisor'] != '') {
-                        echo  ", ";
-                        echo "<a href='../search?coAdvisor=" . $rows[$i]['prefix_coAdvisor'] . $u . $rows[$i]['name_coAdvisor'] . $u . $rows[$i]['surname_coAdvisor'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['prefix_coAdvisor'] . $rows[$i]['name_coAdvisor'] . " " . $rows[$i]['surname_coAdvisor'] . "</a>";
-                    }
-                    echo "</div>";
+                        echo "</div>";                    
+                        echo "<form action='../search' method='post'>";
+                        echo "<div>อาจารยที่ปรึกษา <button name='advisor' value='" . $rows[$i]['prefix_advisor'] . "_" . $rows[$i]['name_advisor'] . "_" . $rows[$i]['surname_advisor'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['prefix_advisor'] . $rows[$i]['name_advisor'] . " " . $rows[$i]['surname_advisor'] . "</button>";
+                        if ($rows[$i]['prefix_coAdvisor'] != '') {
+                            echo  ", ";
+                            echo "<button name='coAdvisor' value='" . $rows[$i]['prefix_coAdvisor']."_".$rows[$i]['name_coAdvisor']."_".$rows[$i]['surname_coAdvisor'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['prefix_coAdvisor'] . $rows[$i]['name_coAdvisor'] . " " . $rows[$i]['surname_coAdvisor'] . "</button>";
+                        }
+                        echo "</div>";
 
-                    echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['keyword'] . "</a></div>";
-                    echo "<div>ปีที่พิมพ์เล่ม <a href='../search?printed=" . $rows[$i]['printed_year'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['printed_year'] . "</a></div>";
-
+                        echo "<div>คำสำคัญ <button name='keyword' value='" . $rows[$i]['keyword'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['keyword'] . "</button></div>";
+                        echo "<div>ปีที่พิมพ์เล่ม <button name='printed' value='" . $rows[$i]['printed_year'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['printed_year'] . "</button></div>";
+                        echo "</form>";    
                     echo "</div>";
                     $showNoData = true;
                     break;
@@ -330,31 +330,32 @@ if (count($rows) == 0) {
             }
         } else {
             echo "<div class='border rounded-3 shadow-sm w-100 p-3 d-flex flex-column'>";
-            echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
-            echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
-            echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
-            echo "</a>";
-            echo "<div>คณะผู้จัดทำ ";
-            $count = 0;
-            foreach ($rows[$i]['author_member'] as $key => $value) {
-                $name = $rows[$i]['author_member'][$key]['prefix'] . $rows[$i]['author_member'][$key]['name'] . " " . $rows[$i]['author_member'][$key]['lastname'];
-                echo "<div class='d-inline'>$name</div>";
-                if ($count < count($rows[$i]['author_member']) - 1) {
-                    echo "<span class='text-dark'>, </span>";
+                echo "<a class='text-dark' href='../thesis?id=" . $rows[$i]['thesis_id'] . "'>";
+                echo "<div class='fw-bold'>" . $rows[$i]['thai_name'] . "</div>";
+                echo "<div class='fw-bold'>" . $rows[$i]['english_name'] . "</div>";
+                echo "</a>";
+                echo "<div>คณะผู้จัดทำ ";
+                    $count = 0;
+                    foreach ($rows[$i]['author_member'] as $key => $value) {
+                        $name = $rows[$i]['author_member'][$key]['prefix'] . $rows[$i]['author_member'][$key]['name'] . " " . $rows[$i]['author_member'][$key]['lastname'];
+                        echo "<div class='d-inline'>$name</div>";
+                        if ($count < count($rows[$i]['author_member']) - 1) {
+                            echo "<span class='text-dark'>, </span>";
+                        }
+                        $count++;
+                    }
+                echo "</div>";
+                echo "<form action='../search' method='post'>";
+                echo "<div>อาจารยที่ปรึกษา <button name='advisor' value='" . $rows[$i]['prefix_advisor'] . "_" . $rows[$i]['name_advisor'] . "_" . $rows[$i]['surname_advisor'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['prefix_advisor'] . $rows[$i]['name_advisor'] . " " . $rows[$i]['surname_advisor'] . "</button>";
+                if ($rows[$i]['prefix_coAdvisor'] != '') {
+                    echo  ", ";
+                    echo "<button name='coAdvisor' value='" . $rows[$i]['prefix_coAdvisor']."_".$rows[$i]['name_coAdvisor']."_".$rows[$i]['surname_coAdvisor'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['prefix_coAdvisor'] . $rows[$i]['name_coAdvisor'] . " " . $rows[$i]['surname_coAdvisor'] . "</button>";
                 }
-                $count++;
-            }
-            echo "</div>";
-            $u = '_';
-            echo "<div>อาจารยที่ปรึกษา <a href='../search?advisor=" . $rows[$i]['prefix_advisor'] . $u . $rows[$i]['name_advisor'] . $u . $rows[$i]['surname_advisor'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['prefix_advisor'] . $rows[$i]['name_advisor'] . " " . $rows[$i]['surname_advisor'] . "</a>";
-            if ($rows[$i]['prefix_coAdvisor'] != '') {
-                echo  ", ";
-                echo "<a href='../search?coAdvisor=" . $rows[$i]['prefix_coAdvisor'] . $u . $rows[$i]['name_coAdvisor'] . $u . $rows[$i]['surname_coAdvisor'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['prefix_coAdvisor'] . $rows[$i]['name_coAdvisor'] . " " . $rows[$i]['surname_coAdvisor'] . "</a>";
-            }
-            echo "</div>";
+                echo "</div>";
 
-            echo "<div>คำสำคัญ <a href='#' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['keyword'] . "</a></div>";
-            echo "<div>ปีที่พิมพ์เล่ม <a href='../search?printed=" . $rows[$i]['printed_year'] . "' class='link-primary' style='text-decoration:none;'>" . $rows[$i]['printed_year'] . "</a></div>";
+                echo "<div>คำสำคัญ <button name='keyword' value='" . $rows[$i]['keyword'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['keyword'] . "</button></div>";
+                echo "<div>ปีที่พิมพ์เล่ม <button name='printed' value='" . $rows[$i]['printed_year'] . "' class='link-primary border-0 bg-transparent'>" . $rows[$i]['printed_year'] . "</button></div>";
+                echo "</form>";    
             echo "</div>";
         }
     }
